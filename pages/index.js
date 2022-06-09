@@ -1,8 +1,11 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
 
-export default function Home() {
+import buildRequest from "../utils/igdb/buildRequest";
+
+export default function Home({ gameList }) {
+  console.log(gameList);
   return (
     <div className={styles.container}>
       <Head>
@@ -17,7 +20,7 @@ export default function Home() {
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
         </p>
 
@@ -58,12 +61,41 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
+  );
+}
+
+export async function getServerSideProps() {
+  const fields = [
+    "name",
+    // "slug",
+    // "cover.url",
+    // "platforms.abbreviation",
+    // "platforms.platform_logo.url",
+    // "total_rating",
+  ];
+
+  const query = "fields" + fields.join(",") + ";limit 10";
+
+  // const headers = new Headers();
+  // headers.append("Client-ID", process.env.IGDB_CLIENT_ID);
+  // headers.append("Authorization", `Bearer ${process.env.IGDB_AUTH_TOKEN}`);
+  // headers.append("Accept", "application/json");
+  // const options = {
+  //   headers,
+  // };
+
+  const response = await buildRequest("games", query);
+
+  // console.log(response.data);
+
+  return {
+    props: { gameList: response.data },
+  };
 }
