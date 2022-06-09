@@ -5,7 +5,7 @@ import styles from "../styles/Home.module.css";
 import buildRequest from "../utils/igdb/buildRequest";
 
 export default function Home({ gameList }) {
-  console.log(gameList);
+  // console.log(gameList);
   return (
     <div className={styles.container}>
       <Head>
@@ -73,15 +73,17 @@ export default function Home({ gameList }) {
 
 export async function getServerSideProps() {
   const fields = [
-    "name",
-    // "slug",
-    // "cover.url",
-    // "platforms.abbreviation",
-    // "platforms.platform_logo.url",
-    // "total_rating",
+    "alpha_channel",
+    "animated",
+    "checksum",
+    "game",
+    "height",
+    "image_id",
+    "url",
+    "width",
   ];
 
-  const query = "fields" + fields.join(",") + ";limit 10";
+  const query = "fields " + fields.join(",") + ";";
 
   // const headers = new Headers();
   // headers.append("Client-ID", process.env.IGDB_CLIENT_ID);
@@ -91,11 +93,11 @@ export async function getServerSideProps() {
   //   headers,
   // };
 
-  const response = await buildRequest("games", query);
+  const response = await buildRequest("covers", query);
 
-  // console.log(response.data);
+  // console.log(response);
 
   return {
-    props: { gameList: response.data },
+    props: { gameList: response },
   };
 }
