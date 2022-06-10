@@ -5,7 +5,6 @@ const endpoint = "https://api.igdb.com/v4/";
 
 const headers = {};
 headers["Client-ID"] = process.env.IGDB_CLIENT_ID;
-// headers.append("Authorization", `Bearer ${process.env.IGDB_AUTH_TOKEN}`);
 
 const buildRequest = async (path, params, options = {}) => {
   const optionsOverride = paramOverride(
@@ -24,7 +23,10 @@ const buildRequest = async (path, params, options = {}) => {
     .post("https://id.twitch.tv/oauth2/token", authData, {
       Accept: "application/json",
     })
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .catch((err) => {
+      console.error(err);
+    });
 
   headers["Authorization"] = `Bearer ${simple.access_token}`;
 

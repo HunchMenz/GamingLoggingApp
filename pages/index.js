@@ -5,7 +5,7 @@ import styles from "../styles/Home.module.css";
 import buildRequest from "../utils/igdb/buildRequest";
 
 export default function Home({ gameList }) {
-  // console.log(gameList);
+  console.log(gameList);
   return (
     <div className={styles.container}>
       <Head>
