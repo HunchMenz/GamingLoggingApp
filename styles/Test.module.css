@@ -1,0 +1,22 @@
+.posterContainer {
+  display: flex;
+}
+
+.poster {
+  position: relative;
+  min-width: 100%;
+  padding-left: 10px;
+  max-height: fit-content;
+}
+
+.posterItem {
+  width: fit-content;
+  height: auto;
+
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  position: relative;
+}

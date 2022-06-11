@@ -72,28 +72,29 @@ export default function Home({ gameList }) {
 }
 
 export async function getServerSideProps() {
+  // const fields = [
+  //   "alpha_channel",
+  //   "animated",
+  //   "checksum",
+  //   "game",
+  //   "height",
+  //   "image_id",
+  //   "url",
+  //   "width",
+  // ];
+
   const fields = [
-    "alpha_channel",
-    "animated",
-    "checksum",
-    "game",
-    "height",
-    "image_id",
-    "url",
-    "width",
+    "name",
+    "slug",
+    "cover.url",
+    "platforms.abbreviation",
+    "platforms.platform_logo.url",
+    "total_rating",
   ];
 
   const query = "fields " + fields.join(",") + ";";
 
-  // const headers = new Headers();
-  // headers.append("Client-ID", process.env.IGDB_CLIENT_ID);
-  // headers.append("Authorization", `Bearer ${process.env.IGDB_AUTH_TOKEN}`);
-  // headers.append("Accept", "application/json");
-  // const options = {
-  //   headers,
-  // };
-
-  const response = await buildRequest("covers", query);
+  const response = await buildRequest("games", query);
 
   // console.log(response);
 
