@@ -1,4 +1,4 @@
-// import "../styles/globals.css";
+import "../styles/globals.css";
 // import "../sass/styles.scss";
 
 import "bulma/css/bulma.css";
