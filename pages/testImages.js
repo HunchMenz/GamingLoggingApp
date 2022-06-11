@@ -8,14 +8,15 @@ function Test({ gameList }) {
   return (
     <div>
       <h1>Test Page</h1>
-      <div class="posterContainer">
-        <div class="box poster">
+      <div className="posterContainer">
+        <div className="poster">
           {gameList.map((game) => {
             // let imgSrc = "https:" + game.url.replace("t_thumb", "t_cover_big");
             return (
-              <div class="box posterItem">
-                <figure class="image is-128x128">
+              <div key={game.id} className="box posterItem">
+                <figure className="image is-128x128 is-2by3">
                   <Image
+                    // key={game.id}
                     src={
                       game.cover
                         ? "https:" + game.cover.url.replace("t_thumb", "t_720p")

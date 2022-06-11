@@ -14,3 +14,30 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.posterContainer {
+  display: block;
+  margin: 5vh;
+}
+
+.poster {
+  /* position: relative; */
+  /* min-width: 100%; */
+  padding-left: 10px;
+  /* max-height: fit-content; */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.posterItem {
+  width: fit-content;
+  height: auto;
+
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+
+  position: relative;
+}
