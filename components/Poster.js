@@ -4,7 +4,7 @@ import Image from "next/image";
 function Poster({ image }) {
   return (
     <div key={image.id} className="posterItem">
-      <figure className="image is-2by3">
+      <figure className="image is-128x128 is-2by3">
         <Image
           src={
             image.cover
