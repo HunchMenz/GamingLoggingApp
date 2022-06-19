@@ -18,7 +18,7 @@ a {
 .posterContainer {
   display: block;
   margin: 5vh;
-  background-color: blue;
+  background-color: rgb(59, 59, 83);
 }
 
 .poster {
@@ -44,7 +44,7 @@ a {
   position: relative;
 }
 
-.mySlider{
+.mySlider {
   width: 80%;
   margin: 0 auto;
   margin-top: 50px;
@@ -58,8 +58,9 @@ a {
   margin: 0 -10px;
 }
 
-.slick-prev:before, .slick-next:before{
-  color:blue !important;
+.slick-prev:before,
+.slick-next:before {
+  color: blue !important;
 }
 
 .card {
@@ -77,5 +78,3 @@ a {
   border: 2px solid rgb(0, 89, 255);
   border-radius: 10px;
 }
-
-
