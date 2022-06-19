@@ -1,36 +1,20 @@
 import React from "react";
-import Image from "next/image";
 import buildRequest from "../utils/igdb/buildRequest";
-import Slider from "react-slick";
+import Poster from "../components/Poster";
+
+// import style from "../styles/Test.module.css";
 
 function Test({ gameList }) {
   return (
     <div>
       <h1>Test Page</h1>
-        <div className="posterContainer">
-          <div className="poster">
-            {gameList.map((game) => {
-              // let imgSrc = "https:" + game.url.replace("t_thumb", "t_cover_big");
-              return (
-                <div  className="box posterItem">
-                  <figure className="image is-128x128 is-2by3">
-                    <Image
-                      // key={game.id}
-                      src={
-                        game.cover
-                          ? "https:" + game.cover.url.replace("t_thumb", "t_720p")
-                          : "https://bulma.io/images/placeholders/128x128.png"
-                      }
-                      layout="fill"
-                      objectFit="contain"
-                    />
-                  </figure>
-                  <span className="gameName">{game.name}</span>
-                </div>
-              );
-            })}
-          </div>
+      <div className="posterContainer">
+        <div className="poster">
+          {gameList.map((game) => {
+            return <Poster key={game.id} image={game} />;
+          })}
         </div>
+      </div>
     </div>
   );
 }
@@ -43,9 +27,13 @@ export async function getServerSideProps() {
     "platforms.abbreviation",
     "platforms.platform_logo.url",
     "total_rating",
+    "release_dates.date",
+    "aggregated_rating_count",
   ];
+  const filter =
+    "sort aggregated_rating_count desc; where aggregated_rating >= 90;";
 
-  const query = "fields " + fields.join(",") + ";";
+  const query = "fields " + fields.join(",") + ";" + filter;
 
   const response = await buildRequest("games", query);
 
