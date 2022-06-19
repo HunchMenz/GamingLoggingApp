@@ -1,13 +1,14 @@
 import Head from "next/head";
 import Image from "next/image";
+import NavBar from "../components/NavBar";
 import styles from "../styles/Home.module.css";
 
 import buildRequest from "../utils/igdb/buildRequest";
 
 export default function Home({ gameList }) {
-  console.log(gameList);
   return (
     <div>
+      <NavBar />
       Temp Words
     </div>
   );
