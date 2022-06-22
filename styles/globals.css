@@ -22,26 +22,41 @@ a {
 }
 
 .poster {
-  /* position: relative; */
+  position: relative;
   /* min-width: 100%; */
   padding-left: 10px;
   /* max-height: fit-content; */
   display: flex;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
   justify-content: center;
   /* background-color: red; */
 }
 
+.bigImage {
+  width: 264px;
+  height: auto;
+  /* max-height: 100%;
+  max-width: 100%; */
+}
+
+.smImage {
+  width: 162px;
+  height: auto;
+}
+
+/* .imageResize {
+  width: 50%;
+} */
+
 .posterItem {
   width: fit-content;
-  height: auto;
 
   margin: 10px;
   display: flex;
   /* flex-direction: column; */
   /* justify-content: space-between; */
 
-  position: relative;
+  /* position: relative; */
 }
 
 .mySlider {

@@ -1,10 +1,10 @@
 import React from "react";
 import Image from "next/image";
 
-function Poster({ image }) {
+function Poster({ image, imageClass = "smImage" }) {
   return (
-    <div key={image.id} className="posterItem">
-      <figure className="image is-128x128 is-2by3">
+    <div className="posterItem">
+      <figure className={`image ${imageClass} is-3by4`}>
         <Image
           src={
             image.cover
@@ -13,6 +13,9 @@ function Poster({ image }) {
           }
           layout="fill"
           objectFit="contain"
+          // layout="intrinsic"
+          // width={540}
+          // height={720}
         />
       </figure>
     </div>
