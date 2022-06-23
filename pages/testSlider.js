@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Image from "next/image";
 import NavBar from "./testNavBar";
+import Link from "next/link";
+import Poster from "../components/Poster";
 import buildRequest from "../utils/igdb/buildRequest";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -11,7 +13,7 @@ function myCarousel({ gameList }) {
         dots: true,
         infinite: false,
         speed: 500,
-        slidesToShow: 4,
+        slidesToShow: 8,
         slidesToScroll: 4,
         initialSlide: 0,
         responsive: [
@@ -43,33 +45,34 @@ function myCarousel({ gameList }) {
     };
 
     return (
-        <div className="mySlider">
-            <NavBar />
-            <h2 class="title has-text-centered"> Game List </h2>
-            <Slider {...settings}>
-                {gameList.map((game) => (
-                    <div class="card">
-                        <header class="card-header has-text-centered">
-                            {game.name}
-                        </header>
-                        <div class="card-image">
-                            <figure class="image is-128x128 is-2by3">
-                                <Image className="derp"
-                                    // key={game.id}
-                                    src={
-                                        game.cover
-                                            ? "https:" + game.cover.url.replace("t_thumb", "t_720p")
-                                            : "https://bulma.io/images/placeholders/128x128.png"
-                                    }
-                                    layout="fill"
-                                    objectFit="contain"
-                                />
-                            </figure>
+        <>
+            <div className="mySlider">
+                <NavBar />
+                <h2 class="title has-text-centered"> Game List </h2>
+                <Slider {...settings}>
+                    {gameList.map((game) => (
+                        <div class="card">
+                            <Link
+                                href={{
+                                    pathname: "/games/[name]",
+                                    query: { name: game.slug },
+                                }}
+                            >
+                                <a>
+                                    <Poster key={game.id} image={game} />
+                                </a>
+                            </Link>
+                            {/* <div className="card-content">
+                                Rating: {game.total_rating.toFixed(0)}
+                            </div> */}
+                            <header class="card-header has-text-centered">
+                                {game.name}
+                            </header>
                         </div>
-                    </div>
-                ))}
-            </Slider>
-        </div>
+                    ))}
+                </Slider>
+            </div>
+        </>
     );
 }
 
@@ -81,9 +84,13 @@ export async function getServerSideProps() {
         "platforms.abbreviation",
         "platforms.platform_logo.url",
         "total_rating",
+        "release_dates.date",
+        "aggregated_rating_count",
     ];
+    const filter =
+        "sort aggregated_rating_count desc; where aggregated_rating >= 90;";
 
-    const query = "fields " + fields.join(",") + ";";
+    const query = "fields " + fields.join(",") + ";" + filter;
 
     const response = await buildRequest("games", query);
 
