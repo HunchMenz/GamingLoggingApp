@@ -79,14 +79,17 @@ a {
 }
 
 .card {
-  border: 1px solid black;
-  height: 400px;
+  border: 2px solid black;
+  /* height: 400px; */
+  width: 200px !important;
 }
 
 .card-header {
   font-weight: 600;
   font-size: 20px;
   font-family: monospace;
+  justify-content: center;
+  overflow: auto;
 }
 
 .navbar {
