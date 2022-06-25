@@ -5,7 +5,11 @@ import brand from "/public/derpLMAO.png";
 
 function NavBar() {
   return (
-    <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
+    <nav
+      className="navbar is-dark"
+      role="navigation"
+      aria-label="main navigation"
+    >
       <div className="navbar-brand">
         <a className="navbar-item" href="">
           <Image src={brand} alt="Temp Brand" />
@@ -51,10 +55,16 @@ function NavBar() {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <a className="button is-link">
-                <strong>Sign up</strong>
-              </a>
-              <a className="button is-light">Log in</a>
+              <Link href="/user/register">
+                <a className="button is-link">
+                  <strong>Sign up</strong>
+                </a>
+              </Link>
+              <Link href="/user/login">
+                <a className="button is-light">
+                  <strong>Log in</strong>
+                </a>
+              </Link>
             </div>
           </div>
         </div>
