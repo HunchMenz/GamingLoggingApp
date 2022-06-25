@@ -5,7 +5,7 @@ import brand from "/public/derpLMAO.png";
 
 function NavBar() {
   return (
-    <nav className="navbar" role="navigation" aria-label="main navigation">
+    <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <a className="navbar-item" href="">
           <Image src={brand} alt="Temp Brand" />
@@ -26,18 +26,18 @@ function NavBar() {
 
       <div id="navbarBasicExample" className="navbar-menu">
         <div className="navbar-start">
-          <a className="navbar-item" href="/">
+          <a className="navbar-item has-text-white" href="/">
             Home
           </a>
 
-          <a className="navbar-item">Games List</a>
+          <a className="navbar-item has-text-white">Games List</a>
 
           <Link href="/testImages">
-            <a className="navbar-item">TestImages</a>
+            <a className="navbar-item has-text-white">TestImages</a>
           </Link>
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">More</a>
+            <a className="navbar-link has-text-white">More</a>
 
             <div className="navbar-dropdown">
               <a className="navbar-item">About</a>
@@ -51,7 +51,7 @@ function NavBar() {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <a className="button is-primary">
+              <a className="button is-link">
                 <strong>Sign up</strong>
               </a>
               <a className="button is-light">Log in</a>
