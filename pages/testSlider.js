@@ -13,7 +13,7 @@ function myCarousel({ gameList }) {
         dots: true,
         infinite: false,
         speed: 500,
-        slidesToShow: 8,
+        slidesToShow: 5,
         slidesToScroll: 4,
         initialSlide: 0,
         responsive: [
@@ -52,20 +52,21 @@ function myCarousel({ gameList }) {
                 <Slider {...settings}>
                     {gameList.map((game) => (
                         <div class="card">
-                            <Link
-                                href={{
-                                    pathname: "/games/[name]",
-                                    query: { name: game.slug },
-                                }}
-                            >
-                                <a>
-                                    <Poster key={game.id} image={game} />
-                                </a>
-                            </Link>
-                            {/* <div className="card-content">
-                                Rating: {game.total_rating.toFixed(0)}
-                            </div> */}
-                            <header class="card-header has-text-centered">
+                                <Link
+                                    href={{
+                                        pathname: "/games/[name]",
+                                        query: { name: game.slug },
+                                    }}
+                                >
+                                    <a>
+                                        <Poster key={game.id} image={game} />
+                                    </a>
+                                </Link>
+                                {/* <div className="card-content">
+                                    Rating: {game.total_rating.toFixed(0)}
+                                </div> */}
+                                <div>testrrr</div>
+                            <header class="game-title">
                                 {game.name}
                             </header>
                         </div>
