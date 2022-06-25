@@ -32,6 +32,10 @@ a {
   /* background-color: red; */
 }
 
+/* .figure {
+  display: block !important;
+} */
+
 .bigImage {
   width: 264px;
   height: auto;
@@ -40,8 +44,10 @@ a {
 }
 
 .smImage {
-  width: 162px;
-  height: auto;
+  /* width: 162px; */
+  width: 233px;
+  /* height: auto; */
+  /* display: block; */
 }
 
 /* .imageResize {
@@ -90,18 +96,31 @@ a {
 .card {
   border: 2px solid black;
   /* height: 400px; */
-  width: 200px !important;
+  width: 300px !important;
 }
 
-.card-header {
+.game-title {
   font-weight: 600;
   font-size: 20px;
   font-family: monospace;
   justify-content: center;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .navbar {
-  border: 2px solid rgb(0, 89, 255);
-  border-radius: 10px;
+  /* border: 2px solid rgb(0, 89, 255);
+  border-radius: 10px; */
+  /* background-color: rgb(50, 58, 69) !important; */
+  width: 100%;
+  display: inline-flex !important;
+  justify-content: space-around !important;
+  /* left: 10%; */
 }
+
+
+
+/* .testNav {
+  background-color: red;
+  width: 500px;
+} */
+

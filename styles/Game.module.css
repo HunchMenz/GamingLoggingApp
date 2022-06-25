@@ -1,3 +1,4 @@
+
 .gamepage-header {
   width: 100%;
   padding-top: 220px;
@@ -15,6 +16,7 @@
   /* height: 300px; */
   /* margin-top: -220px; */
   width: 100%;
+  /* border: 15px solid red; */
   /* overflow: hidden; */
 }
 .bg-img {
@@ -26,9 +28,27 @@
   /* filter: blur(5px); */
   /* transform: scale(1.1); */
 }
+
+.poster-cover {
+  position: relative;
+  top: 20px;
+  left: 20px;
+}
+
+.poster-content {
+  font-size: 30px;
+  color: white;
+}
+
+.bg-under {
+  background-color: rgb(7, 18, 36);
+  color: white;
+  height: 100vh;
+}
+
 .moveUp {
-  margin-top: -100px;
+  margin-top: -400px;
 }
 .gameTitle {
-  color: aliceblue;
+  color: white;
 }

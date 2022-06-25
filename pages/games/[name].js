@@ -14,7 +14,7 @@ function GamePage({ game }) {
 
   const Background = game.game.screenshots
     ? "https:" +
-      game.game.screenshots[0].url.replace("t_thumb", "t_screenshot_big")
+    game.game.screenshots[0].url.replace("t_thumb", "t_screenshot_big")
     : "https://bulma.io/images/placeholders/128x128.png";
 
   return (
@@ -30,16 +30,26 @@ function GamePage({ game }) {
               Background +
               ")",
           }}
-        ></div>
+        >
+          <div className={Style["poster-cover"]}>
+            <Poster key={game.game} image={game.game} imageClass={"bigImage"} />
+            <div className={Style["poster-content"]} style={{ float: "left" }}>
+              <h1 className={`title is-1 ${Style.gameTitle}`}>{game.name}</h1>
+              Rating: {game.game.rating.toFixed(0)}
+            </div>
+          </div>
+        </div>
       </div>
-      {/* </div> */}
-      <div className={Style.moveUp}>
+      {/* <div className={Style.moveUp}>
         <div>
           <Poster key={game.game} image={game.game} imageClass={"bigImage"} />
         </div>
         <div style={{ float: "left" }}>
           <h1 className={`title is-3 ${Style.gameTitle}`}>{game.name}</h1>
         </div>
+      </div> */}
+      <div className={Style["bg-under"]}>
+        {game.game.summary}
       </div>
     </div>
   );
@@ -59,6 +69,8 @@ export async function getServerSideProps(context) {
     "published_at",
     "test_dummy",
     "theme",
+    "game.rating",
+    "game.total_rating",
     "game.cover.url",
     "game.screenshots.url",
     "game.screenshots.height",
