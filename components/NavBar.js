@@ -2,8 +2,12 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import brand from "/public/derpLMAO.png";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 function NavBar() {
+  const { data, status } = useSession();
+
+  //   console.log(data, status);
   return (
     <nav
       className="navbar is-dark"
@@ -65,6 +69,25 @@ function NavBar() {
                   <strong>Log in</strong>
                 </a>
               </Link>
+              {status === "authenticated" ? (
+                <button
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
+                  {" "}
+                  Sign Out
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    signIn(undefined, { callbackUrl: "/user" });
+                  }}
+                >
+                  {" "}
+                  Sign In
+                </button>
+              )}
             </div>
           </div>
         </div>
