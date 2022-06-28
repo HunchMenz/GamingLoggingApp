@@ -14,7 +14,7 @@ function GamePage({ game }) {
 
   const Background = game.game.screenshots
     ? "https:" +
-    game.game.screenshots[0].url.replace("t_thumb", "t_screenshot_big")
+      game.game.screenshots[0].url.replace("t_thumb", "t_screenshot_big")
     : "https://bulma.io/images/placeholders/128x128.png";
 
   return (
@@ -48,9 +48,7 @@ function GamePage({ game }) {
           <h1 className={`title is-3 ${Style.gameTitle}`}>{game.name}</h1>
         </div>
       </div> */}
-      <div className={Style["bg-under"]}>
-        {game.game.summary}
-      </div>
+      <div className={Style["bg-under"]}>{game.game.summary}</div>
     </div>
   );
 }

@@ -8,11 +8,11 @@ function Login() {
       <NavBar />
       <h1 className="title is-1">Login Page</h1>
       <div className="centered">
-        <div class="card" style={{ "border-color": "rgb(215 225 223)" }}>
+        <div className="card" style={{ "border-color": "rgb(215 225 223)" }}>
           <div className="notification is-primary">
             <h1 className="title is-3">Login</h1>
           </div>
-          <div class="card-content" style={{ "padding-top": "0rem" }}>
+          <div className="card-content" style={{ "padding-top": "0rem" }}>
             <div className="field">
               <p className="control has-icons-left has-icons-right">
                 <input className="input" type="email" placeholder="Email" />
