@@ -1,7 +1,7 @@
 import axios from "axios";
 import paramOverride from "../paramOveride";
 
-const endpoint = "https://api.igdb.com/v4/";
+const base = "https://api.igdb.com/v4/";
 
 const headers = {};
 headers["Client-ID"] = process.env.IGDB_CLIENT_ID;
@@ -12,7 +12,7 @@ const buildRequest = async (path, params, options = {}) => {
     options
   );
 
-  const url = `${endpoint}${path}`;
+  const url = `${base}${path}`;
   const authData = {
     client_id: process.env.IGDB_CLIENT_ID,
     client_secret: process.env.IGDB_CLIENT_SECRET,
