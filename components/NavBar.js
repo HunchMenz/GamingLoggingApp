@@ -7,7 +7,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 function NavBar() {
   const { data, status } = useSession();
 
-  //   console.log(data, status);
   return (
     <nav
       className="navbar is-dark"
@@ -15,9 +14,11 @@ function NavBar() {
       aria-label="main navigation"
     >
       <div className="navbar-brand">
-        <a className="navbar-item" href="">
-          <Image src={brand} alt="Temp Brand" />
-        </a>
+        <Link href="/">
+          <a className="navbar-item">
+            <Image src={brand} alt="Temp Brand" />
+          </a>
+        </Link>
 
         <a
           role="button"

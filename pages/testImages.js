@@ -52,8 +52,6 @@ export async function getServerSideProps() {
 
   const response = await buildRequest("games", query);
 
-  // console.log(response[1].slug);
-
   return {
     props: { gameList: response },
   };
