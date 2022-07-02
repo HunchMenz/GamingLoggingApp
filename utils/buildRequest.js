@@ -26,7 +26,7 @@ const buildRequest = async (base, path, params, options = {}) => {
     };
 
     const retrieveToken = await axios
-      .post(baseCollection[twitchToken], authData, {
+      .post(baseCollection["twitchToken"], authData, {
         Accept: "application/json",
       })
       .then((response) => response.data)
