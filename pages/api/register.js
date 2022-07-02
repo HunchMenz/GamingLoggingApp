@@ -1,17 +1,24 @@
 import bcrypt from "bcrypt";
-import clientPromise from "./auth/lib/mongodb";
+import Credentials from "../../database/user_data/model/Credentials";
 
 export default async function handler(req, res) {
   const body = req.body;
-  const connection = await clientPromise;
-  const db_user = await connection.db("user_data");
+
+  for (const key in body) {
+    if (body[key] === "") {
+      return res
+        .status(400)
+        .json({ message: "Must fill out all required fields to register." });
+    }
+  }
+
   const query = {
     email: body.email,
   };
-  const user = await db_user.collection("credentials").findOne(query);
+  const userExist = await Credentials.findOne({ query });
 
-  if (user) {
-    res
+  if (userExist) {
+    return res
       .status(200)
       .json({ message: "User already exists with submitted email." });
   }
@@ -26,7 +33,8 @@ export default async function handler(req, res) {
     email: body.email,
     password: hashedPass,
   };
-  await db_user.collection("credentials").insertOne(newUser);
+  const user = new Credentials(newUser);
+  await user.save();
 
-  res.status(200).json({ message: "Registered Successfully" });
+  return res.status(200).json({ message: "Registered Successfully" });
 }

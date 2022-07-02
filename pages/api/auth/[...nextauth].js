@@ -1,9 +1,18 @@
+//-- NextAuth imports
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
+//-- DB imports
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "./lib/mongodb";
-import CredentialsProvider from "next-auth/providers/credentials";
+// Mongoose
+import dbConnect from "../../../utils/lib/dbConnect";
+import Credentials from "../../../database/user_data/model/Credentials";
+//-- Other
 import bcrypt from "bcrypt";
+
+// Connect to DB
+dbConnect("user_data");
 
 export default NextAuth({
   adapter: MongoDBAdapter(clientPromise),
@@ -28,12 +37,15 @@ export default NextAuth({
         // Add logic here to look up the user from the credentials supplied
         const email = credentials.email;
         const password = credentials.password;
-        const connection = await clientPromise;
-        const db_user = await connection.db("user_data");
+
         const query = {
           email: email,
         };
-        const user = await db_user.collection("credentials").findOne(query);
+
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~Mongoose~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // Find user in credentials collection
+        const user = await Credentials.findOne(query);
+        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
@@ -72,7 +84,6 @@ export default NextAuth({
 });
 
 const signInUser = async ({ password, user }) => {
-  console.log(user);
   if (!user.password) {
     throw new Error("Please enter password");
   }
