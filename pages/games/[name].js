@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import NavBar from "../../components/NavBar";
 import Poster from "../../components/Poster";
-import buildRequest from "../../utils/igdb/buildRequest";
+import buildRequest from "../../utils/buildRequest";
 
 import Style from "../../styles/Game.module.css";
 
@@ -78,7 +78,7 @@ export async function getServerSideProps(context) {
   const filter = 'where game.slug = "' + name + '";';
   const query = "fields " + fields.join(",") + ";" + filter;
 
-  const response = await buildRequest("search", query);
+  const response = await buildRequest("igdb", "search", query);
 
   // console.log(response[0]);
 

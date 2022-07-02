@@ -1,5 +1,5 @@
 import React from "react";
-import buildRequest from "../utils/igdb/buildRequest";
+import buildRequest from "../utils/buildRequest";
 import Poster from "../components/Poster";
 import NavBar from "../components/NavBar";
 import Link from "next/link";
@@ -50,7 +50,7 @@ export async function getServerSideProps() {
 
   const query = "fields " + fields.join(",") + ";" + filter;
 
-  const response = await buildRequest("games", query);
+  const response = await buildRequest("igdb", "games", query);
 
   return {
     props: { gameList: response },
