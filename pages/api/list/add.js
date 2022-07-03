@@ -5,9 +5,11 @@ import getCurrentDate from "../../../utils/getCurrentDate"
 
 // TODO: Write API that adds a game to a users game list */
 export default function handler(req, res) {
-  // Add to end of array to allow for "undo" through array.POP
   // get user session
   const { data: session } = useSession();
+
+  // Status Translation:
+  const status = ['Backlog', 'In Progress', 'Finished', 'Retired']
 
   // Verify user session
   if (!session.user) {
@@ -36,7 +38,7 @@ export default function handler(req, res) {
     const gameEntry = {
         userID: gameData.userID,
         gameID: gameData.gameID,
-        status: gameData.status,
+        status: status[gameData.status], // req status is a number index for the array above.
         dateAdded: getCurrentDate(),
         dateRemoved: null,
     }
