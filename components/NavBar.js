@@ -7,7 +7,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 function NavBar() {
   const { data, status } = useSession();
 
-  //   console.log(data, status);
   return (
     <nav
       className="navbar is-dark"
@@ -15,9 +14,11 @@ function NavBar() {
       aria-label="main navigation"
     >
       <div className="navbar-brand">
-        <a className="navbar-item" href="">
-          <Image src={brand} alt="Temp Brand" />
-        </a>
+        <Link href="/">
+          <a className="navbar-item">
+            <Image src={brand} alt="Temp Brand" />
+          </a>
+        </Link>
 
         <a
           role="button"
@@ -59,7 +60,23 @@ function NavBar() {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <Link href="/user/register">
+              {status === "authenticated" ? (
+                <a
+                  className="button is-light"
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
+                  <strong>Log Out</strong>
+                </a>
+              ) : (
+                <Link href="/user/login">
+                  <a className="button is-light">
+                    <strong>Log In</strong>
+                  </a>
+                </Link>
+              )}
+              {/* <Link href="/user/register">
                 <a className="button is-link">
                   <strong>Sign up</strong>
                 </a>
@@ -87,7 +104,7 @@ function NavBar() {
                   {" "}
                   Sign In
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         </div>
