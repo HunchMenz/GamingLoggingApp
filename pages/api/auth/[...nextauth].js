@@ -67,6 +67,7 @@ export default NextAuth({
     },
     session: async ({ session, token }) => {
       const savedUser = {
+        id: token.user._id,
         email: token.user.email,
         username: token.user.username,
       };

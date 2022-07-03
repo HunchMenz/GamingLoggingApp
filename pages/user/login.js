@@ -130,7 +130,6 @@ export async function getServerSideProps(context) {
       Location: "/user",
     });
     res.end();
-    return;
   }
   return {
     props: {

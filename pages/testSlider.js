@@ -92,7 +92,7 @@ export async function getServerSideProps() {
 
   const response = await buildRequest("igdb", "games", query);
 
-  // console.log(response);
+  // (response);
 
   return {
     props: { gameList: response },
