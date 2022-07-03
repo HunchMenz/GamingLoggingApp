@@ -60,7 +60,23 @@ function NavBar() {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <Link href="/user/register">
+              {status === "authenticated" ? (
+                <a
+                  className="button is-light"
+                  onClick={() => {
+                    signOut();
+                  }}
+                >
+                  <strong>Log Out</strong>
+                </a>
+              ) : (
+                <Link href="/user/login">
+                  <a className="button is-light">
+                    <strong>Log In</strong>
+                  </a>
+                </Link>
+              )}
+              {/* <Link href="/user/register">
                 <a className="button is-link">
                   <strong>Sign up</strong>
                 </a>
@@ -88,7 +104,7 @@ function NavBar() {
                   {" "}
                   Sign In
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         </div>
