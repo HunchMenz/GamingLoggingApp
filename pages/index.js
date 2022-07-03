@@ -3,7 +3,7 @@ import Image from "next/image";
 import NavBar from "../components/NavBar";
 import styles from "../styles/Home.module.css";
 
-import buildRequest from "../utils/igdb/buildRequest";
+import buildRequest from "../utils/buildRequest";
 
 export default function Home({ gameList }) {
   return (
@@ -37,9 +37,7 @@ export async function getServerSideProps() {
 
   const query = "fields " + fields.join(",") + ";";
 
-  const response = await buildRequest("games", query);
-
-  // console.log(response);
+  const response = await buildRequest("igdb", "games", query);
 
   return {
     props: { gameList: response },
