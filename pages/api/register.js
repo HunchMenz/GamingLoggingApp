@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   const query = {
     email: body.email,
   };
-  const userExist = await Credentials.findOne({ query });
+  const userExist = await Credentials.findOne(query);
 
   if (userExist) {
     return res

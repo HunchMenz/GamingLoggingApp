@@ -40,12 +40,14 @@ function Register({ providers, csrfToken }) {
     if (data.message == "Registered Successfully") {
       let options = {
         redirect: false,
-        username,
+        email,
         password,
       };
 
       const res = await signIn("credentials", options);
-      return router.push("/user");
+      if (res?.error) {
+        router.push("/user/login");
+      } else return router.push("/user");
     }
   };
 
