@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const GamesSchema = new mongoose.Schema({
   userID: Number,
   gameID: Number,
-  status: String,
+  status: Number,
   dateAdded: Date,
   dateRemoved: Date,
 });
