@@ -3,6 +3,7 @@ import NavBar from "../../components/NavBar";
 
 function UserDashboard() {
   const { data: session } = useSession();
+  console.log(session);
   if (session) {
     return (
       <>
