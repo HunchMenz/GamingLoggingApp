@@ -39,7 +39,9 @@ function NavBar() {
             Home
           </a>
 
-          <a className="navbar-item has-text-white">Games List</a>
+          <Link href="/user/list">
+            <a className="navbar-item has-text-white">Games List</a>
+          </Link>
 
           <Link href="/testImages">
             <a className="navbar-item has-text-white">TestImages</a>
