@@ -55,7 +55,7 @@ export default function handler(req, res) {
         gameID: gameData.gameID,
         status: status[gameData.status], // req status is a number index for the array above.
         dateAdded: getCurrentDate(),
-        dateRemoved: null,
+        // dateRemoved not included, since we don't want that value to be filled
     });
 
     gameEntry.save((err) => {
