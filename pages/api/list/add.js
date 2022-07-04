@@ -21,6 +21,13 @@ export default function handler(req, res) {
   // If POST request...
   if (req.method === "POST") {
     const gameData = req.body;
+    /** Request Body is expected to look like this:
+     * {
+     *     userID: current user ID
+     *     gameID: selected game ID
+     *     status: list we want to add game to
+     * }
+     */
 
     // Verify req body
     if (!gameData) {
@@ -35,15 +42,27 @@ export default function handler(req, res) {
         return res.status(200).json({ message: "Game already added to user list." });
     }
 
-    const gameEntry = {
+    // const gameEntry = {
+    //     userID: gameData.userID,
+    //     gameID: gameData.gameID,
+    //     status: status[gameData.status], // req status is a number index for the array above.
+    //     dateAdded: getCurrentDate(),
+    //     dateRemoved: null,
+    // }
+
+    const gameEntry = new Games({
         userID: gameData.userID,
         gameID: gameData.gameID,
         status: status[gameData.status], // req status is a number index for the array above.
         dateAdded: getCurrentDate(),
         dateRemoved: null,
-    }
+    });
 
-    Games.insert(gameEntry);
+    gameEntry.save((err) => {
+        if (err){
+            return res.status(200).json({ message: "Error in completing request: can not save to database.", error: err });
+        }
+    })
 
     res.status(200).json({ message: `Game ID ${gameData.gameID} successfully added to user's ${gameData.status} list.` });
     return gameEntry;
