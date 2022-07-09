@@ -42,14 +42,6 @@ export default function handler(req, res) {
         return res.status(200).json({ message: "Game already added to user list." });
     }
 
-    // const gameEntry = {
-    //     userID: gameData.userID,
-    //     gameID: gameData.gameID,
-    //     status: status[gameData.status], // req status is a number index for the array above.
-    //     dateAdded: getCurrentDate(),
-    //     dateRemoved: null,
-    // }
-
     const gameEntry = new Games({
         userID: gameData.userID,
         gameID: gameData.gameID,
