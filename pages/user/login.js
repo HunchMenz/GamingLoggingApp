@@ -43,19 +43,23 @@ function Login({ providers, csrfToken }) {
           <div className="notification is-primary">
             <h1 className="title is-3">Login</h1>
           </div>
-          <div className="columns is-centered">
-            {Object.values(providers).map((provider) => {
-              if (provider.name !== "Username/Email")
+          <div className="card-content" style={{ paddingTop: "0rem" }}>
+            {Object.values(providers).map((provider, index) => {
+              let topMargin = "mt-1";
+              if (provider.name !== "Username/Email") {
+                if (index === 0) {
+                  topMargin = "";
+                }
                 return (
-                  <div key={provider.name} className="field">
-                    <button
-                      className="button"
-                      onClick={() => signIn(provider.id)}
-                    >
-                      Sign in with {provider.name}
-                    </button>
-                  </div>
+                  <button
+                    key={provider.name}
+                    className={`button is-fullwidth ${topMargin}`}
+                    onClick={() => signIn(provider.id)}
+                  >
+                    Sign in with {provider.name}
+                  </button>
                 );
+              }
             })}
           </div>
           <div className="columns is-centered is-vcentered">

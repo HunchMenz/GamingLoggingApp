@@ -1,6 +1,7 @@
 //-- NextAuth imports
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 //-- DB imports
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
@@ -21,6 +22,30 @@ export default NextAuth({
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+      profile(profile) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name || profile.login,
+          email: profile.email,
+          image: profile.avatar_url,
+          username: profile.login,
+          provider: "github",
+        };
+      },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          username: "",
+          provider: "google",
+        };
+      },
     }),
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
@@ -61,11 +86,14 @@ export default NextAuth({
     // ...add more providers here
   ],
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, account, user }) => {
+      // console.log(account ? account.provider : token);
       user && (token.user = user);
+      token.provider = account ? account.provider : token.provider;
       return token;
     },
     session: async ({ session, token }) => {
+      console.log(token);
       const savedUser = {
         id: token.user._id,
         email: token.user.email,
