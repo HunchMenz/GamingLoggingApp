@@ -8,7 +8,7 @@ import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "./lib/mongodb";
 // Mongoose
 import dbConnect from "../../../utils/lib/dbConnect";
-import Credentials from "../../../database/user_data/model/Credentials";
+import Users from "../../../database/user_data/model/Users";
 //-- Other
 import bcrypt from "bcrypt";
 
@@ -49,7 +49,7 @@ export default NextAuth({
     }),
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
-      name: "Username/Email",
+      name: "Credential",
       // The credentials is used to generate a suitable form on the sign in page.
       // You can specify whatever fields you are expecting to be submitted.
       // e.g. domain, username, password, 2FA token, etc.
@@ -59,7 +59,7 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
+        // Add logic here to look up the user from the user supplied
         const email = credentials.email;
         const password = credentials.password;
 
@@ -68,8 +68,8 @@ export default NextAuth({
         };
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~Mongoose~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // Find user in credentials collection
-        const user = await Credentials.findOne(query);
+        // Find user in users collection
+        const user = await Users.findOne(query);
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         if (user) {
@@ -87,17 +87,17 @@ export default NextAuth({
   ],
   callbacks: {
     jwt: async ({ token, account, user }) => {
-      // console.log(account ? account.provider : token);
+      // console.log(account);
       user && (token.user = user);
       token.provider = account ? account.provider : token.provider;
       return token;
     },
     session: async ({ session, token }) => {
-      console.log(token);
       const savedUser = {
         id: token.user._id,
         email: token.user.email,
         username: token.user.username,
+        image: token.user.image,
       };
       session.user = savedUser;
       return session;
