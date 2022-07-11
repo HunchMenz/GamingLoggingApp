@@ -40,14 +40,19 @@ function Register({ providers, csrfToken }) {
     if (data.message == "Registered Successfully") {
       let options = {
         redirect: false,
-        email,
-        password,
+        email: email,
+        password: password,
       };
+
+      console.log(options);
 
       const res = await signIn("credentials", options);
       if (res?.error) {
-        router.push("/user/login");
+        setMessage(res.error);
       } else return router.push("/user");
+      // if (res?.error) {
+      //   router.push("/user/login");
+      // } else return router.push("/user");
     }
   };
 
@@ -63,7 +68,7 @@ function Register({ providers, csrfToken }) {
           <div className="card-content" style={{ paddingTop: "0rem" }}>
             {Object.values(providers).map((provider, index) => {
               let topMargin = "mt-1";
-              if (provider.name !== "Username/Email") {
+              if (provider.name !== "Credential") {
                 if (index === 0) {
                   topMargin = "";
                 }
