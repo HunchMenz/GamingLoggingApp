@@ -46,7 +46,7 @@ function Login({ providers, csrfToken }) {
           <div className="card-content" style={{ paddingTop: "0rem" }}>
             {Object.values(providers).map((provider, index) => {
               let topMargin = "mt-1";
-              if (provider.name !== "Username/Email") {
+              if (provider.name !== "Credential") {
                 if (index === 0) {
                   topMargin = "";
                 }

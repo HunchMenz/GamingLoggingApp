@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
-import Credentials from "../../database/user_data/model/Credentials";
+import { MD5 } from "crypto-js";
+import Users from "../../database/user_data/model/Users";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -16,7 +17,7 @@ export default async function handler(req, res) {
     const query = {
       email: body.email,
     };
-    const userExist = await Credentials.findOne(query);
+    const userExist = await Users.findOne(query);
 
     if (userExist) {
       return res
@@ -33,15 +34,15 @@ export default async function handler(req, res) {
       username: body.username,
       email: body.email,
       password: hashedPass,
+      image: `http://www.gravatar.com/avatar/${MD5(body.email)}?d=identicon`,
+      provider: "credential",
     };
-    const user = new Credentials(newUser);
+    const user = new Users(newUser);
     await user.save();
 
     return res.status(200).json({ message: "Registered Successfully" });
   } else
-    return res
-      .status(401)
-      .json({
-        message: "Error in completing request: invalid request method.",
-      });
+    return res.status(401).json({
+      message: "Error in completing request: invalid request method.",
+    });
 }
