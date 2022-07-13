@@ -1,10 +1,13 @@
 import { getSession, useSession } from "next-auth/react";
 import NavBar from "../../components/NavBar";
+import dbConnect from "../../utils/lib/dbConnect";
+import Games from "../../database/user_data/model/Games";
 
-function listPage() {
+function listPage({ addedGames }) {
   const { data: session } = useSession();
 
   if (session) {
+    console.log(addedGames);
     return (
       <>
         <NavBar />
@@ -28,9 +31,28 @@ export async function getServerSideProps(context) {
     return;
   }
 
-  // TODO: Write code to build request for "read" API. API will need user ID, which is why we pulled it earlier.
+  await dbConnect("user_data");
 
-  return { props: { games: null } };
+  const currUser = session.user;
+
+  // Verify req body
+  if (!currUser) {
+    return res
+      .status(400)
+      .json({ message: "Error in request to retrieve user list." });
+  }
+  // Status Translation:
+  const statusTranslation = ["Backlog", "In Progress", "Finished", "Retired"];
+  let userList = await Games.find(
+    { userID: currUser.id },
+    "gameID status dateAdded dateRemoved"
+  ).lean();
+
+  userList.forEach((game) => {
+    game["status"] = statusTranslation[game["status"]];
+  });
+
+  return { props: { addedGames: JSON.stringify(userList) } };
 }
 
 export default listPage;
