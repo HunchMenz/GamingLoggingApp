@@ -1,13 +1,14 @@
 //-- NextAuth imports
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 //-- DB imports
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "./lib/mongodb";
 // Mongoose
 import dbConnect from "../../../utils/lib/dbConnect";
-import Credentials from "../../../database/user_data/model/Credentials";
+import Users from "../../../database/user_data/model/Users";
 //-- Other
 import bcrypt from "bcrypt";
 
@@ -21,10 +22,34 @@ export default NextAuth({
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+      profile(profile) {
+        return {
+          id: profile.id.toString(),
+          name: profile.name || profile.login,
+          email: profile.email,
+          image: profile.avatar_url,
+          username: profile.login,
+          provider: "github",
+        };
+      },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          username: "",
+          provider: "google",
+        };
+      },
     }),
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
-      name: "Username/Email",
+      name: "Credential",
       // The credentials is used to generate a suitable form on the sign in page.
       // You can specify whatever fields you are expecting to be submitted.
       // e.g. domain, username, password, 2FA token, etc.
@@ -34,7 +59,7 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
+        // Add logic here to look up the user from the user supplied
         const email = credentials.email;
         const password = credentials.password;
 
@@ -43,8 +68,8 @@ export default NextAuth({
         };
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~Mongoose~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // Find user in credentials collection
-        const user = await Credentials.findOne(query);
+        // Find user in users collection
+        const user = await Users.findOne(query);
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         if (user) {
@@ -61,8 +86,10 @@ export default NextAuth({
     // ...add more providers here
   ],
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, account, user }) => {
+      // console.log(account);
       user && (token.user = user);
+      token.provider = account ? account.provider : token.provider;
       return token;
     },
     session: async ({ session, token }) => {
@@ -70,6 +97,7 @@ export default NextAuth({
         id: token.user._id,
         email: token.user.email,
         username: token.user.username,
+        image: token.user.image,
       };
       session.user = savedUser;
       return session;

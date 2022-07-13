@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const GamesSchema = new mongoose.Schema({
-  userID: Number,
+  userID: String,
   gameID: Number,
   status: Number,
   dateAdded: Date,
