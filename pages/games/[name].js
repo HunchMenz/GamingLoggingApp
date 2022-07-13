@@ -4,8 +4,8 @@ import NavBar from "../../components/NavBar";
 import Poster from "../../components/Poster";
 import Image from "next/image";
 import buildRequest from "../../utils/buildRequest";
-import { AiOutlineZoomIn } from 'react-icons/ai';
-import Modal from 'react-modal';
+import { AiOutlineZoomIn } from "react-icons/ai";
+import Modal from "react-modal";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,34 +16,31 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/zoom";
 
-
 // import required modules
-import { Pagination, Navigation} from "swiper";
+import { Pagination, Navigation } from "swiper";
 
 import Style from "../../styles/Game.module.css";
 
 const customStyles = {
   content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
   },
   overlay: {
-    zIndex: '1000',
-    background: 'rgba(222, 222, 222, 0.1)',
-
-  }
+    zIndex: "1000",
+    background: "rgba(222, 222, 222, 0.1)",
+  },
 };
 
 function GamePage({ game }) {
   const router = useRouter();
-  // const { name } = router.query;
+  const ref = React.useRef(null);
 
-
-  //////////////////////////////////////////////////
+  /*****************~Modal Functions~*****************/
 
   let subtitle;
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -61,27 +58,24 @@ function GamePage({ game }) {
     setIsOpen(false);
   }
 
-  //////////////////////////////////////////////////
+  /****************************************************/
 
-  const pics = () => {
-    let size = game.game.screenshots.length;
-    let scrnshots = [];
-    for (let i = 0; i <= size - 1; i++) {
-      scrnshots.push(
+  const pics = game.game.screenshots.map((sc) => {
+    return (
       <SwiperSlide>
-        <AiOutlineZoomIn onClick={openModal} style={{color: 'white', zIndex: 1}} size={'2em'}/>
+        <AiOutlineZoomIn
+          onClick={openModal}
+          style={{ color: "white", zIndex: 1 }}
+          size={"2em"}
+        />
         <div className={Style["bg-slide"]}>
           <Image
             src={
-              game.game.screenshots
-              ? "https:" + game.game.screenshots[i].url.replace("t_thumb", "t_720p")
-              : "https://bulma.io/images/placeholders/128x128.png"
+              sc
+                ? "https:" + sc.url.replace("t_thumb", "t_720p")
+                : "https://bulma.io/images/placeholders/128x128.png"
             }
             layout="fill"
-            // objectFit="contain"
-            // layout="intrinsic"
-            // width={540}
-            // height={720}
           />
         </div>
         <Modal
@@ -90,42 +84,28 @@ function GamePage({ game }) {
           onRequestClose={closeModal}
           style={customStyles}
           ariaHideApp={false}
-          // className="Modal"
-          // overlayClassName="Overlay"
           contentLabel="Example Modal"
         >
-          {/* <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>
-          <button onClick={closeModal}>close</button>
-          <div>I am a modal</div> */}
-
           <Image
             src={
-              game.game.screenshots
-              ? "https:" + game.game.screenshots[i].url.replace("t_thumb", "t_720p")
-              : "https://bulma.io/images/placeholders/128x128.png"
+              sc
+                ? "https:" + sc.url.replace("t_thumb", "t_720p")
+                : "https://bulma.io/images/placeholders/128x128.png"
             }
-            // layout="fill"
             objectFit="contain"
             layout="intrinsic"
             width={900}
             height={500}
           />
-          {console.log(i)}
         </Modal>
-        {/* <div className={Style["bg-text"]}>Test stuff</div> */}
-      </SwiperSlide>)
-    }
-
-    // console.log(scrnshots)
-    return scrnshots;
-  };
+      </SwiperSlide>
+    );
+  });
 
   const Background = game.game.screenshots
     ? "https:" +
-    game.game.screenshots[0].url.replace("t_thumb", "t_screenshot_big")
+      game.game.screenshots[0].url.replace("t_thumb", "t_screenshot_big")
     : "https://bulma.io/images/placeholders/128x128.png";
-
-  const ref = React.useRef(null) 
 
   return (
     <div>
@@ -182,7 +162,7 @@ function GamePage({ game }) {
           modules={[Pagination, Navigation]}
           className="mySwiper"
         >
-          {pics()}
+          {pics}
         </Swiper>
       </div>
     </div>
@@ -216,10 +196,7 @@ export async function getServerSideProps(context) {
   ];
   const filter = 'where game.slug = "' + name + '";';
   const query = "fields " + fields.join(",") + ";" + filter;
-
   const response = await buildRequest("igdb", "search", query);
-
-  // console.log(response[0]);
 
   return {
     props: { game: response[0] },
