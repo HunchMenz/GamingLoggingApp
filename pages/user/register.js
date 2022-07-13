@@ -1,11 +1,5 @@
 import NavBar from "../../components/NavBar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faLock,
-  faCheck,
-  faEnvelope,
-  faSignature,
-} from "@fortawesome/free-solid-svg-icons";
+import { FaLock, FaCheck, FaEnvelope, FaSignature } from "react-icons/fa";
 import {
   getProviders,
   signIn,
@@ -50,9 +44,6 @@ function Register({ providers, csrfToken }) {
       if (res?.error) {
         setMessage(res.error);
       } else return router.push("/user");
-      // if (res?.error) {
-      //   router.push("/user/login");
-      // } else return router.push("/user");
     }
   };
 
@@ -103,7 +94,7 @@ function Register({ providers, csrfToken }) {
                     onChange={(e) => setUsername(e.target.value)}
                   />
                   <span className="icon is-small is-left">
-                    <FontAwesomeIcon icon={faSignature} />
+                    <FaSignature />
                   </span>
                 </p>
               </div>
@@ -118,10 +109,10 @@ function Register({ providers, csrfToken }) {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <span className="icon is-small is-left">
-                    <FontAwesomeIcon icon={faEnvelope} />
+                    <FaEnvelope />
                   </span>
                   <span className="icon is-small is-right">
-                    <FontAwesomeIcon icon={faCheck} />
+                    <FaCheck />
                   </span>
                 </p>
               </div>
@@ -136,7 +127,7 @@ function Register({ providers, csrfToken }) {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <span className="icon is-small is-left">
-                    <FontAwesomeIcon icon={faLock} />
+                    <FaLock />
                   </span>
                 </p>
               </div>
