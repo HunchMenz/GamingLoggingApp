@@ -146,8 +146,10 @@ a {
 
 .swiper {
   margin-top: 50px;
-  width: 90%;
-  height: 20%;
+  /* width: 90%; */
+  height: 30%;
+  width: 75em;
+  /* min-width: 20%; */
 }
 
 .swiper-slide {
@@ -155,6 +157,7 @@ a {
   font-size: 18px;
   background: grey;
   color: black;
+  z-index: -10 !important;
 
   /* Center slide text vertically */
   display: flex;

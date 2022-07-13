@@ -29,6 +29,24 @@
   /* transform: scale(1.1); */
 }
 
+.bg-slider {
+  overflow: hidden;
+  z-index: -1;
+}
+
+.bg-text{
+  position: relative;
+  z-index: 1;
+  color: white;
+  margin-right: -10%;
+}
+
+.zoom-icon {
+  color: white;
+  z-index: 1;
+  align-items: center;
+}
+
 .poster-cover {
   position: relative;
   top: 20px;
@@ -52,3 +70,17 @@
 .gameTitle {
   color: white;
 }
+
+/* .Modal {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
+
+.Overlay {
+  z-index: 1000;
+  opacity: 0.2;
+} */
