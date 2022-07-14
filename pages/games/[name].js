@@ -1,11 +1,10 @@
 import { useRouter } from "next/router";
-import React from "react";
+import { useState } from "react";
 import NavBar from "../../components/NavBar";
 import Poster from "../../components/Poster";
 import Image from "next/image";
 import buildRequest from "../../utils/buildRequest";
 import { AiOutlineZoomIn } from "react-icons/ai";
-import Modal from "react-modal";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,90 +13,122 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import "swiper/css/zoom";
 
 // import required modules
 import { Pagination, Navigation } from "swiper";
 
 import Style from "../../styles/Game.module.css";
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-  overlay: {
-    zIndex: "1000",
-    background: "rgba(222, 222, 222, 0.1)",
-  },
-};
-
 function GamePage({ game }) {
-  const router = useRouter();
-  const ref = React.useRef(null);
+  const [imageToShow, setImageToShow] = useState("");
+  const [lightboxDisplay, setLightBoxDisplay] = useState(false);
 
-  /*****************~Modal Functions~*****************/
+  const showImage = (image) => {
+    setImageToShow(image);
+    setLightBoxDisplay(true);
+  };
 
-  let subtitle;
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  //hide lightbox
+  const hideLightBox = () => {
+    setLightBoxDisplay(false);
+  };
 
-  function openModal() {
-    setIsOpen(true);
-  }
+  //show next image in lightbox
+  const showNext = (e) => {
+    e.stopPropagation();
+    let currentIndex = -1;
+    for (let i = 0; i < game.game.screenshots.length && currentIndex < 0; i++) {
+      if (
+        game.game.screenshots[i].url &&
+        "https:" +
+          game.game.screenshots[i].url.replace(
+            "t_thumb",
+            "t_screenshot_big"
+          ) ===
+          imageToShow
+      ) {
+        currentIndex = i;
+        console.log(currentIndex);
+      }
+    }
 
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    // subtitle.style.color = '#f00';
-  }
+    let nextImage;
+    if (currentIndex >= game.game.screenshots.length - 1) {
+      nextImage =
+        "https:" +
+        game.game.screenshots[0].url.replace("t_thumb", "t_screenshot_big");
+    } else {
+      nextImage =
+        "https:" +
+        game.game.screenshots[currentIndex + 1].url.replace(
+          "t_thumb",
+          "t_screenshot_big"
+        );
+      setImageToShow(nextImage);
+    }
+  };
 
-  function closeModal() {
-    setIsOpen(false);
-  }
+  //show previous image in lightbox
+  const showPrev = (e) => {
+    e.stopPropagation();
+    let currentIndex = -1;
+    for (let i = 0; i < game.game.screenshots.length && currentIndex < 0; i++) {
+      if (
+        game.game.screenshots[i].url &&
+        "https:" +
+          game.game.screenshots[i].url.replace(
+            "t_thumb",
+            "t_screenshot_big"
+          ) ===
+          imageToShow
+      ) {
+        currentIndex = i;
+        console.log(currentIndex);
+      }
+    }
 
-  /****************************************************/
+    let nextImage;
 
-  const pics = game.game.screenshots.map((sc) => {
+    if (currentIndex <= 0) {
+      // setLightBoxDisplay(false);
+      nextImage =
+        "https:" +
+        game.game.screenshots[game.game.screenshots.length - 1].url.replace(
+          "t_thumb",
+          "t_screenshot_big"
+        );
+    } else {
+      nextImage =
+        "https:" +
+        game.game.screenshots[currentIndex - 1].url.replace(
+          "t_thumb",
+          "t_screenshot_big"
+        );
+    }
+
+    setImageToShow(nextImage);
+  };
+
+  const imageCards = game.game.screenshots.map((sc) => {
     return (
       <SwiperSlide>
         <AiOutlineZoomIn
-          onClick={openModal}
-          style={{ color: "white", zIndex: 1 }}
+          style={{ color: "white", zIndex: 1, cursor: "pointer" }}
           size={"2em"}
+          onClick={() =>
+            showImage("https:" + sc.url.replace("t_thumb", "t_screenshot_big"))
+          }
         />
         <div className={Style["bg-slide"]}>
           <Image
             src={
               sc
-                ? "https:" + sc.url.replace("t_thumb", "t_720p")
+                ? "https:" + sc.url.replace("t_thumb", "t_screenshot_big")
                 : "https://bulma.io/images/placeholders/128x128.png"
             }
             layout="fill"
           />
         </div>
-        <Modal
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={customStyles}
-          ariaHideApp={false}
-          contentLabel="Example Modal"
-        >
-          <Image
-            src={
-              sc
-                ? "https:" + sc.url.replace("t_thumb", "t_720p")
-                : "https://bulma.io/images/placeholders/128x128.png"
-            }
-            objectFit="contain"
-            layout="intrinsic"
-            width={900}
-            height={500}
-          />
-        </Modal>
       </SwiperSlide>
     );
   });
@@ -110,7 +141,6 @@ function GamePage({ game }) {
   return (
     <div>
       <NavBar />
-      {/* <div className={Style["gamepage-header"]}> */}
       <div className={Style["bg-container"]}>
         <div
           className={Style["bg-img"]}
@@ -131,25 +161,8 @@ function GamePage({ game }) {
         </div>
       </div>
       <div className={Style["bg-under"]}>
-        <div>
-          {game.game.summary}
-          {/* <div>
-            <button onClick={openModal}>Open Modal</button>
-            <Modal
-              isOpen={modalIsOpen}
-              onAfterOpen={afterOpenModal}
-              onRequestClose={closeModal}
-              style={customStyles}
-              contentLabel="Example Modal"
-            >
-              <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Hello</h2>
-              <button onClick={closeModal}>close</button>
-              <div>I am a modal</div>
-            </Modal>
-          </div> */}
-        </div>
+        <div>{game.game.summary}</div>
         <Swiper
-          ref={ref}
           slidesPerView={3}
           spaceBetween={30}
           slidesPerGroup={3}
@@ -162,8 +175,17 @@ function GamePage({ game }) {
           modules={[Pagination, Navigation]}
           className="mySwiper"
         >
-          {pics}
+          {imageCards}
         </Swiper>
+        {lightboxDisplay ? (
+          <div id="lightbox" onClick={hideLightBox}>
+            <button onClick={showPrev}>⭠</button>
+            <img id="lightbox-img" src={imageToShow} />
+            <button onClick={showNext}>⭢</button>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
