@@ -1,6 +1,5 @@
 import NavBar from "../../components/NavBar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLock, faCheck, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { FaLock, FaCheck, FaEnvelope } from "react-icons/fa";
 import {
   getProviders,
   signIn,
@@ -81,10 +80,10 @@ function Login({ providers, csrfToken }) {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <span className="icon is-small is-left">
-                    <FontAwesomeIcon icon={faEnvelope} />
+                    <FaEnvelope />
                   </span>
                   <span className="icon is-small is-right">
-                    <FontAwesomeIcon icon={faCheck} />
+                    <FaCheck />
                   </span>
                 </p>
               </div>
@@ -99,7 +98,7 @@ function Login({ providers, csrfToken }) {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <span className="icon is-small is-left">
-                    <FontAwesomeIcon icon={faLock} />
+                    <FaLock />
                   </span>
                 </p>
               </div>
