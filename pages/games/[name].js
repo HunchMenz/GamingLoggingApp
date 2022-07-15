@@ -14,9 +14,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/scrollbar";
 
 // import required modules
-import { Pagination, Navigation } from "swiper";
+import { Pagination, Navigation, Scrollbar } from "swiper";
 
 import Style from "../../styles/Game.module.css";
 
@@ -144,6 +145,11 @@ function GamePage({ game }) {
     );
   });
 
+  const stopVideos = () => {
+    document.querySelectorAll('iframe').forEach(v => { v.src = v.src });
+    document.querySelectorAll('video').forEach(v => { v.pause() });
+  };
+
   const Background = game.game.screenshots
     ? "https:" +
       game.game.screenshots[0].url.replace("t_thumb", "t_screenshot_big")
@@ -182,10 +188,15 @@ function GamePage({ game }) {
           loopFillGroupWithBlank={true}
           pagination={{
             // clickable: true,
-            type: "progressbar",
+            type: "none",
+          }}
+          scrollbar={{
+            hide: true,
+            dragClass: "swiper-scrollbar-drag"
           }}
           navigation={true}
-          modules={[Pagination, Navigation]}
+          modules={[Pagination, Navigation, Scrollbar]}
+          onSlideChange={stopVideos}   
           className="mySwiper"
         >
           {videoCards}
