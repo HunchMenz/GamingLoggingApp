@@ -58,7 +58,7 @@ function myCarousel({ gameList }) {
                 }}
               >
                 <a>
-                  <Poster key={game.id} image={game} />
+                  <Poster key={game.id} game={game} gameSlug={game.slug} />
                 </a>
               </Link>
               {/* <div className="card-content">

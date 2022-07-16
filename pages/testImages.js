@@ -2,12 +2,10 @@ import React from "react";
 import buildRequest from "../utils/buildRequest";
 import Poster from "../components/Poster";
 import NavBar from "../components/NavBar";
-import Link from "next/link";
 
 // import style from "../styles/Test.module.css";
 
 function Test({ gameList }) {
-  console.log(gameList);
   return (
     <div>
       <NavBar />
@@ -16,17 +14,11 @@ function Test({ gameList }) {
         <div className="poster">
           {gameList.map((game) => {
             return (
-              <Link
-                key={game.id}
-                href={{
-                  pathname: "/games/[name]",
-                  query: { name: game.slug },
-                }}
-              >
-                <a>
-                  <Poster image={game} imageClass={"grow smImage"} />
-                </a>
-              </Link>
+              <Poster
+                game={game}
+                imageClass={"grow smImage"}
+                gameSlug={game.slug}
+              />
             );
           })}
         </div>
