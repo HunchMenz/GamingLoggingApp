@@ -8,9 +8,9 @@ function NavBar() {
   const { data, status } = useSession();
 
   return (
-    <div class="navbar bg-blue-800">
+    <div class="navbar bg-blue-700">
       <div class="flex-1">
-        <a class="btn btn-ghost normal-case text-xl text-white">G-List</a>
+        <a class="btn btn-ghost normal-case text-xl text-white" href="/">G-List</a>
       </div>
       <div class="flex-none">
         {/* <div class="dropdown dropdown-end">
@@ -49,10 +49,10 @@ function NavBar() {
         <div class="flex-none">
           <ul class="menu menu-horizontal p-0 text-white">
             <li>
-              <a href=".\pages\testImages.js">Page1</a>
+              <Link href="/">Home</Link>
             </li>
             <li>
-              <a>Page2</a>
+              <Link href = "/testImages">Test Images</Link>
             </li>
             <li>
               <a>Page3</a>
@@ -67,12 +67,11 @@ function NavBar() {
           </label>
           <ul
             tabindex="0"
-            class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-blue-900 rounded-box w-52"
           >
             <li>
               <a class="justify-between">
                 Profile
-                <span class="badge">New</span>
               </a>
             </li>
             <li>
