@@ -42,45 +42,50 @@ function Poster({ game, imageClass = "smImage", gameSlug }) {
   };
 
   return (
-    <div className="posterItem">
-      <div className={`image ${imageClass} is-3by4`}>
-        {gameSlug ? (
-          <Link
-            key={game.id}
-            href={{
-              pathname: "/games/[name]",
-              query: { name: game.slug },
-            }}
-          >
-            <a>
-              <Image
-                src={
-                  game.cover
-                    ? "https:" + game.cover.url.replace("t_thumb", "t_720p")
-                    : "https://bulma.io/images/placeholders/128x128.png"
-                }
-                layout="fill"
-                objectFit="contain"
-              />
-            </a>
-          </Link>
-        ) : (
-          <Image
-            src={
-              game.cover
-                ? "https:" + game.cover.url.replace("t_thumb", "t_720p")
-                : "https://bulma.io/images/placeholders/128x128.png"
-            }
-            layout="fill"
-            objectFit="contain"
-          />
-        )}
-        {isAdded ? (
-          <CgPlayListRemove style={{ position: "absolute" }} />
-        ) : (
-          <FcPlus style={{ position: "absolute" }} onClick={addGameToList} />
-        )}
-      </div>
+    <div className="relative h-40 min-w-[180px]">
+      {/* <Image
+                src="https://placeimg.com/400/225/arch"
+                alt="Shoes"
+                layout="intrinsic"
+                width="100%"
+                height="100%"
+              /> */}
+      {gameSlug ? (
+        <Link
+          key={game.id}
+          href={{
+            pathname: "/games/[name]",
+            query: { name: game.slug },
+          }}
+        >
+          <a>
+            <Image
+              src={
+                game.cover
+                  ? "https:" + game.cover.url.replace("t_thumb", "t_720p")
+                  : "https://bulma.io/images/placeholders/128x128.png"
+              }
+              className="rounded-sm object-cover md:rounded"
+              layout="fill"
+            />
+          </a>
+        </Link>
+      ) : (
+        <Image
+          src={
+            game.cover
+              ? "https:" + game.cover.url.replace("t_thumb", "t_720p")
+              : "https://bulma.io/images/placeholders/128x128.png"
+          }
+          className="rounded-sm object-cover md:rounded"
+          layout="fill"
+        />
+      )}
+      {isAdded ? (
+        <CgPlayListRemove style={{ position: "absolute" }} />
+      ) : (
+        <FcPlus style={{ position: "absolute" }} onClick={addGameToList} />
+      )}
     </div>
   );
 }
