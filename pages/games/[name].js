@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import NavBar from "../../components/NavBar";
 import Poster from "../../components/Poster";
+import YoutubeEmbed from "../../components/YoutubeEmbed";
 import Image from "next/image";
 import buildRequest from "../../utils/buildRequest";
 import { AiOutlineZoomIn } from "react-icons/ai";
@@ -13,9 +14,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/scrollbar";
 
 // import required modules
-import { Pagination, Navigation } from "swiper";
+import { Pagination, Navigation, Scrollbar } from "swiper";
 
 import Style from "../../styles/Game.module.css";
 
@@ -48,7 +50,7 @@ function GamePage({ game }) {
           imageToShow
       ) {
         currentIndex = i;
-        console.log(currentIndex);
+        console.log("Current Index: " + currentIndex);
       }
     }
 
@@ -133,6 +135,21 @@ function GamePage({ game }) {
     );
   });
 
+  const videoCards = game.game.videos.map((vid) => {
+    return (
+      <SwiperSlide>
+        <div>
+          <YoutubeEmbed embedId={vid.video_id} />
+        </div>
+      </SwiperSlide>
+    );
+  });
+
+  const stopVideos = () => {
+    document.querySelectorAll('iframe').forEach(v => { v.src = v.src });
+    document.querySelectorAll('video').forEach(v => { v.pause() });
+  };
+
   const Background = game.game.screenshots
     ? "https:" +
       game.game.screenshots[0].url.replace("t_thumb", "t_screenshot_big")
@@ -162,6 +179,7 @@ function GamePage({ game }) {
       </div>
       <div className={Style["bg-under"]}>
         <div>{game.game.summary}</div>
+
         <Swiper
           slidesPerView={3}
           spaceBetween={30}
@@ -169,12 +187,19 @@ function GamePage({ game }) {
           loop={true}
           loopFillGroupWithBlank={true}
           pagination={{
-            clickable: true,
+            // clickable: true,
+            type: "none",
+          }}
+          scrollbar={{
+            hide: true,
+            dragClass: "swiper-scrollbar-drag"
           }}
           navigation={true}
-          modules={[Pagination, Navigation]}
+          modules={[Pagination, Navigation, Scrollbar]}
+          onSlideChange={stopVideos}   
           className="mySwiper"
         >
+          {videoCards}
           {imageCards}
         </Swiper>
         {lightboxDisplay ? (
@@ -210,6 +235,8 @@ export async function getServerSideProps(context) {
     "game.cover.url",
     "game.screenshots.url",
     "game.screenshots.height",
+    "game.videos.video_id",
+    "game.videos",
     "game.summary",
     "game.storyline",
     "game.first_release_date",
