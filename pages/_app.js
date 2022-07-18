@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import "bulma/css/bulma.css";
+
 
 import { SessionProvider } from "next-auth/react";
 
