@@ -5,8 +5,14 @@ import Games from "../../database/user_data/model/Games";
 import Poster from "../../components/Poster";
 import buildRequest from "../../utils/buildRequest";
 
+// Context
+import { useGameListContext } from "../../context/gameList";
+
 function listPage({ addedGames, gameList }) {
   const { data: session } = useSession();
+  const { test } = useGameListContext();
+
+  console.log(test);
 
   if (session) {
     return (
@@ -15,7 +21,7 @@ function listPage({ addedGames, gameList }) {
         Signed in as {session.user.email} <br />
         <h1>Welcome to the List Page!</h1>
         {gameList.map((game) => {
-          return <Poster game={game} />;
+          return <Poster key={game.id} game={game} />;
         })}
       </>
     );
