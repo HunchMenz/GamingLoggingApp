@@ -4,6 +4,7 @@ import buildRequest from "../../../utils/buildRequest";
 
 export default async function handler(req, res) {
   const body = req.body;
+
   if (req.method === "POST") {
     await dbConnect("user_data");
     // Status Translation:
@@ -17,8 +18,6 @@ export default async function handler(req, res) {
     )
       .sort({ dateAdded: 1 })
       .lean();
-
-    console.log("user: ", userList);
 
     // If the user does not have a list
     if (!userList) {
@@ -51,8 +50,6 @@ export default async function handler(req, res) {
     const query = "fields " + fields.join(",") + ";" + filter;
 
     const response = await buildRequest("igdb", "games", query);
-
-    // console.log(response);
 
     return res.status(200).json({
       message: "User list retrieved!",

@@ -7,15 +7,13 @@ export const getUserGameList = async (userID) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ userID: userID }),
+    body: JSON.stringify({ userID }),
   });
-  const returned = await res.json();
-  console.log(returned);
-  return returned.gameList;
+  const pulledList = await res.json();
+  return pulledList.gameList;
 };
 
 const GameListContext = createContext();
-// const updateGameListContext = createContext();
 
 export const getCurrUser = async () => {
   const sess = await getSession();
@@ -29,19 +27,21 @@ export function GameListProvider({ children }) {
   useEffect(() => {
     getCurrUser().then((user) => {
       setUser(user);
-    });
 
-    if (user) {
-      getUserGameList(user.id).then((id) => {
-        setGameList(id);
+      getUserGameList(user.id).then((gameList) => {
+        setGameList(gameList);
       });
-    }
+    });
   }, []);
 
   let sharedState = {
     /* whatever you want */
     user: user,
-    test: gameList,
+    gameList: gameList,
+  };
+
+  const updateFns = {
+    // if we need to modify the gameList, register those functions here
   };
 
   return (

@@ -61,7 +61,9 @@ export default async function handler(req, res) {
     });
 
     return res.status(200).json({
-      message: `Game ID ${gameData.gameID} successfully added to user's ${gameData.status} list.`,
+      message: `Game ID ${gameData.gameID} successfully added to user's ${
+        status[gameData.status]
+      } list.`,
     });
   } else {
     return res.status(401).json({

@@ -2,6 +2,7 @@ import React from "react";
 import buildRequest from "../utils/buildRequest";
 import Poster from "../components/Poster";
 import NavBar from "../components/NavBar";
+import Link from "next/link";
 
 // import style from "../styles/Test.module.css";
 
@@ -14,11 +15,19 @@ function Test({ gameList }) {
         <div className="poster">
           {gameList.map((game) => {
             return (
-              <Poster
-                game={game}
-                imageClass={"grow smImage"}
-                gameSlug={game.slug}
-              />
+              <div class="card w-96 bg-base-100 shadow-xl m-2 zoom">
+                <figure>
+                  <Link
+                    key={game.id}
+                    href={{
+                      pathname: "/games/[name]",
+                      query: { name: game.slug },
+                    }}
+                  >
+                    <Poster game={game} imageClass={"smImage"} />
+                  </Link>
+                </figure>
+              </div>
             );
           })}
         </div>

@@ -90,10 +90,11 @@ a {
   /* position: relative; */
 }
 
-.grow {
+.zoom {
   transition: all 0.2s ease-in-out;
+  align-self: start;
 }
-.grow:hover {
+.zoom:hover {
   transform: scale(1.1);
 }
 
@@ -117,9 +118,9 @@ a {
 }
 
 .card {
-  border: 2px solid black;
-  /* height: 400px; */
-  width: 300px !important;
+  /* border: 2px solid black; */
+  width: 300px;
+  height: 400px;
 }
 
 .game-title {
@@ -202,4 +203,8 @@ a {
 .video-responsive iframe {
   z-index: 1000;
   /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
+}
+
+.remove {
+  background-color: aliceblue;
 }
