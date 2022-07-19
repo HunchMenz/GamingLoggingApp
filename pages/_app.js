@@ -4,6 +4,7 @@ import { themeChange } from "theme-change";
 import { SessionProvider } from "next-auth/react";
 import { GameListProvider } from "../context/gameList";
 
+
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
