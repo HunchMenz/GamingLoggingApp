@@ -7,6 +7,7 @@ body {
   padding: 0;
   margin: 0;
   font-size: 14px;
+  background-color: white !important;
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
@@ -60,7 +61,7 @@ a {
 } */
 
 .bigImage {
-  width: 264px;
+  width: 500px;
   height: auto;
   /* max-height: 100%;
   max-width: 100%; */
@@ -97,37 +98,10 @@ a {
   transform: scale(1.1);
 }
 
-.mySlider {
-  width: 80%;
-  margin: 0 auto;
-  margin-top: 50px;
-}
-
-.slick-slide > div {
-  margin: 0 10px;
-}
-
-.slick-list {
-  margin: 0 -10px;
-}
-
-.slick-prev:before,
-.slick-next:before {
-  color: blue !important;
-}
-
 .card {
-  border: 2px solid black;
-  /* height: 400px; */
-  width: 300px !important;
-}
-
-.game-title {
-  font-weight: 600;
-  font-size: 20px;
-  font-family: monospace;
-  justify-content: center;
-  /* overflow: auto; */
+  /* border: 2px solid black; */
+  width: 300px;
+  height: 400px;
 }
 
 .navbar {
@@ -159,7 +133,7 @@ a {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: grey;
+  /* background: grey; */
   color: black;
   z-index: -10 !important;
 
