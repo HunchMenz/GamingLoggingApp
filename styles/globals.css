@@ -90,10 +90,11 @@ a {
   /* position: relative; */
 }
 
-.grow {
+.zoom {
   transition: all 0.2s ease-in-out;
+  align-self: start;
 }
-.grow:hover {
+.zoom:hover {
   transform: scale(1.1);
 }
 
@@ -117,9 +118,9 @@ a {
 }
 
 .card {
-  border: 2px solid black;
-  /* height: 400px; */
-  width: 300px !important;
+  /* border: 2px solid black; */
+  width: 300px;
+  height: 400px;
 }
 
 .game-title {
@@ -169,12 +170,11 @@ a {
   align-items: center;
 }
 
-/* .swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-} */
+.swiper-scrollbar-drag {
+  /* color: blue !important;
+  background-color: blue !important; */
+  background: blue !important;
+}
 
 #lightbox-img {
   height: 80vh;
@@ -193,4 +193,18 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.video-responsive {
+  z-index: 1000;
+  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
+}
+
+.video-responsive iframe {
+  z-index: 1000;
+  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
+}
+
+.remove {
+  background-color: aliceblue;
 }
