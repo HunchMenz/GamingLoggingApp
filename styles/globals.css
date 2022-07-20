@@ -60,7 +60,7 @@ a {
 } */
 
 .bigImage {
-  width: 264px;
+  width: 500px;
   height: auto;
   /* max-height: 100%;
   max-width: 100%; */
@@ -100,38 +100,10 @@ a {
   transform: scale(1.1);
 }
 
-.mySlider {
-  width: 80%;
-  margin: 0 auto;
-  margin-top: 50px;
-}
-
-.slick-slide > div {
-  margin: 0 10px;
-}
-
-.slick-list {
-  margin: 0 -10px;
-}
-
-.slick-prev:before,
-.slick-next:before {
-  color: blue !important;
-}
-
 .card {
   /* border: 2px solid black; */
   width: 300px;
   height: 400px;
-}
-
-.game-title {
-  font-weight: 600;
-  font-size: 20px;
-  font-family: monospace;
-  justify-content: center;
-  /* overflow: auto; */
-}
 
 .navbar {
   /* border: 2px solid rgb(0, 89, 255);
@@ -162,7 +134,7 @@ a {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: grey;
+  /* background: grey; */
   color: black;
   z-index: -10 !important;
 
@@ -211,4 +183,14 @@ a {
 .remove {
   background-color: aliceblue;
 
+}
+
+.video-responsive {
+  z-index: 1000;
+  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
+}
+
+.video-responsive iframe {
+  z-index: 1000;
+  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
 }
