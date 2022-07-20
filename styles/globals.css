@@ -64,6 +64,7 @@ a {
   height: auto;
   /* max-height: 100%;
   max-width: 100%; */
+
 }
 
 .smImage {
@@ -95,6 +96,7 @@ a {
   align-self: start;
 }
 .zoom:hover {
+
   transform: scale(1.1);
 }
 
@@ -193,6 +195,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
 }
 
 .video-responsive {
@@ -207,4 +210,5 @@ a {
 
 .remove {
   background-color: aliceblue;
+
 }
