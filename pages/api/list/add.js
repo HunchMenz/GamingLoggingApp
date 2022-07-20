@@ -31,7 +31,6 @@ export default async function handler(req, res) {
         .status(400)
         .json({ message: "Error in request to add game to user list." });
     }
-
     const gameEntryExist = await Games.findOne({
       userID: gameData.userID,
       gameID: gameData.gameID,

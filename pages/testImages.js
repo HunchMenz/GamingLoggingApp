@@ -7,6 +7,7 @@ import Link from "next/link";
 // import style from "../styles/Test.module.css";
 
 function Test({ gameList }) {
+  console.log(gameList);
   return (
     <div>
       <NavBar />
