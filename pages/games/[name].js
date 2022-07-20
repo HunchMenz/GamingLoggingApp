@@ -48,7 +48,6 @@ function GamePage({ game }) {
           imageToShow
       ) {
         currentIndex = i;
-        console.log(currentIndex);
       }
     }
 
@@ -83,7 +82,6 @@ function GamePage({ game }) {
           imageToShow
       ) {
         currentIndex = i;
-        console.log(currentIndex);
       }
     }
 
@@ -152,7 +150,7 @@ function GamePage({ game }) {
           }}
         >
           <div className={Style["poster-cover"]}>
-            <Poster key={game.game} image={game.game} imageClass={"bigImage"} />
+            <Poster key={game.game} game={game.game} imageClass={"bigImage"} />
             <div className={Style["poster-content"]} style={{ float: "left" }}>
               <h1 className={`title is-1 ${Style.gameTitle}`}>{game.name}</h1>
               Rating: {game.game.rating.toFixed(0)}
