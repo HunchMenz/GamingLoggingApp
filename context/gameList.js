@@ -28,8 +28,8 @@ export function GameListProvider({ children }) {
     getCurrUser().then((user) => {
       setUser(user);
 
-      getUserGameList(user.id).then((gameList) => {
-        setGameList(gameList);
+      getUserGameList(user?.id).then((gameList) => {
+        setGameList(gameList || []);
       });
     });
   }, []);
