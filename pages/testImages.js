@@ -15,7 +15,7 @@ function Test({ gameList }) {
         <div className="poster">
           {gameList.map((game) => {
             return (
-              <div class="card w-96 bg-base-100 shadow-xl m-2 zoom">
+              <div className="card w-96 bg-base-100 shadow-xl m-2 zoom">
                 <figure>
                   <Link
                     key={game.id}
@@ -24,7 +24,9 @@ function Test({ gameList }) {
                       query: { name: game.slug },
                     }}
                   >
-                    <Poster game={game} imageClass={"smImage"} />
+                    <a>
+                      <Poster game={game} imageClass={"smImage"} />
+                    </a>
                   </Link>
                 </figure>
               </div>

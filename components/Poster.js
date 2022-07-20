@@ -3,14 +3,13 @@ import { useEffect, useState } from "react";
 // Icon Imports
 import { FcPlus } from "react-icons/fc";
 import { CgPlayListRemove } from "react-icons/cg";
+import { IconContext } from "react-icons/lib";
 
 // NextJS Imports
 import Image from "next/image";
-import Link from "next/link";
 
 // Context
 import { useGameListContext } from "../context/gameList";
-import { IconContext } from "react-icons/lib";
 
 function Poster({ game, imageClass = "smImage" }) {
   const { user, gameList } = useGameListContext();
@@ -53,7 +52,7 @@ function Poster({ game, imageClass = "smImage" }) {
   return (
     <div>
       <div className="posterItem">
-        <div className={`image ${imageClass} is-3by4`}>
+        <div className={`image ${imageClass}`}>
           <Image
             src={
               game.cover
@@ -67,17 +66,19 @@ function Poster({ game, imageClass = "smImage" }) {
       </div>
       {isAdded ? (
         <IconContext.Provider value={{ color: "black", className: "remove" }}>
-          <div>
+          <div className="cursor-pointer">
             <CgPlayListRemove style={{ position: "absolute" }} />
           </div>
         </IconContext.Provider>
       ) : (
-        <FcPlus
-          style={{ position: "absolute" }}
-          onClick={() => {
-            setIsAdded(addGameToList());
-          }}
-        />
+        <div className="cursor-pointer">
+          <FcPlus
+            style={{ position: "absolute" }}
+            onClick={() => {
+              setIsAdded(addGameToList());
+            }}
+          />
+        </div>
       )}
     </div>
   );

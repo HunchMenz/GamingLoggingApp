@@ -149,12 +149,9 @@ function GamePage({ game }) {
               ")",
           }}
         >
-          <div className="flex flex-col md:flex-row pt-8">
-            <Poster key={game.game} game={game.game} imageClass={""} />
-            <div
-              className="w-full md:w-3/4 md:pl-4 lg:pl-8"
-              style={{ float: "left" }}
-            >
+          <div className={Style["poster-cover"]}>
+            <Poster key={game.game} game={game.game} imageClass={"bigImage"} />
+            <div className={Style["poster-content"]} style={{ float: "left" }}>
               <h1 className={`title is-1 ${Style.gameTitle}`}>{game.name}</h1>
               Rating: {game.game.rating.toFixed(0)}
             </div>
