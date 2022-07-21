@@ -13,34 +13,20 @@ function NavBar() {
   });
   return (
     <>
-      <div className="navbar bg-primary">
-        <div className="flex-1">
+      <div className="navbar bg-ghost">
+        <div>
           <Link href="/">
             <a
-              className="btn btn-ghost normal-case text-xl primary-content"
+              className="btn btn-ghost normal-case text-5xl primary-content"
               href="/"
             >
-              G-List
+              <p class="text-highlight">G</p><p className="text-primary">-List</p>
             </a>
           </Link>
         </div>
-        <div className="flex-none">
-          <div className="flex-none">
-            <ul className="menu menu-horizontal p-0 primary-focus">
-              <li>
-                <select data-choose-theme>
-                  <option seleced value>default</option>
-                  {themeValues.map((value) => (
-                    <option
-                      className="text-primary"
-                      key={value.toLowerCase()}
-                      value={value.toLowerCase()}
-                    >
-                      {value}
-                    </option>
-                  ))}
-                </select>
-              </li>
+        <div className="flex-1">
+          <div className="flex-1">
+            <ul className="menu menu-horizontal p-0 text-white text-xl font-bold">
               <li>
                 <Link href="/">
                   <a>Home</a>
@@ -55,6 +41,19 @@ function NavBar() {
                 <Link href="/">
                   <a>Page3</a>
                 </Link>
+              </li>
+              <li>
+                <select data-choose-theme>
+                  {themeValues.map((value) => (
+                    <option
+                      className="text-primary"
+                      key={value.toLowerCase()}
+                      value={value.toLowerCase()}
+                    >
+                      {value}
+                    </option>
+                  ))}
+                </select>
               </li>
             </ul>
           </div>
