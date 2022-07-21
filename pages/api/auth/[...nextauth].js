@@ -87,14 +87,13 @@ export default NextAuth({
   ],
   callbacks: {
     jwt: async ({ token, account, user }) => {
-      // console.log(account);
       user && (token.user = user);
       token.provider = account ? account.provider : token.provider;
       return token;
     },
     session: async ({ session, token }) => {
       const savedUser = {
-        id: token.user._id,
+        id: token.user.id,
         email: token.user.email,
         username: token.user.username,
         image: token.user.image,

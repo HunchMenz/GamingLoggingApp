@@ -90,10 +90,11 @@ a {
   /* position: relative; */
 }
 
-.grow {
+.zoom {
   transition: all 0.2s ease-in-out;
+  align-self: start;
 }
-.grow:hover {
+.zoom:hover {
   transform: scale(1.1);
 }
 
@@ -165,6 +166,20 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.video-responsive {
+  z-index: 1000;
+  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
+}
+
+.video-responsive iframe {
+  z-index: 1000;
+  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
+}
+
+.remove {
+  background-color: aliceblue;
 }
 
 .video-responsive {
