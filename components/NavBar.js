@@ -30,7 +30,7 @@ function NavBar() {
             <ul className="menu menu-horizontal p-0 primary-focus">
               <li>
                 <select data-choose-theme>
-                  <option value="">default</option>
+                  <option seleced value>default</option>
                   {themeValues.map((value) => (
                     <option
                       className="text-primary"
