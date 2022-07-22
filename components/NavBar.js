@@ -29,24 +29,28 @@ function NavBar() {
             <ul className="menu menu-horizontal p-0 text-white text-xl font-bold">
               <li>
                 <Link href="/testImages">
-                  <a className="bg-transparent hover:text-selected">
+                  <a className="bg-transparent hover:text-hovered focus:text-selected">
                     Test Images
                   </a>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <a className="bg-transparent hover:text-selected">Browse</a>
+                  <a className="bg-transparent hover:text-hovered focus:text-selected">
+                    Browse
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <a className="bg-transparent hover:text-selected">Users</a>
+                  <a className="bg-transparent hover:text-hovered focus:text-selected">
+                    Users
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <a className="bg-transparent hover:text-selected">
+                  <a className="bg-transparent hover:text-hovered focus:text-selected">
                     Game List
                   </a>
                 </Link>
@@ -69,7 +73,7 @@ function NavBar() {
               </li>
             </ul>
           </div>
-          <div className="dropdown dropdown-end text-white">
+          <div className="dropdown dropdown-end text-white mr-5">
             <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
                 <img src="https://placeimg.com/80/80/people" />
@@ -77,16 +81,19 @@ function NavBar() {
             </label>
             <ul
               tabIndex="0"
-              className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-blue-900 rounded-box w-52"
+              className="menu dropdown-content shadow bg-dropdown object-cover divide-y divide-blue-900 divide-10"
             >
               <li>
-                <a className="justify-between">Profile</a>
+                <a className="bg-transparent hover:text-hovered">Profile</a>
               </li>
               <li>
-                <a>Settings</a>
+                <a className="bg-transparent hover:text-hovered">Support</a>
               </li>
               <li>
-                <a>Logout</a>
+                <a className="bg-transparent hover:text-hovered">Settings</a>
+              </li>
+              <li>
+                <a className="bg-transparent hover:text-hovered">Logout</a>
               </li>
             </ul>
           </div>

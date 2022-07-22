@@ -10,7 +10,9 @@ module.exports = {
       colors: {
        'highlight': '#9747FF',
        'selected': '#BD89FF', 
-       'hover': '#1ABCFE'
+       'hovered': '#1ABCFE',
+       'dropdown': '#4A52FF',
+       'dark': '#0193FF'
       }
     },
   },
