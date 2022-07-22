@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import brand from "/public/derpLMAO.png";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { themeChange } from "theme-change";
 
@@ -14,13 +13,14 @@ function NavBar() {
   return (
     <>
       <div className="navbar bg-ghost">
-        <div>
+        <div className="text-left">
           <Link href="/">
             <a
-              className="btn btn-ghost normal-case text-5xl primary-content"
+              className="btn bg-transparent border-none hover:bg-transparent normal-case text-5xl primary-content"
               href="/"
             >
-              <p class="text-highlight">G</p><p className="text-primary">-List</p>
+              <p class="text-highlight">G</p>
+              <p className="text-primary">-List</p>
             </a>
           </Link>
         </div>
@@ -28,22 +28,34 @@ function NavBar() {
           <div className="flex-1">
             <ul className="menu menu-horizontal p-0 text-white text-xl font-bold">
               <li>
-                <Link href="/">
-                  <a>Home</a>
-                </Link>
-              </li>
-              <li>
                 <Link href="/testImages">
-                  <a>Test Images</a>
+                  <a className="bg-transparent hover:text-selected">
+                    Test Images
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <a>Page3</a>
+                  <a className="bg-transparent hover:text-selected">Browse</a>
                 </Link>
               </li>
               <li>
-                <select data-choose-theme>
+                <Link href="/">
+                  <a className="bg-transparent hover:text-selected">Users</a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/">
+                  <a className="bg-transparent hover:text-selected">
+                    Game List
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <select
+                  data-choose-theme
+                  className="bg-transparent hover:bg-primary"
+                >
                   {themeValues.map((value) => (
                     <option
                       className="text-primary"
