@@ -4,7 +4,7 @@ import Image from "next/image";
 function Poster({ image, imageClass = "smImage" }) {
   return (
     <div className="posterItem">
-      <div className={`image ${imageClass} is-3by4`}>
+      <div className={`image ${imageClass}`}>
         <Image
           src={
             image.cover

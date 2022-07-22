@@ -124,9 +124,10 @@ a {
 
 .swiper {
   margin-top: 50px;
+  margin-bottom: 50px;
   /* width: 90%; */
   height: 30%;
-  width: 75em;
+  width: 75%;
   /* min-width: 20%; */
 }
 
