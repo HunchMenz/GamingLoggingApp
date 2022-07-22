@@ -66,6 +66,7 @@ a {
   height: auto;
   /* max-height: 100%;
   max-width: 100%; */
+
 }
 
 .smImage {
@@ -168,6 +169,22 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+}
+
+.video-responsive {
+  z-index: 1000;
+  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
+}
+
+.video-responsive iframe {
+  z-index: 1000;
+  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
+}
+
+.remove {
+  background-color: aliceblue;
+
 }
 
 .video-responsive {
