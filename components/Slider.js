@@ -19,9 +19,9 @@ function Slider({ gameProp, sliderTitle = "" }) {
     <div>
       <h1 className="text-4xl m-6 font-bold underline decoration-blue-500 decoration-6">{`${sliderTitle}`}</h1>
       <Swiper
-        slidesPerView={5}
+        slidesPerView={4}
         spaceBetween={1}
-        slidesPerGroup={5}
+        slidesPerGroup={4}
         loop={true}
         loopFillGroupWithBlank={true}
         pagination={{

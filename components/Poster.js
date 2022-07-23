@@ -11,11 +11,11 @@ function Poster({ image, imageClass = "smImage" }) {
               ? "https:" + image.cover.url.replace("t_thumb", "t_720p")
               : "https://bulma.io/images/placeholders/128x128.png"
           }
-          layout="fill"
+          // layout="fill"
           objectFit="contain"
           // layout="intrinsic"
-          // width={540}
-          // height={720}
+          width={300}
+          height={400}
         />
       </div>
     </div>

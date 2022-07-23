@@ -1,4 +1,5 @@
 import React from "react";
+import FeaturedSlider from "../components/FeaturedSlider";
 import NavBar from "../components/NavBar";
 import Slider from "../components/Slider";
 import buildRequest from "../utils/buildRequest";
@@ -7,6 +8,8 @@ function myCarousel({ gameMasterList }) {
   return (
     <>
       <NavBar />
+
+      <FeaturedSlider gameProp={gameMasterList.gameList0} />
       <Slider gameProp={gameMasterList.gameList0} sliderTitle="Top Games" />
       <Slider
         gameProp={gameMasterList.gameList1}
@@ -19,7 +22,7 @@ function myCarousel({ gameMasterList }) {
       <Slider gameProp={gameMasterList.gameList6} sliderTitle="Puzzle" />
       <Slider gameProp={gameMasterList.gameList7} sliderTitle="Racing" />
 
-      {console.log(gameMasterList.gameList1)}
+      {/* {console.log(gameMasterList)} */}
     </>
   );
 }
@@ -27,10 +30,13 @@ function myCarousel({ gameMasterList }) {
 export async function getServerSideProps() {
   const fields = [
     "name",
+    "rating",
     "slug",
     "cover.url",
+    "summary",
     "genres",
     "genres.name",
+    "screenshots.url",
     "platforms.abbreviation",
     "platforms.platform_logo.url",
     "total_rating",
