@@ -16,8 +16,7 @@ import { Pagination } from "swiper";
 
 function FeaturedSlider({ gameProp, sliderTitle = "" }) {
   console.log("---------Game Prop------");
-  console.log(gameProp[0].screenshots);
-  console.log(gameProp[0].screenshots[0].url);
+  console.log(gameProp[1].summary);
 
   return (
     <div>
@@ -67,8 +66,14 @@ function FeaturedSlider({ gameProp, sliderTitle = "" }) {
                   </h2>
                   <div className="divider"></div>
                   <p className="text-white">
-                    {/* {game.summary} */}
-                    Click the button to watch on Jetflix app.
+                    {game.summary
+                      .substring(0, 200)
+                      .substring(
+                        0,
+                        game.summary.substring(0, 200).lastIndexOf(" ")
+                      ) + "..."}
+                    {/* Click the button to watch on Jetflix app. */}
+                    {/* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa */}
                   </p>
                 </div>
               </div>
