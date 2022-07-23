@@ -1,4 +1,5 @@
 import { getSession, useSession } from "next-auth/react";
+import { useState } from "react";
 import NavBar from "../../components/NavBar";
 import Poster from "../../components/Poster";
 
@@ -6,28 +7,48 @@ import Poster from "../../components/Poster";
 import { useGameListContext } from "../../context/gameList";
 
 function listPage() {
-  const { data: session } = useSession();
-  const { gameList } = useGameListContext();
+  // Possible statuses to sort by
+  const statusTypes = ["Backlog", "In Progress", "Finished", "Retired"];
+  const { user, gameList } = useGameListContext();
+  const [selectedStatus, setSelectedStatus] = useState(0);
 
-  if (session) {
+  if (user) {
     return (
       <>
         <NavBar />
-        Signed in as {session.user.email} <br />
+        Signed in as {user.email} <br />
         <h1>Welcome to the List Page!</h1>
-        <div className="posterContainer">
-          <div className="poster">
-            {gameList.map((game) => {
-              return (
-                <div class="card w-96 bg-base-100 shadow-xl m-2">
-                  <figure>
-                    <Poster key={game.id} game={game} />
-                  </figure>
-                </div>
-              );
-            })}
-          </div>
+        <div className="tabs mt-10 justify-center">
+          <div className="flex-1 border-b border-gray-200"></div>
+          {statusTypes.map((status) => (
+            <a
+              className={`tab tab-lg tab-lifted ${
+                selectedStatus === statusTypes.indexOf(status) && "tab-active"
+              }`}
+              onClick={() => setSelectedStatus(statusTypes.indexOf(status))}
+            >
+              {status}
+            </a>
+          ))}
+          <div className="flex-1 border-b border-gray-200"></div>
         </div>
+        {gameList[selectedStatus] ? (
+          <div className="posterContainer">
+            <div className="poster">
+              {gameList[selectedStatus].map((game) => {
+                return (
+                  <div className="card w-96 bg-base-100 shadow-xl m-2">
+                    <figure>
+                      <Poster key={game.id} game={game} />
+                    </figure>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ) : (
+          ""
+        )}
       </>
     );
   }

@@ -49,13 +49,27 @@ export default async function handler(req, res) {
 
     const query = "fields " + fields.join(",") + ";" + filter;
 
-    const response = await buildRequest("igdb", "games", query);
+    const gamedata = await buildRequest("igdb", "games", query);
+
+    // Sort gamedata list according to dateadded and add game status
+    const sortedList = gamedata
+      ?.sort((a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id))
+      .map((game, idx) => {
+        // Can be buggy, but shouldn't be. So long as gameID never changes, this should work
+        if (game.id === userList[idx].gameID)
+          game.status = userList[idx].status;
+        return game;
+      });
+
+    // Sort game list into "status bins"
+    let statusBins = [];
+    statusTranslation.forEach((statusType, idx) => {
+      statusBins.push(sortedList.filter((game) => game.status === statusType));
+    });
 
     return res.status(200).json({
       message: "User list retrieved!",
-      gameList: response?.sort(
-        (a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id)
-      ),
+      gameList: statusBins,
     });
   } else {
     return res.status(401).json({
