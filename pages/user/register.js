@@ -37,9 +37,7 @@ function Register({ providers, csrfToken }) {
         email: email,
         password: password,
       };
-
-      console.log(options);
-
+      
       const res = await signIn("credentials", options);
       if (res?.error) {
         setMessage(res.error);
