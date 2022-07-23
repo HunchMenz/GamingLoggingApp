@@ -15,12 +15,18 @@ function Poster({ game, imageClass = "smImage" }) {
   const { user, gameList } = useGameListContext();
   const [isAdded, setIsAdded] = useState(false);
 
+  console.log(gameList.flat(2)[0]);
+
   useEffect(() => {
-    gameList.forEach((g) => {
-      if (g.id === game.id) {
+    const flattend = gameList.flat(2);
+    for (const i = 0; i < flattend.length; i++) {
+      if (flattend[i].id === game.id) {
         setIsAdded(true);
+        break;
       }
-    });
+    }
+
+    console.log(isAdded);
   }, [gameList, isAdded]);
 
   const addGameToList = async () => {
