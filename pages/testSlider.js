@@ -132,6 +132,29 @@ export async function getServerSideProps() {
     gameList7: response_7,
   };
 
+  /** Jhanava's Solution! (not doing your work chris) ** Make sure to import request **
+  let p = [];
+  let test = [];
+
+  for (const listPromiseObj in requests.home) {
+    p.push(requests.home[listPromiseObj].promise);
+    test.push({ title: requests.home[listPromiseObj].title });
+  }
+
+  console.log(p);
+  const pResponse = await Promise.all(p);
+
+  const test2 = pResponse.map((e, idx) => {
+    return { title: test[idx], gameList: e };
+  });
+
+  console.log(test2);
+
+  const response = test2;
+  return {
+    props: { gameList: response },
+  };
+*/
   return {
     props: {
       gameMasterList: gameMasterList,
