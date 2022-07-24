@@ -104,7 +104,7 @@ a {
   height: 400px;
 } */
 
-.hope {
+.cardLength {
   width: 700px;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -200,24 +200,4 @@ a {
 
 .remove {
   background-color: aliceblue;
-}
-
-.video-responsive {
-  z-index: 1000;
-  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
-}
-
-.video-responsive iframe {
-  z-index: 1000;
-  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
-}
-
-.video-responsive {
-  z-index: 1000;
-  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
-}
-
-.video-responsive iframe {
-  z-index: 1000;
-  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
 }

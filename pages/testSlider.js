@@ -21,8 +21,6 @@ function myCarousel({ gameMasterList }) {
       <Slider gameProp={gameMasterList.gameList5} sliderTitle="Platform" />
       <Slider gameProp={gameMasterList.gameList6} sliderTitle="Puzzle" />
       <Slider gameProp={gameMasterList.gameList7} sliderTitle="Racing" />
-
-      {/* {console.log(gameMasterList)} */}
     </>
   );
 }
@@ -32,6 +30,7 @@ export async function getServerSideProps() {
     "name",
     "rating",
     "slug",
+    "cover",
     "cover.url",
     "summary",
     "genres",

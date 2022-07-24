@@ -45,7 +45,7 @@ function Slider({ gameProp, sliderTitle = "" }) {
                 }}
               >
                 <a>
-                  <Poster key={game.id} image={game} />
+                  <Poster key={game.id} game={game} />
                 </a>
               </Link>
             </div>

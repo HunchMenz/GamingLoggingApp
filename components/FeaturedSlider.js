@@ -8,20 +8,21 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/scrollbar";
+import "swiper/css/effect-fade";
 
 // import required modules
-import { Pagination } from "swiper";
+import { Pagination, EffectFade, Autoplay } from "swiper";
 
 function FeaturedSlider({ gameProp, sliderTitle = "" }) {
-  console.log("---------Game Prop------");
-  console.log(gameProp[1].summary);
-
   return (
     <div>
       <Swiper
         loop={true}
+        effect={"fade"}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
         pagination={{
           dynamicBullets: true,
         }}
@@ -32,7 +33,7 @@ function FeaturedSlider({ gameProp, sliderTitle = "" }) {
           //   "--swiper-pagination-bullet-size": "16px",
           //   "--swiper-pagination-bullet-horizontal-gap": "6px",
         }}
-        modules={[Pagination]}
+        modules={[Pagination, EffectFade, Autoplay]}
         className="featuredSwiper"
       >
         {gameProp.map((game) => (
@@ -45,7 +46,7 @@ function FeaturedSlider({ gameProp, sliderTitle = "" }) {
                 ")",
             }}
           >
-            <div className="hope">
+            <div className="cardLength">
               <div className="card card-side backdrop-blur-xl backdrop-brightness-150">
                 <Link
                   href={{
@@ -54,7 +55,7 @@ function FeaturedSlider({ gameProp, sliderTitle = "" }) {
                   }}
                 >
                   <a>
-                    <Poster key={game.id} image={game} />
+                    <Poster key={game.id} game={game} />
                   </a>
                 </Link>
                 <div className="card-body">
@@ -65,15 +66,13 @@ function FeaturedSlider({ gameProp, sliderTitle = "" }) {
                     Rating: {game.rating.toFixed(0)}
                   </h2>
                   <div className="divider"></div>
-                  <p className="text-white">
+                  <p className="text-white text-left">
                     {game.summary
                       .substring(0, 200)
                       .substring(
                         0,
                         game.summary.substring(0, 200).lastIndexOf(" ")
                       ) + "..."}
-                    {/* Click the button to watch on Jetflix app. */}
-                    {/* aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa */}
                   </p>
                 </div>
               </div>
