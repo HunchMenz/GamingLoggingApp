@@ -37,7 +37,7 @@ function Slider({ gameProp, sliderTitle = "" }) {
       >
         {gameProp.map((game) => (
           <SwiperSlide>
-            <div class="card">
+            <div className="card">
               <Link
                 href={{
                   pathname: "/games/[name]",
