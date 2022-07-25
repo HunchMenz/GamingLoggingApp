@@ -7,6 +7,7 @@ body {
   padding: 0;
   margin: 0;
   font-size: 14px;
+  background-color: white !important;
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
@@ -98,6 +99,18 @@ a {
   transform: scale(1.1);
 }
 
+/* .card {
+  width: 300px;
+  height: 400px;
+} */
+
+.cardLength {
+  width: 700px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  /* white-space: nowrap; */
+}
+
 .navbar {
   /* border: 2px solid rgb(0, 89, 255);
   border-radius: 10px; */
@@ -118,10 +131,23 @@ a {
 
 .swiper {
   margin-top: 50px;
+  margin-bottom: 50px;
   /* width: 90%; */
   height: 30%;
-  width: 75em;
+  width: 75%;
   /* min-width: 20%; */
+}
+
+.featuredSwiper {
+  margin-top: 0px;
+  width: 100%;
+  height: 500px;
+}
+
+.divider {
+  background-color: white;
+  border-radius: 25px;
+  height: 5px;
 }
 
 .swiper-slide {
@@ -174,6 +200,7 @@ a {
 
 .remove {
   background-color: aliceblue;
+<<<<<<< HEAD
 }
 
 .video-responsive {
@@ -184,4 +211,6 @@ a {
 .video-responsive iframe {
   z-index: 1000;
   /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
+=======
+>>>>>>> 75de324cf9149e2c6417e2072e6e8f8faf3ac01e
 }
