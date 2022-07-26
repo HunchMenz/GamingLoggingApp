@@ -1,18 +1,33 @@
 import { getSession, useSession } from "next-auth/react";
 import NavBar from "../../components/NavBar";
-import dbConnect from "../../utils/lib/dbConnect";
-import Games from "../../database/user_data/model/Games";
+import Poster from "../../components/Poster";
 
-function listPage({ addedGames }) {
+// Context
+import { useGameListContext } from "../../context/gameList";
+
+function listPage() {
   const { data: session } = useSession();
+  const { gameList } = useGameListContext();
 
   if (session) {
-    console.log(addedGames);
     return (
       <>
         <NavBar />
         Signed in as {session.user.email} <br />
         <h1>Welcome to the List Page!</h1>
+        <div className="posterContainer">
+          <div className="poster">
+            {gameList.map((game) => {
+              return (
+                <div class="card w-96 bg-base-100 shadow-xl m-2">
+                  <figure>
+                    <Poster key={game.id} game={game} />
+                  </figure>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </>
     );
   }
@@ -31,8 +46,6 @@ export async function getServerSideProps(context) {
     return;
   }
 
-  await dbConnect("user_data");
-
   const currUser = session.user;
 
   // Verify req body
@@ -41,18 +54,10 @@ export async function getServerSideProps(context) {
       .status(400)
       .json({ message: "Error in request to retrieve user list." });
   }
-  // Status Translation:
-  const statusTranslation = ["Backlog", "In Progress", "Finished", "Retired"];
-  let userList = await Games.find(
-    { userID: currUser.id },
-    "gameID status dateAdded dateRemoved"
-  ).lean();
 
-  userList.forEach((game) => {
-    game["status"] = statusTranslation[game["status"]];
-  });
-
-  return { props: { addedGames: JSON.stringify(userList) } };
+  return {
+    props: {},
+  };
 }
 
 export default listPage;

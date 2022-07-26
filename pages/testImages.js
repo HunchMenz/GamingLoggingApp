@@ -16,17 +16,21 @@ function Test({ gameList }) {
         <div className="poster">
           {gameList.map((game) => {
             return (
-              <Link
-                key={game.id}
-                href={{
-                  pathname: "/games/[name]",
-                  query: { name: game.slug },
-                }}
-              >
-                <a>
-                  <Poster image={game} imageClass={"grow smImage"} />
-                </a>
-              </Link>
+              <div className="card w-96 bg-base-100 shadow-xl m-2 zoom">
+                <figure>
+                  <Link
+                    key={game.id}
+                    href={{
+                      pathname: "/games/[name]",
+                      query: { name: game.slug },
+                    }}
+                  >
+                    <a>
+                      <Poster game={game} imageClass={"smImage"} />
+                    </a>
+                  </Link>
+                </figure>
+              </div>
             );
           })}
         </div>
