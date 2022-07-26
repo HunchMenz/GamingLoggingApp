@@ -200,17 +200,4 @@ a {
 
 .remove {
   background-color: aliceblue;
-<<<<<<< HEAD
-}
-
-.video-responsive {
-  z-index: 1000;
-  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
-}
-
-.video-responsive iframe {
-  z-index: 1000;
-  /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
-=======
->>>>>>> 75de324cf9149e2c6417e2072e6e8f8faf3ac01e
 }
