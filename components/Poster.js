@@ -66,7 +66,9 @@ function Poster({ game, imageClass = "smImage" }) {
         />
       </div>
       {isAdded ? (
-        <IconContext.Provider value={{ color: "black", className: "remove" }}>
+        <IconContext.Provider
+          value={{ color: "black", className: "removeButton" }}
+        >
           <div className="cursor-pointer">
             <CgPlayListRemove style={{ position: "absolute" }} />
           </div>
