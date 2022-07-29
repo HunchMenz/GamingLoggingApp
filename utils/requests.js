@@ -2,7 +2,17 @@ import buildRequest from "./buildRequest";
 // TODO: define each type of requests
 export default {
   home: {
+    TopGames: {
+      id: 0,
+      title: "Top Games",
+      promise: buildRequest(
+        "igdb",
+        "games",
+        "fields name, slug, cover.url; sort aggregated_rating_count desc; where aggregated_rating >= 90; limit 20;"
+      ),
+    },
     PointandClick: {
+      id: 2,
       title: "Point-and-Click",
       promise: buildRequest(
         "igdb",
@@ -11,6 +21,7 @@ export default {
       ),
     },
     Fighting: {
+      id: 4,
       title: "Fighting",
       promise: buildRequest(
         "igdb",
@@ -19,6 +30,7 @@ export default {
       ),
     },
     Shooter: {
+      id: 5,
       title: "Shooter",
       promise: buildRequest(
         "igdb",
@@ -27,6 +39,7 @@ export default {
       ),
     },
     Music: {
+      id: 7,
       title: "Music",
       promise: buildRequest(
         "igdb",
@@ -35,6 +48,7 @@ export default {
       ),
     },
     Platform: {
+      id: 8,
       title: "Platform",
       promise: buildRequest(
         "igdb",
@@ -42,8 +56,9 @@ export default {
         "fields name, slug, cover.url; sort aggregated_rating_count desc; where aggregated_rating >= 90 & genres = (8); limit 20;"
       ),
     },
-    Puzzel: {
-      title: "Puzzel",
+    Puzzle: {
+      id: 9,
+      title: "Puzzle",
       promise: buildRequest(
         "igdb",
         "games",
@@ -51,6 +66,7 @@ export default {
       ),
     },
     Racing: {
+      id: 10,
       title: "Racing",
       promise: buildRequest(
         "igdb",
@@ -59,6 +75,7 @@ export default {
       ),
     },
     RTS: {
+      id: 11,
       title: "Real Time Strategy",
       promise: buildRequest(
         "igdb",
@@ -67,6 +84,7 @@ export default {
       ),
     },
     RPG: {
+      id: 12,
       title: "Role Playing Game",
       promise: buildRequest(
         "igdb",
@@ -75,6 +93,7 @@ export default {
       ),
     },
     Simulator: {
+      id: 13,
       title: "Simulator",
       promise: buildRequest(
         "igdb",
@@ -83,6 +102,7 @@ export default {
       ),
     },
     Sport: {
+      id: 14,
       title: "Sport",
       promise: buildRequest(
         "igdb",
@@ -91,6 +111,7 @@ export default {
       ),
     },
     Strategy: {
+      id: 15,
       title: "Strategy",
       promise: buildRequest(
         "igdb",
@@ -99,6 +120,7 @@ export default {
       ),
     },
     TurnBased: {
+      id: 16,
       title: "Turn-Based Strategy",
       promise: buildRequest(
         "igdb",
@@ -107,6 +129,7 @@ export default {
       ),
     },
     Tactical: {
+      id: 24,
       title: "Tactical",
       promise: buildRequest(
         "igdb",
@@ -115,6 +138,7 @@ export default {
       ),
     },
     QuizTrivia: {
+      id: 26,
       title: "Quiz/Trivia",
       promise: buildRequest(
         "igdb",
@@ -123,6 +147,7 @@ export default {
       ),
     },
     HackandSlash: {
+      id: 25,
       title: "Hack and Slash",
       promise: buildRequest(
         "igdb",
@@ -131,6 +156,7 @@ export default {
       ),
     },
     // Pinball: {
+    //   id: 30,
     //   title: "Pinball",
     //   promise: buildRequest(
     //     "igdb",
@@ -139,6 +165,7 @@ export default {
     //   ),
     // },
     Adventure: {
+      id: 31,
       title: "Adventure",
       promise: buildRequest(
         "igdb",
@@ -147,6 +174,7 @@ export default {
       ),
     },
     Arcade: {
+      id: 33,
       title: "Arcade",
       promise: buildRequest(
         "igdb",
@@ -155,6 +183,7 @@ export default {
       ),
     },
     VisualNovel: {
+      id: 34,
       title: "Visual Novel",
       promise: buildRequest(
         "igdb",
@@ -163,6 +192,7 @@ export default {
       ),
     },
     Indie: {
+      id: 32,
       title: "Indie",
       promise: buildRequest(
         "igdb",
@@ -171,6 +201,7 @@ export default {
       ),
     },
     CardBoard: {
+      id: 35,
       title: "Card and Board Games",
       promise: buildRequest(
         "igdb",
@@ -179,6 +210,7 @@ export default {
       ),
     },
     // MOBA: {
+    //   id: 36,
     //   title: "MOBA",
     //   promise: buildRequest(
     //     "igdb",
