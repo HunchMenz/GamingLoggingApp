@@ -1,4 +1,5 @@
 import React from "react";
+import FeaturedSlider from "../components/FeaturedSlider";
 import NavBar from "../components/NavBar";
 import Slider from "../components/Slider";
 import requests from "../utils/requests";
