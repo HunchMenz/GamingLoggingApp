@@ -72,10 +72,15 @@ function NavBar() {
             </ul>
           </div>
           {user ? (
-            <div className="dropdown dropdown-end text-white mr-5">
+            <div className="dropdown dropdown-end mr-5">
               <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
-                  <img src={user.image} />
+                  <Image
+                    src={user.image || "https://via.placeholder.com/150"}
+                    layout="fill"
+                    objectFit="contain"
+                    className="rounded-full"
+                  />
                 </div>
               </label>
               <ul
