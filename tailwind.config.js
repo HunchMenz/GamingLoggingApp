@@ -6,6 +6,13 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        highlight: "#9747FF",
+        selected: "#BD89FF",
+        hovered: "#1ABCFE",
+        dropdown: "#4A52FF",
+        dark: "#0193FF",
+      },
       textDecorationThickness: {
         6: "6px",
       },
@@ -13,6 +20,6 @@ module.exports = {
   },
   plugins: [require("daisyui")],
   daisyui: {
-    themes: false,
+    themes: ["cupcake", "bumblebee", "cyberpunk", "light", "dark"],
   },
 };
