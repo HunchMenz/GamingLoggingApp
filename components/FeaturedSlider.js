@@ -8,10 +8,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 
 // import required modules
-import { Pagination, EffectFade, Autoplay } from "swiper";
+import { Pagination, EffectFade, Autoplay, Navigation } from "swiper";
 
 function FeaturedSlider({ gameProp, sliderTitle = "" }) {
   return (
@@ -24,8 +25,10 @@ function FeaturedSlider({ gameProp, sliderTitle = "" }) {
           disableOnInteraction: false,
         }}
         pagination={{
+          clickable: true,
           dynamicBullets: true,
         }}
+        navigation={true}
         style={{
           "--swiper-pagination-color": "rgb(29, 78, 216)",
           "--swiper-pagination-bullet-inactive-color": "rgb(255, 255, 255)",
@@ -33,7 +36,7 @@ function FeaturedSlider({ gameProp, sliderTitle = "" }) {
           //   "--swiper-pagination-bullet-size": "16px",
           //   "--swiper-pagination-bullet-horizontal-gap": "6px",
         }}
-        modules={[Pagination, EffectFade, Autoplay]}
+        modules={[Pagination, EffectFade, Autoplay, Navigation]}
         className="featuredSwiper"
       >
         {gameProp.map((game) => (

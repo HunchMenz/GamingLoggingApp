@@ -144,6 +144,22 @@ a {
   height: 500px;
 }
 
+.featuredSwiper:hover > .swiper-button-next {
+  display: block !important;
+}
+
+.featuredSwiper:hover > .swiper-button-prev {
+  display: block !important;
+}
+
+.swiper-button-next {
+  display: none !important;
+}
+
+.swiper-button-prev {
+  display: none !important;
+}
+
 .divider {
   background-color: white;
   border-radius: 25px;
