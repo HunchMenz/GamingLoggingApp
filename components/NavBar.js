@@ -11,6 +11,7 @@ function NavBar() {
   const { user } = useGameListContext();
 
   return (
+    //Make the derk mode detect :)
     <>
       <div className="navbar bg-base-100">
         <div className="flex-none">
