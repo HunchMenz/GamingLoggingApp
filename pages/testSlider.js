@@ -9,7 +9,13 @@ function myCarousel({ gameMasterList }) {
     <>
       <NavBar />
       {gameMasterList.map((obj) => {
-        return (
+        return obj.id === 0 ? (
+          <FeaturedSlider
+            key={`slider-genre-${obj.id}`}
+            gameProp={obj.gameList}
+            sliderTitle={obj.title}
+          />
+        ) : (
           <Slider
             key={`slider-genre-${obj.id}`}
             gameProp={obj.gameList}

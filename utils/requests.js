@@ -8,7 +8,7 @@ export default {
       promise: buildRequest(
         "igdb",
         "games",
-        "fields name, slug, cover.url; sort aggregated_rating_count desc; where aggregated_rating >= 90; limit 20;"
+        "fields name, slug, cover.url, screenshots.url, rating, summary; sort aggregated_rating_count desc; where aggregated_rating >= 90; limit 20;"
       ),
     },
     PointandClick: {
