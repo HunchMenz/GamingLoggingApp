@@ -152,11 +152,11 @@ a {
   display: block !important;
 }
 
-.swiper-button-next {
+.featuredSwiper > .swiper-button-next {
   display: none !important;
 }
 
-.swiper-button-prev {
+.featuredSwiper > .swiper-button-prev {
   display: none !important;
 }
 

@@ -15,6 +15,10 @@ import "swiper/css/effect-fade";
 import { Pagination, EffectFade, Autoplay, Navigation } from "swiper";
 
 function FeaturedSlider({ gameProp, sliderTitle = "" }) {
+  //   console.log("===========================================");
+  //   console.log(gameProp);
+  //   console.log("===========================================");
+
   return (
     <div>
       <Swiper

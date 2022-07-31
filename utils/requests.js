@@ -8,7 +8,7 @@ export default {
       promise: buildRequest(
         "igdb",
         "games",
-        "fields name, slug, cover.url; sort aggregated_rating_count desc; where aggregated_rating >= 90; limit 20;"
+        "fields name, slug, cover.url, screenshots.url, rating, summary; sort aggregated_rating_count desc; where aggregated_rating >= 90; limit 20;"
       ),
     },
     PointandClick: {
@@ -137,15 +137,15 @@ export default {
         "fields name, slug, cover.url; sort aggregated_rating_count desc; where aggregated_rating >= 90 & genres = (24); limit 20;"
       ),
     },
-    QuizTrivia: {
-      id: 26,
-      title: "Quiz/Trivia",
-      promise: buildRequest(
-        "igdb",
-        "games",
-        "fields name, slug, cover.url; sort aggregated_rating_count desc; where aggregated_rating >= 90 & genres = (26); limit 20;"
-      ),
-    },
+    // QuizTrivia: {
+    //   id: 26,
+    //   title: "Quiz/Trivia",
+    //   promise: buildRequest(
+    //     "igdb",
+    //     "games",
+    //     "fields name, slug, cover.url; sort aggregated_rating_count desc; where aggregated_rating >= 90 & genres = (26); limit 20;"
+    //   ),
+    // },
     HackandSlash: {
       id: 25,
       title: "Hack and Slash",

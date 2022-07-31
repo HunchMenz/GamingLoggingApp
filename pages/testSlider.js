@@ -8,6 +8,7 @@ function myCarousel({ gameMasterList }) {
   return (
     <>
       <NavBar />
+      <FeaturedSlider gameProp={gameMasterList[0].gameList} />
       {gameMasterList.map((obj) => {
         return (
           <Slider
