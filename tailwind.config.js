@@ -16,6 +16,9 @@ module.exports = {
       textDecorationThickness: {
         6: "6px",
       },
+      height: {
+        '128': '32rem',
+      },
     },
   },
   plugins: [require("daisyui")],

@@ -38,6 +38,32 @@ function Login({ providers, csrfToken }) {
       <NavBar />
       <h1 className="title is-1">Login Page</h1>
       <div className="centered">
+        <div className="card shadow-xl bg-white w-96 h-[30em]">
+          <div className="card-body">
+            <div className="card-title justify-center pt-5 pb-3">
+              <h1>LOGIN</h1>
+            </div>
+            <hr></hr>
+            <div class="flex flex-col w-full pt-3">
+              <div className="text-center">
+                <p >Email</p>
+                <input type="text" className="input bg-black input-bordered w-full input-xl text-white"></input>
+              </div>
+              <div className="text-center mt-5">
+                <p >Password</p>
+                <input type="text" className="input bg-black input-bordered w-full input-xl text-white"></input>
+              </div>
+              <div className="divider">OR</div>
+
+              <div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <div className="centered">
         <div className="card" style={{ borderColor: "rgb(215 225 223)" }}>
           <div className="notification is-primary">
             <h1 className="title is-3">Login</h1>
@@ -117,8 +143,8 @@ function Login({ providers, csrfToken }) {
             </form>
           </div>
         </div>
-      </div>
-    </div>
+      </div> */}
+    </div >
   );
 }
 
