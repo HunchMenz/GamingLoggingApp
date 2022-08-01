@@ -9,16 +9,16 @@ function myCarousel({ gameMasterList }) {
   return (
     <>
       <NavBar />
-      {gameMasterList.map((obj) => {
+      {gameMasterList.map((obj, idx) => {
         return obj.name === "Top Games" ? (
           <FeaturedSlider
-            key={`slider-genre-${obj.id}`}
+            key={`slider-genre-${obj.idx}`}
             gameProp={obj.result}
             sliderTitle={obj.name}
           />
         ) : (
           <Slider
-            key={`slider-genre-${obj.id}`}
+            key={`slider-genre-${obj.idx}`}
             gameProp={obj.result}
             sliderTitle={obj.name}
           />
@@ -29,44 +29,27 @@ function myCarousel({ gameMasterList }) {
 }
 
 export async function getServerSideProps() {
-  // // Array of Promises
-  // let p = [];
-  // // Array of Carousel data objects
-  // let data = [];
-
-  // // Loop through all object requests under home.
-  // for (const listPromiseObj in requests.home) {
-  //   // Save each promise to the promise array
-  //   p.push(requests.home[listPromiseObj].promise);
-  //   // Add Carousel Title to Titles array
-  //   data.push({
-  //     id: requests.home[listPromiseObj].id,
-  //     title: requests.home[listPromiseObj].title,
-  //   });
-  // }
-
-  // // Resolve all Promises in Promise array in parallel
-  // const pResponse = await Promise.all(p);
-
-  // // Create new Array of Carousel data objects
-  // const carousels = pResponse.map((list, idx) => {
-  //   return { id: data[idx].id, title: data[idx].title, gameList: list };
-  // });
-
-  let multiQueryBody = "";
+  //** NOTE: Multiquery endpoint only allows 10 queries per call */
+  let multiQueryBody1 = "";
+  let multiQueryBody2 = "";
   let i = 0;
-  for (const listPromiseObj in requests.home2) {
+  for (const listPromiseObj in requests.home) {
     i++;
-    multiQueryBody = multiQueryBody.concat(
-      `query games "${requests.home2[listPromiseObj].title}" { ${requests.home2[listPromiseObj].query} };\n`
-    );
-
-    if (i == 10) {
-      break;
-    }
+    if (i <= 10) {
+      multiQueryBody1 = multiQueryBody1.concat(
+        `query games "${requests.home[listPromiseObj].title}" { ${requests.home[listPromiseObj].query} };\n`
+      );
+    } else if (i > 10 && i <= 20) {
+      multiQueryBody2 = multiQueryBody2.concat(
+        `query games "${requests.home[listPromiseObj].title}" { ${requests.home[listPromiseObj].query} };\n`
+      );
+    } else break;
   }
 
-  const response = await buildRequest("igdb", "multiquery", multiQueryBody);
+  const response1 = await buildRequest("igdb", "multiquery", multiQueryBody1);
+  const response2 = await buildRequest("igdb", "multiquery", multiQueryBody2);
+
+  const response = [...response1, ...response2];
 
   return {
     props: {
