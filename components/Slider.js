@@ -35,10 +35,21 @@ function Slider({ gameProp, sliderTitle = "" }) {
         modules={[Pagination, Navigation, Scrollbar]}
         className="mySwiper"
       >
-        {gameProp.map((game) => (
-          <>
-            <SliderItem key={`SliderItem-${game.id}`} game={game} />
-          </>
+        {gameProp.map((game, idx) => (
+          <SwiperSlide key={`slide-${idx}`}>
+            <div class="card">
+              <Link
+                href={{
+                  pathname: "/games/[name]",
+                  query: { name: game.slug },
+                }}
+              >
+                <a>
+                  <Poster key={game.id} game={game} />
+                </a>
+              </Link>
+            </div>
+          </SwiperSlide>
         ))}
       </Swiper>
     </div>

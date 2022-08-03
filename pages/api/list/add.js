@@ -1,8 +1,5 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import Games from "../../../database/user_data/model/Games";
-import { getCurrentDate } from "../../../utils/getCurrentDate";
 
-// TODO: Write API that adds a game to a users game list */
 export default async function handler(req, res) {
   // Status Translation:
   const status = ["Backlog", "In Progress", "Finished", "Retired"];
