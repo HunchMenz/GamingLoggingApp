@@ -48,12 +48,10 @@ function PosterButtonCard({ game }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userID, gameID, action: "remove" }),
+      body: JSON.stringify({ userID, gameID, updateAction: 0 }),
     });
 
-    let { message, doc } = await res.json();
-
-    console.log(message);
+    let { doc } = await res.json();
 
     if (doc) {
       return true;

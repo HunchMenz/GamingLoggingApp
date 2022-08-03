@@ -15,7 +15,6 @@ import Poster from "../components/Poster";
 import PosterButtonCard from "./PosterButtonCard";
 
 function SliderItem({ game }) {
-  const [showListOptions, setShowListOptions] = useState(false);
   return (
     <SwiperSlide>
       <div className="card image-full carousel-poster">
