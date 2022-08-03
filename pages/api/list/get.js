@@ -12,7 +12,10 @@ export default async function handler(req, res) {
 
     // Retrieve user list by user id
     // ** the lean function returns the query result as a POJ object
-    let userList = await Games.find({ userID: body.userID }, "gameID status")
+    let userList = await Games.find(
+      { userID: body.userID, dateRemoved: null },
+      "gameID status"
+    )
       .sort({ dateAdded: 1 })
       .lean();
 

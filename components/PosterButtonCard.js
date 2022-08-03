@@ -32,20 +32,33 @@ function PosterButtonCard({ game }) {
       body: JSON.stringify({ userID, gameID, status }),
     });
 
-    // Status Translation:
-    const statusTranslation = ["Backlog", "In Progress", "Finished", "Retired"];
+    let { doc } = await res.json();
 
-    let { message } = await res.json();
-
-    if (
-      message ===
-      `Game ID ${gameID} successfully added to user's ${statusTranslation[status]} list.`
-    ) {
+    if (doc) {
       return true;
     } else return false;
   };
 
-  const removeGameFromList = async () => {};
+  const removeGameFromList = async () => {
+    const userID = user.id;
+    const gameID = game.id;
+
+    const res = await fetch("/api/list/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userID, gameID, action: "remove" }),
+    });
+
+    let { message, doc } = await res.json();
+
+    console.log(message);
+
+    if (doc) {
+      return true;
+    } else return false;
+  };
 
   return (
     <div className="absolute z-10 top-2.5 right-0">
@@ -54,7 +67,7 @@ function PosterButtonCard({ game }) {
           <button
             className="btn"
             onClick={() => {
-              addGameToList(0);
+              setIsAdded(addGameToList(0));
               setShowListOptions(!showListOptions);
             }}
           >
@@ -63,7 +76,7 @@ function PosterButtonCard({ game }) {
           <button
             className="btn"
             onClick={() => {
-              addGameToList(1);
+              setIsAdded(addGameToList(1));
               setShowListOptions(!showListOptions);
             }}
           >
@@ -72,7 +85,7 @@ function PosterButtonCard({ game }) {
           <button
             className="btn"
             onClick={() => {
-              addGameToList(2);
+              setIsAdded(addGameToList(2));
               setShowListOptions(!showListOptions);
             }}
           >
@@ -81,7 +94,7 @@ function PosterButtonCard({ game }) {
           <button
             className="btn"
             onClick={() => {
-              addGameToList(3);
+              setIsAdded(addGameToList(3));
               setShowListOptions(!showListOptions);
             }}
           >
@@ -90,7 +103,10 @@ function PosterButtonCard({ game }) {
         </div>
       ) : isAdded ? (
         <IconContext.Provider value={{ color: "darkred" }}>
-          <IoIosRemoveCircle className="w-6 h-6 m-1" />
+          <IoIosRemoveCircle
+            className="w-6 h-6 m-1"
+            onClick={() => setIsAdded(!removeGameFromList())}
+          />
         </IconContext.Provider>
       ) : (
         <IconContext.Provider value={{ color: "#0055FF" }}>
