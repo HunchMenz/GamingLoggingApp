@@ -14,6 +14,7 @@ import buildRequest from "../utils/buildRequest";
 import ButtonCard from "../components/ButtonCard";
 import PosterButtonCard from "../components/PosterButtonCard";
 import Slider from "../components/Slider";
+import SliderItem from "../components/SliderItem";
 
 export default function Home({ gameMasterList }) {
   return (

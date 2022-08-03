@@ -12,6 +12,7 @@ import { Pagination, Navigation, Scrollbar } from "swiper";
 
 // import components
 import SliderItem from "./SliderItem";
+import PosterButtonCard from "./PosterButtonCard";
 
 function Slider({ gameProp, sliderTitle = "" }) {
   return (
@@ -35,7 +36,9 @@ function Slider({ gameProp, sliderTitle = "" }) {
         className="mySwiper"
       >
         {gameProp.map((game) => (
-          <SliderItem game={game} />
+          <>
+            <SliderItem key={`SliderItem-${game.id}`} game={game} />
+          </>
         ))}
       </Swiper>
     </div>

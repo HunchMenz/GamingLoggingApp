@@ -15,15 +15,11 @@ import Poster from "../components/Poster";
 import PosterButtonCard from "./PosterButtonCard";
 
 function SliderItem({ game }) {
-  const [isHover, setIsHover] = useState(false);
-
+  const [showListOptions, setShowListOptions] = useState(false);
   return (
     <SwiperSlide>
-      <div
-        class="card"
-        onMouseEnter={() => setIsHover(game)}
-        onMouseLeave={() => setIsHover(false)}
-      >
+      <div className="card image-full carousel-poster">
+        <PosterButtonCard game={game} />
         <Link
           href={{
             pathname: "/games/[name]",
@@ -34,11 +30,6 @@ function SliderItem({ game }) {
             <Poster key={game.id} game={game} />
           </a>
         </Link>
-        {isHover ? (
-          <PosterButtonCard style={{ position: "absolute" }} game={isHover} />
-        ) : (
-          ""
-        )}
       </div>
     </SwiperSlide>
   );

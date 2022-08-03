@@ -196,3 +196,8 @@ a {
 .listButton {
   background-color: #000066;
 }
+
+.card.image-full.carousel-poster::before {
+  /* --tw-bg-opacity: 0; */
+  content: none;
+}

@@ -12,10 +12,7 @@ export default async function handler(req, res) {
 
     // Retrieve user list by user id
     // ** the lean function returns the query result as a POJ object
-    let userList = await Games.find(
-      { userID: body.userID },
-      "gameID status dateAdded dateRemoved"
-    )
+    let userList = await Games.find({ userID: body.userID }, "gameID status")
       .sort({ dateAdded: 1 })
       .lean();
 
@@ -24,12 +21,17 @@ export default async function handler(req, res) {
       return res.status(200).json({
         message: "User does not have games added to their list.",
         gameList: [],
+        idList: [],
+        statusList: [],
       });
     }
 
     // Translate status
     userList.forEach((game) => {
       game["status"] = statusTranslation[game["status"]];
+
+      // Remove Mongo id object, so we can return without revealing db stuff
+      delete game["_id"];
     });
 
     const idArray = userList.map((listItem) => listItem.gameID);
@@ -56,6 +58,8 @@ export default async function handler(req, res) {
       gameList: response?.sort(
         (a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id)
       ),
+      idList: idArray,
+      statusList: userList,
     });
   } else {
     return res.status(401).json({
