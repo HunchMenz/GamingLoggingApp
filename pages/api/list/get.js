@@ -56,11 +56,18 @@ export default async function handler(req, res) {
 
     const response = await buildRequest("igdb", "games", query);
 
+    let resultGameList = response?.sort(
+      (a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id)
+    );
+
+    resultGameList = resultGameList.map((game) => {
+      game.status = userList.find((item) => item.gameID === game.id)?.status;
+      return game;
+    });
+
     return res.status(200).json({
       message: "User list retrieved!",
-      gameList: response?.sort(
-        (a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id)
-      ),
+      gameList: resultGameList,
       idList: idArray,
       statusList: userList,
     });
