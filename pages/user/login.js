@@ -36,29 +36,55 @@ function Login({ providers, csrfToken }) {
   return (
     <div>
       <NavBar />
-      <h1 className="title is-1">Login Page</h1>
-      <div className="centered">
-        <div className="card shadow-xl bg-white w-96 h-[30em]">
+      <div className="centered flex flex-col w-full pt-3">
+        <div className="card mt-[50px] shadow-xl bg-base-200  text-base-content">
           <div className="card-body">
-            <div className="card-title justify-center pt-5 pb-3">
+            <div className="card-title justify-center pt-5 pb-3 text-[30px]">
               <h1>LOGIN</h1>
             </div>
-            <hr></hr>
-            <div class="flex flex-col w-full pt-3">
-              <div className="text-center">
-                <p >Email</p>
-                <input type="text" className="input bg-black input-bordered w-full input-xl text-white"></input>
+            <div className="divider"></div>
+            <div>
+              <div className="form-control w-full ">
+                <input
+                  type="text"
+                  placeholder="Email"
+                  className="input input-bordered w-full"
+                />
+                <input
+                  type="text"
+                  placeholder="Password"
+                  className="input input-bordered w-full mt-[10px]"
+                />
               </div>
-              <div className="text-center mt-5">
-                <p >Password</p>
-                <input type="text" className="input bg-black input-bordered w-full input-xl text-white"></input>
-              </div>
-              <div className="divider">OR</div>
+            </div>
+            <div className="centered">
+              <div className="btn text-[20px] mt-[13px] pl-[25px] pr-[25px]">SIGN IN!</div>
+            </div>
 
-              <div>
+            <div className="divider">OR</div>
 
-
-              </div>
+            <div className="">
+              {Object.values(providers).map((provider) => {
+                if (provider.name !== "Credential") {
+                  return (
+                    <button
+                      key={provider.name}
+                      className="btn m-[5px]"
+                      onClick={() => signIn(provider.id)}
+                    >
+                      Sign in with {provider.name}
+                    </button>
+                  );
+                }
+              })}
+            </div>
+            <div className="">
+              <a className="centered" href="">
+                Don't have an account?
+              </a>
+              <a className="centered" href="">
+                Forgot Password?
+              </a>
             </div>
           </div>
         </div>
@@ -143,8 +169,35 @@ function Login({ providers, csrfToken }) {
             </form>
           </div>
         </div>
-      </div> */}
-    </div >
+      </div> 
+      
+      div flex
+        div grid
+          ~~~~~~~~~
+        /div
+
+        div divider /div
+
+        div grid
+          div
+            email
+          /div
+          div
+            pass
+          /div
+        div divider or /div
+        div gird
+          github
+        /div
+        div grid
+          facebook
+        /div
+
+
+            
+      
+      */}
+    </div>
   );
 }
 

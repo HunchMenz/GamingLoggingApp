@@ -27,7 +27,6 @@ a {
 }
 
 .centered {
-  position: absolute;
   /* top: 50%;
   left: 50%; */
   /* bring your own prefixes */
@@ -158,12 +157,6 @@ a {
 
 .featuredSwiper > .swiper-button-prev {
   display: none !important;
-}
-
-.divider {
-  background-color: white;
-  border-radius: 25px;
-  height: 5px;
 }
 
 .swiper-slide {
