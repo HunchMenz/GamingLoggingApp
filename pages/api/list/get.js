@@ -38,32 +38,35 @@ export default async function handler(req, res) {
     });
 
     const idArray = userList.map((listItem) => listItem.gameID);
+    let resultGameList = [];
 
-    // Get game info based on userList gameID's
-    const fields = [
-      "name",
-      "slug",
-      "cover.url",
-      "platforms.abbreviation",
-      "platforms.platform_logo.url",
-      "total_rating",
-      "release_dates.date",
-      "aggregated_rating_count",
-    ];
-    const filter = `where id = (${idArray});`;
+    if (idArray.length > 0) {
+      // Get game info based on userList gameID's
+      const fields = [
+        "name",
+        "slug",
+        "cover.url",
+        "platforms.abbreviation",
+        "platforms.platform_logo.url",
+        "total_rating",
+        "release_dates.date",
+        "aggregated_rating_count",
+      ];
+      const filter = `where id = (${idArray});`;
 
-    const query = "fields " + fields.join(",") + ";" + filter;
+      const query = "fields " + fields.join(",") + ";" + filter;
 
-    const response = await buildRequest("igdb", "games", query);
+      const response = await buildRequest("igdb", "games", query);
 
-    let resultGameList = response?.sort(
-      (a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id)
-    );
+      resultGameList = response?.sort(
+        (a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id)
+      );
 
-    resultGameList = resultGameList.map((game) => {
-      game.status = userList.find((item) => item.gameID === game.id)?.status;
-      return game;
-    });
+      resultGameList = resultGameList?.map((game) => {
+        game.status = userList.find((item) => item.gameID === game.id)?.status;
+        return game;
+      });
+    }
 
     return res.status(200).json({
       message: "User list retrieved!",

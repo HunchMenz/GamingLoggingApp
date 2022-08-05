@@ -18,6 +18,7 @@ function Slider({ gameProp, sliderTitle = "" }) {
     <div>
       <h1 className="text-4xl m-6 font-bold underline decoration-blue-500 decoration-6">{`${sliderTitle}`}</h1>
       <Swiper
+        touchStartPreventDefault={false}
         slidesPerView={4}
         spaceBetween={1}
         slidesPerGroup={4}
@@ -35,9 +36,7 @@ function Slider({ gameProp, sliderTitle = "" }) {
         className="mySwiper"
       >
         {gameProp.map((game) => (
-          <>
-            <SliderItem key={`SliderItem-${game.id}`} game={game} />
-          </>
+          <SliderItem key={`SliderItem-${game.id}`} game={game} />
         ))}
       </Swiper>
     </div>

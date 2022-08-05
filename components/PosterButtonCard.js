@@ -1,23 +1,50 @@
-import { useEffect, useState } from "react";
+// React Import
+import { useEffect, useState, useRef } from "react";
+
+// Util
+import { generateKey } from "../utils/generateKey";
+
+// Context
 import { useGameListContext } from "../context/gameList";
 
 // Icon Imports
-import { FcPlus } from "react-icons/fc";
-import { AiOutlineDown } from "react-icons/ai";
 import { IoIosRemoveCircle } from "react-icons/io";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { IconContext } from "react-icons/lib";
+
+let useClickOutside = (ref, handler) => {
+  useEffect(() => {
+    const listener = (event) => {
+      if (!ref.current?.contains(event.target)) {
+        handler(event);
+      }
+    };
+
+    document.addEventListener("mousedown", listener);
+    document.addEventListener("touchstart", listener);
+
+    return () => {
+      document.removeEventListener("mousedown", listener);
+      document.removeEventListener("touchstart", listener);
+    };
+  }, [ref, handler]);
+};
 
 function PosterButtonCard({ game }) {
   const { user, idList } = useGameListContext();
   const [isAdded, setIsAdded] = useState(false);
   const [showListOptions, setShowListOptions] = useState(false);
+  const btnRef = useRef();
 
   useEffect(() => {
     if (idList.indexOf(game.id) > -1) {
       setIsAdded(true);
     }
   }, [idList, isAdded]);
+
+  const domNode = useClickOutside(btnRef, () => {
+    setShowListOptions(false);
+  });
 
   const addGameToList = async (stat = 0) => {
     const userID = user.id;
@@ -59,14 +86,20 @@ function PosterButtonCard({ game }) {
   };
 
   return (
-    <div className="absolute z-10 top-2.5 right-0">
+    <div
+      key={`posterbtn-${generateKey(game.id)}`}
+      ref={domNode}
+      className={`absolute z-10 top-2.5 right-0 posterbtn-${generateKey(
+        game.id
+      )}`}
+    >
       {showListOptions ? (
         <div className="btn-group btn-group-vertical">
           <button
             className="btn"
             onClick={() => {
               setIsAdded(addGameToList(0));
-              setShowListOptions(!showListOptions);
+              setShowListOptions(false);
             }}
           >
             Backlog
@@ -75,7 +108,7 @@ function PosterButtonCard({ game }) {
             className="btn"
             onClick={() => {
               setIsAdded(addGameToList(1));
-              setShowListOptions(!showListOptions);
+              setShowListOptions(false);
             }}
           >
             In Progress
@@ -84,7 +117,7 @@ function PosterButtonCard({ game }) {
             className="btn"
             onClick={() => {
               setIsAdded(addGameToList(2));
-              setShowListOptions(!showListOptions);
+              setShowListOptions(false);
             }}
           >
             Finished
@@ -93,7 +126,7 @@ function PosterButtonCard({ game }) {
             className="btn"
             onClick={() => {
               setIsAdded(addGameToList(3));
-              setShowListOptions(!showListOptions);
+              setShowListOptions(false);
             }}
           >
             Retired
