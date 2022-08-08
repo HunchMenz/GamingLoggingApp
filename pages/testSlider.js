@@ -2,25 +2,25 @@ import React from "react";
 import FeaturedSlider from "../components/FeaturedSlider";
 import NavBar from "../components/NavBar";
 import Slider from "../components/Slider";
+import buildRequest from "../utils/buildRequest";
 import requests from "../utils/requests";
 
 function myCarousel({ gameMasterList }) {
   return (
     <>
       <NavBar />
-      <FeaturedSlider gameProp={gameMasterList[0].gameList} />
-      {gameMasterList.map((obj) => {
-        return obj.id === 0 ? (
+      {gameMasterList.map((obj, idx) => {
+        return obj.name === "Top Games" ? (
           <FeaturedSlider
-            key={`slider-genre-${obj.id}`}
-            gameProp={obj.gameList}
-            sliderTitle={obj.title}
+            key={`slider-genre-${obj.idx}`}
+            gameProp={obj.result}
+            sliderTitle={obj.name}
           />
         ) : (
           <Slider
-            key={`slider-genre-${obj.id}`}
-            gameProp={obj.gameList}
-            sliderTitle={obj.title}
+            key={`slider-genre-${obj.idx}`}
+            gameProp={obj.result}
+            sliderTitle={obj.name}
           />
         );
       })}
@@ -29,33 +29,31 @@ function myCarousel({ gameMasterList }) {
 }
 
 export async function getServerSideProps() {
-  // Array of Promises
-  let p = [];
-  // Array of Carousel data objects
-  let data = [];
-
-  // Loop through all object requests under home.
+  //** NOTE: Multiquery endpoint only allows 10 queries per call */
+  let multiQueryBody1 = "";
+  let multiQueryBody2 = "";
+  let i = 0;
   for (const listPromiseObj in requests.home) {
-    // Save each promise to the promise array
-    p.push(requests.home[listPromiseObj].promise);
-    // Add Carousel Title to Titles array
-    data.push({
-      id: requests.home[listPromiseObj].id,
-      title: requests.home[listPromiseObj].title,
-    });
+    i++;
+    if (i <= 10) {
+      multiQueryBody1 = multiQueryBody1.concat(
+        `query games "${requests.home[listPromiseObj].title}" { ${requests.home[listPromiseObj].query} };\n`
+      );
+    } else if (i > 10 && i <= 20) {
+      multiQueryBody2 = multiQueryBody2.concat(
+        `query games "${requests.home[listPromiseObj].title}" { ${requests.home[listPromiseObj].query} };\n`
+      );
+    } else break;
   }
 
-  // Resolve all Promises in Promise array in parallel
-  const pResponse = await Promise.all(p);
+  const response1 = await buildRequest("igdb", "multiquery", multiQueryBody1);
+  const response2 = await buildRequest("igdb", "multiquery", multiQueryBody2);
 
-  // Create new Array of Carousel data objects
-  const carousels = pResponse.map((list, idx) => {
-    return { id: data[idx].id, title: data[idx].title, gameList: list };
-  });
+  const response = [...response1, ...response2];
 
   return {
     props: {
-      gameMasterList: carousels,
+      gameMasterList: response,
     },
   };
 }
