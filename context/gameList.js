@@ -10,7 +10,7 @@ export const getUserGameList = async (userID) => {
     body: JSON.stringify({ userID }),
   });
   const pulledList = await res.json();
-  return pulledList.gameList;
+  return pulledList;
 };
 
 const GameListContext = createContext();
@@ -23,13 +23,17 @@ export const getCurrUser = async () => {
 export function GameListProvider({ children }) {
   const [user, setUser] = useState([]);
   const [gameList, setGameList] = useState([]);
+  const [idList, setIDList] = useState([]);
+  const [statusList, setStatusList] = useState([]);
 
   useEffect(() => {
     getCurrUser().then((user) => {
       setUser(user);
 
-      getUserGameList(user?.id).then((gameList) => {
-        setGameList(gameList || []);
+      getUserGameList(user?.id).then((response) => {
+        setGameList(response.gameList || []);
+        setIDList(response.idList || []);
+        setStatusList(response.statusList || []);
       });
     });
   }, []);
@@ -38,7 +42,12 @@ export function GameListProvider({ children }) {
     /* whatever you want */
     user: user,
     gameList: gameList,
-    setGameList,
+    idList: idList,
+    statusList: statusList,
+  };
+
+  const updateFns = {
+    // if we need to modify the gameList, register those functions here
   };
 
   return (

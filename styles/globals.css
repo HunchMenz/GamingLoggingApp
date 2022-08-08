@@ -99,11 +99,6 @@ a {
   transform: scale(1.1);
 }
 
-/* .card {
-  width: 300px;
-  height: 400px;
-} */
-
 .cardLength {
   width: 700px;
   text-overflow: ellipsis;
@@ -214,6 +209,11 @@ a {
   /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
 }
 
-.remove {
-  background-color: aliceblue;
+.listButton {
+  background-color: #000066;
+}
+
+.card.image-full.carousel-poster::before {
+  /* --tw-bg-opacity: 0; */
+  content: none;
 }

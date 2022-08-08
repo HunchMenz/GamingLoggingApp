@@ -14,7 +14,7 @@ export default async function handler(req, res) {
     // ** the lean function returns the query result as a POJ object
     let userList = await Games.find(
       { userID: body.userID, dateRemoved: { $exists: false } },
-      "gameID status dateAdded dateRemoved"
+      "gameID status"
     )
       .sort({ dateAdded: 1 })
       .lean();
@@ -24,38 +24,55 @@ export default async function handler(req, res) {
       return res.status(200).json({
         message: "User does not have games added to their list.",
         gameList: [],
+        idList: [],
+        statusList: [],
       });
     }
 
     // Translate status
     userList.forEach((game) => {
       game["status"] = statusTranslation[game["status"]];
+
+      // Remove Mongo id object, so we can return without revealing db stuff
+      delete game["_id"];
     });
 
     const idArray = userList.map((listItem) => listItem.gameID);
+    let resultGameList = [];
 
-    // Get game info based on userList gameID's
-    const fields = [
-      "name",
-      "slug",
-      "cover.url",
-      "platforms.abbreviation",
-      "platforms.platform_logo.url",
-      "total_rating",
-      "release_dates.date",
-      "aggregated_rating_count",
-    ];
-    const filter = `where id = (${idArray});`;
+    if (idArray.length > 0) {
+      // Get game info based on userList gameID's
+      const fields = [
+        "name",
+        "slug",
+        "cover.url",
+        "platforms.abbreviation",
+        "platforms.platform_logo.url",
+        "total_rating",
+        "release_dates.date",
+        "aggregated_rating_count",
+      ];
+      const filter = `where id = (${idArray});`;
 
-    const query = "fields " + fields.join(",") + ";" + filter;
+      const query = "fields " + fields.join(",") + ";" + filter;
 
-    const response = await buildRequest("igdb", "games", query);
+      const response = await buildRequest("igdb", "games", query);
+
+      resultGameList = response?.sort(
+        (a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id)
+      );
+
+      resultGameList = resultGameList?.map((game) => {
+        game.status = userList.find((item) => item.gameID === game.id)?.status;
+        return game;
+      });
+    }
 
     return res.status(200).json({
       message: "User list retrieved!",
-      gameList: response?.sort(
-        (a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id)
-      ),
+      gameList: resultGameList,
+      idList: idArray,
+      statusList: userList,
     });
   } else {
     return res.status(401).json({
