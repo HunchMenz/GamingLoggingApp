@@ -6,6 +6,7 @@ const GamesSchema = new mongoose.Schema({
   status: Number,
   dateAdded: Date,
   dateRemoved: Date,
+  dateModified: Date,
 });
 
 module.exports = mongoose.models.Games || mongoose.model("Games", GamesSchema);

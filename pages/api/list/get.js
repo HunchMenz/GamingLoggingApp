@@ -13,8 +13,8 @@ export default async function handler(req, res) {
     // Retrieve user list by user id
     // ** the lean function returns the query result as a POJ object
     let userList = await Games.find(
-      { userID: body.userID },
-      "gameID status dateAdded dateRemoved"
+      { userID: body.userID, dateRemoved: { $exists: false } },
+      "gameID status"
     )
       .sort({ dateAdded: 1 })
       .lean();
@@ -24,52 +24,55 @@ export default async function handler(req, res) {
       return res.status(200).json({
         message: "User does not have games added to their list.",
         gameList: [],
+        idList: [],
+        statusList: [],
       });
     }
 
     // Translate status
     userList.forEach((game) => {
       game["status"] = statusTranslation[game["status"]];
+
+      // Remove Mongo id object, so we can return without revealing db stuff
+      delete game["_id"];
     });
 
     const idArray = userList.map((listItem) => listItem.gameID);
+    let resultGameList = [];
 
-    // Get game info based on userList gameID's
-    const fields = [
-      "name",
-      "slug",
-      "cover.url",
-      "platforms.abbreviation",
-      "platforms.platform_logo.url",
-      "total_rating",
-      "release_dates.date",
-      "aggregated_rating_count",
-    ];
-    const filter = `where id = (${idArray});`;
+    if (idArray.length > 0) {
+      // Get game info based on userList gameID's
+      const fields = [
+        "name",
+        "slug",
+        "cover.url",
+        "platforms.abbreviation",
+        "platforms.platform_logo.url",
+        "total_rating",
+        "release_dates.date",
+        "aggregated_rating_count",
+      ];
+      const filter = `where id = (${idArray});`;
 
-    const query = "fields " + fields.join(",") + ";" + filter;
+      const query = "fields " + fields.join(",") + ";" + filter;
 
-    const gamedata = await buildRequest("igdb", "games", query);
+      const response = await buildRequest("igdb", "games", query);
 
-    // Sort gamedata list according to dateadded and add game status
-    const sortedList = gamedata
-      ?.sort((a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id))
-      .map((game, idx) => {
-        // Can be buggy, but shouldn't be. So long as gameID never changes, this should work
-        if (game.id === userList[idx].gameID)
-          game.status = userList[idx].status;
+      resultGameList = response?.sort(
+        (a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id)
+      );
+
+      resultGameList = resultGameList?.map((game) => {
+        game.status = userList.find((item) => item.gameID === game.id)?.status;
         return game;
       });
-
-    // Sort game list into "status bins"
-    let statusBins = [];
-    statusTranslation.forEach((statusType, idx) => {
-      statusBins.push(sortedList.filter((game) => game.status === statusType));
-    });
+    }
 
     return res.status(200).json({
       message: "User list retrieved!",
-      gameList: statusBins,
+      gameList: resultGameList,
+      idList: idArray,
+      statusList: userList,
     });
   } else {
     return res.status(401).json({

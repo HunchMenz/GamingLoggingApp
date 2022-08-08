@@ -1,9 +1,5 @@
-import React from "react";
-import Link from "next/link";
-import Poster from "../components/Poster";
-
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
@@ -14,11 +10,15 @@ import "swiper/css/scrollbar";
 // import required modules
 import { Pagination, Navigation, Scrollbar } from "swiper";
 
+// import components
+import SliderItem from "./SliderItem";
+
 function Slider({ gameProp, sliderTitle = "" }) {
   return (
     <div>
       <h1 className="text-4xl m-6 font-bold underline decoration-blue-500 decoration-6">{`${sliderTitle}`}</h1>
       <Swiper
+        touchStartPreventDefault={false}
         slidesPerView={4}
         spaceBetween={1}
         slidesPerGroup={4}
@@ -36,20 +36,7 @@ function Slider({ gameProp, sliderTitle = "" }) {
         className="mySwiper"
       >
         {gameProp.map((game) => (
-          <SwiperSlide>
-            <div class="card">
-              <Link
-                href={{
-                  pathname: "/games/[name]",
-                  query: { name: game.slug },
-                }}
-              >
-                <a>
-                  <Poster key={game.id} game={game} />
-                </a>
-              </Link>
-            </div>
-          </SwiperSlide>
+          <SliderItem key={`SliderItem-${game.id}`} game={game} />
         ))}
       </Swiper>
     </div>

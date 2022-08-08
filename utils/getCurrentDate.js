@@ -8,3 +8,5 @@ export function getCurrentDate(separator = "") {
     month < 10 ? `0${month}` : `${month}`
   }${separator}${date}`;
 }
+
+export default getCurrentDate;
