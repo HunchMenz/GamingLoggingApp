@@ -89,9 +89,7 @@ function PosterButtonCard({ game }) {
     <div
       key={`posterbtn-${generateKey(game.id)}`}
       ref={domNode}
-      className={`absolute z-10 top-2.5 right-0 posterbtn-${generateKey(
-        game.id
-      )}`}
+      className={`absolute z-10 top-2.5 right-0`}
     >
       {showListOptions ? (
         <div className="btn-group btn-group-vertical">

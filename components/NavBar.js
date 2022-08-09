@@ -70,8 +70,8 @@ function NavBar() {
               </div>
             </label>
             <ul
-              tabindex="0"
-              class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+              tabIndex="0"
+              className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
                 <a>Profile</a>
