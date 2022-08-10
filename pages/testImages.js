@@ -9,7 +9,6 @@ import Link from "next/link";
 function Test({ gameList }) {
   return (
     <div>
-      <NavBar />
       <h1>Test Page</h1>
       <div className="posterContainer">
         <div className="poster">

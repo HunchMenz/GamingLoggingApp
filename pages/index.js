@@ -19,7 +19,6 @@ import SliderItem from "../components/SliderItem";
 export default function Home({ gameMasterList }) {
   return (
     <div>
-      <NavBar />
       Temp Words
       <Slider gameProp={gameMasterList.gameList0} sliderTitle="Top Games" />
     </div>

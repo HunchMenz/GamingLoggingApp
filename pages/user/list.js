@@ -15,7 +15,6 @@ function listPage() {
   if (user) {
     return (
       <>
-        <NavBar />
         Signed in as {user.email} <br />
         <h1>Welcome to the List Page!</h1>
         <div className="tabs mt-10 justify-center">

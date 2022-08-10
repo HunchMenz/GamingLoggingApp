@@ -1,9 +1,7 @@
 import "../styles/globals.css";
-import { useEffect } from "react";
-import { themeChange } from "theme-change";
 import { SessionProvider } from "next-auth/react";
 import { GameListProvider } from "../context/gameList";
-
+import Layout from "../layout/layout";
 
 export default function App({
   Component,
@@ -12,7 +10,9 @@ export default function App({
   return (
     <SessionProvider session={session}>
       <GameListProvider>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </GameListProvider>
     </SessionProvider>
   );

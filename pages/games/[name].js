@@ -138,7 +138,6 @@ function GamePage({ game }) {
 
   return (
     <div>
-      <NavBar />
       <div className={Style["bg-container"]}>
         <div
           className={Style["bg-img"]}
