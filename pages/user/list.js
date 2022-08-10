@@ -32,16 +32,18 @@ function listPage() {
           ))}
           <div className="flex-1 border-b border-gray-200"></div>
         </div>
-        {gameList[selectedStatus] ? (
+        {gameList ? (
           <div className="posterContainer">
             <div className="poster">
-              {gameList[selectedStatus].map((game) => {
-                return (
+              {gameList.map((game) => {
+                return game.status === statusTypes[selectedStatus] ? (
                   <div className="card w-96 bg-base-100 shadow-xl m-2">
                     <figure>
                       <Poster key={game.id} game={game} />
                     </figure>
                   </div>
+                ) : (
+                  ""
                 );
               })}
             </div>
