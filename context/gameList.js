@@ -21,22 +21,43 @@ export const getCurrUser = async () => {
 };
 
 export function GameListProvider({ children }) {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState();
   const [gameList, setGameList] = useState([]);
   const [idList, setIDList] = useState([]);
   const [statusList, setStatusList] = useState([]);
 
   useEffect(() => {
-    getCurrUser().then((user) => {
-      setUser(user);
+    user
+      ? getUserGameList(user.id).then((response) => {
+          setGameList(response.gameList || []);
+          setIDList(response.idList || []);
+          setStatusList(response.statusList || []);
+        })
+      : getCurrUser().then((user) => {
+          setUser(user);
 
-      getUserGameList(user?.id).then((response) => {
-        setGameList(response.gameList || []);
-        setIDList(response.idList || []);
-        setStatusList(response.statusList || []);
-      });
-    });
-  }, []);
+          getUserGameList(user?.id).then((response) => {
+            setGameList(response.gameList || []);
+            setIDList(response.idList || []);
+            setStatusList(response.statusList || []);
+          });
+        });
+  }, [idList]);
+
+  const addToGameList = (gameID, status) => {
+    // Status Translation:
+    const statusTranslation = ["Backlog", "In Progress", "Finished", "Retired"];
+
+    idList.push(gameID);
+    statusList.push({ gameID: gameID, status: statusTranslation[status] });
+  };
+
+  const removeFromGameList = (gameID) => {
+    // if we need to modify the gameList, register those functions here
+    setGameList(gameList.filter((game) => game.id !== gameID));
+    setIDList(idList.filter((id) => id !== gameID));
+    setStatusList(statusList.filter((game) => game.gameID !== gameID));
+  };
 
   let sharedState = {
     /* whatever you want */
@@ -44,10 +65,8 @@ export function GameListProvider({ children }) {
     gameList: gameList,
     idList: idList,
     statusList: statusList,
-  };
-
-  const updateFns = {
-    // if we need to modify the gameList, register those functions here
+    addToGameList: addToGameList,
+    removeFromGameList: removeFromGameList,
   };
 
   return (

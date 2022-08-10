@@ -12,39 +12,23 @@ import { IoIosRemoveCircle } from "react-icons/io";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { IconContext } from "react-icons/lib";
 
-let useClickOutside = (ref, handler) => {
-  useEffect(() => {
-    const listener = (event) => {
-      if (!ref.current?.contains(event.target)) {
-        handler(event);
-      }
-    };
-
-    document.addEventListener("mousedown", listener);
-    document.addEventListener("touchstart", listener);
-
-    return () => {
-      document.removeEventListener("mousedown", listener);
-      document.removeEventListener("touchstart", listener);
-    };
-  }, [ref, handler]);
-};
+import useClickOutside from "../utils/hooks/usClickOutside";
 
 function PosterButtonCard({ game }) {
-  const { user, idList } = useGameListContext();
+  const { user, idList, addToGameList, removeFromGameList } =
+    useGameListContext();
   const [isAdded, setIsAdded] = useState(false);
   const [showListOptions, setShowListOptions] = useState(false);
+
+  // Ref
   const btnRef = useRef();
+  useClickOutside(btnRef, () => setShowListOptions(false));
 
   useEffect(() => {
     if (idList.indexOf(game.id) > -1) {
       setIsAdded(true);
     }
-  }, [idList, isAdded]);
-
-  const domNode = useClickOutside(btnRef, () => {
-    setShowListOptions(false);
-  });
+  }, [idList]);
 
   const addGameToList = async (stat = 0) => {
     const userID = user.id;
@@ -62,6 +46,7 @@ function PosterButtonCard({ game }) {
     let { doc } = await res.json();
 
     if (doc) {
+      addToGameList(gameID, status);
       return true;
     } else return false;
   };
@@ -81,6 +66,7 @@ function PosterButtonCard({ game }) {
     let { doc } = await res.json();
 
     if (doc) {
+      removeFromGameList(gameID);
       return true;
     } else return false;
   };
@@ -88,7 +74,7 @@ function PosterButtonCard({ game }) {
   return (
     <div
       key={`posterbtn-${generateKey(game.id)}`}
-      ref={domNode}
+      ref={btnRef}
       className={`absolute z-10 top-2.5 right-0`}
     >
       {showListOptions ? (
