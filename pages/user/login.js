@@ -35,7 +35,6 @@ function Login({ providers, csrfToken }) {
 
   return (
     <div>
-      <NavBar />
       <h1 className="title is-1">Login Page</h1>
       <div className="centered">
         <div className="card" style={{ borderColor: "rgb(215 225 223)" }}>

@@ -37,7 +37,7 @@ function Register({ providers, csrfToken }) {
         email: email,
         password: password,
       };
-      
+
       const res = await signIn("credentials", options);
       if (res?.error) {
         setMessage(res.error);
@@ -47,7 +47,6 @@ function Register({ providers, csrfToken }) {
 
   return (
     <div>
-      <NavBar />
       <h1 className="title is-1">Register Page</h1>
       <div className="centered">
         <div className="card" style={{ borderColor: "rgb(215 225 223)" }}>

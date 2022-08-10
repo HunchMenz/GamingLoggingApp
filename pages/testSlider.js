@@ -8,7 +8,6 @@ import requests from "../utils/requests";
 function myCarousel({ gameMasterList }) {
   return (
     <>
-      <NavBar />
       {gameMasterList.map((obj, idx) => {
         return obj.name === "Top Games" ? (
           <FeaturedSlider

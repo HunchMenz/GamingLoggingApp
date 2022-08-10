@@ -6,7 +6,6 @@ function UserDashboard() {
   if (session) {
     return (
       <>
-        <NavBar />
         Signed in as {session.user.email} <br />
         <button onClick={() => signOut()}>Sign out</button>
       </>
@@ -14,7 +13,6 @@ function UserDashboard() {
   }
   return (
     <>
-      <NavBar />
       Not signed in <br />
       <button onClick={() => signIn()}>Sign in</button>
     </>
