@@ -15,8 +15,9 @@ import { IconContext } from "react-icons/lib";
 import useClickOutside from "../utils/hooks/usClickOutside";
 
 function PosterButtonCard({ game }) {
-  const { user, idList, addToGameList, removeFromGameList } =
+  const { user, idList, addToGameList, removeFromGameList, gameList } =
     useGameListContext();
+
   const [isAdded, setIsAdded] = useState(false);
   const [showListOptions, setShowListOptions] = useState(false);
 

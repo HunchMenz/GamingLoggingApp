@@ -1,0 +1,94 @@
+.gameShelf {
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+  border: 10px #a87328 solid;
+  overflow: hidden;
+  background-image: linear-gradient(
+    #241909,
+    #2c1e0b 220px,
+    #b87e2c 220px,
+    #b87e2c 222px,
+    #a87328 222px,
+    #a87328 228px,
+    #986824 228px,
+    #986824 230px
+  );
+  background-size: 10px 230px;
+}
+
+.gameBox {
+  float: left;
+  color: white;
+  font-size: 0.9em;
+  font-family: Verdana, sans-serif;
+  transition: transform 0.4s ease;
+}
+
+.gameBox:hover {
+  transform: scale(1.05);
+}
+
+.gameBox-tilted {
+  float: left;
+  width: 74px;
+}
+
+.gameBox-tilted > .gameBox {
+  transform: translateY(-3px) translateX(15px) rotate(9deg);
+}
+
+.gameBox-default {
+  height: 200px;
+  width: 40px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.gameBox-default h2 {
+  padding: 0.25rem;
+  font-size: 1em;
+  transform-origin: 0% 0%;
+  transform: rotate(0.25turn) translateY(-35px);
+  width: 170px;
+}
+
+.gameBox-default h3 {
+  padding: 0.25rem;
+  font-size: 0.7em;
+  transform-origin: 0 0;
+  transform: rotate(0.25turn) translateY(-15px) translateX(-20px);
+  width: 150px;
+}
+
+.gameBox-switch {
+  height: 160px;
+  width: 30px;
+  float: left;
+  color: white;
+  font-size: 0.9em;
+  font-family: Verdana, sans-serif;
+  margin-bottom: 10px;
+  margin-top: 60px;
+  transition: transform 0.4s ease;
+}
+
+.gameBox-switch h2 {
+  padding: 0.25rem;
+  font-size: 0.9em;
+  transform-origin: 0% 0%;
+  transform: rotate(0.25turn) translateY(-35px);
+  width: 140px;
+}
+
+.gameBox-umber {
+  background-color: #54290c;
+  border-left: 2px solid #66320f;
+  border-right: 2px solid #422009;
+}
+
+.gameBox-red {
+  background-color: #ff0000;
+  border-left: 2px solid #ff1414;
+  border-right: 2px solid #eb0000;
+}

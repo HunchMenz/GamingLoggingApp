@@ -26,23 +26,7 @@ export function GameListProvider({ children }) {
   const [idList, setIDList] = useState([]);
   const [statusList, setStatusList] = useState([]);
 
-  useEffect(() => {
-    user
-      ? getUserGameList(user.id).then((response) => {
-          setGameList(response.gameList || []);
-          setIDList(response.idList || []);
-          setStatusList(response.statusList || []);
-        })
-      : getCurrUser().then((user) => {
-          setUser(user);
-
-          getUserGameList(user?.id).then((response) => {
-            setGameList(response.gameList || []);
-            setIDList(response.idList || []);
-            setStatusList(response.statusList || []);
-          });
-        });
-  }, [idList]);
+  const [retrieveList, setRetreieveList] = useState(true);
 
   const addToGameList = (gameID, status) => {
     // Status Translation:
@@ -50,6 +34,7 @@ export function GameListProvider({ children }) {
 
     idList.push(gameID);
     statusList.push({ gameID: gameID, status: statusTranslation[status] });
+    setRetreieveList(true);
   };
 
   const removeFromGameList = (gameID) => {
@@ -57,7 +42,31 @@ export function GameListProvider({ children }) {
     setGameList(gameList.filter((game) => game.id !== gameID));
     setIDList(idList.filter((id) => id !== gameID));
     setStatusList(statusList.filter((game) => game.gameID !== gameID));
+    setRetreieveList(true);
   };
+
+  useEffect(() => {
+    // Check if there is any data that needs to be retrieved
+    if (retrieveList) {
+      user
+        ? getUserGameList(user.id).then((response) => {
+            setGameList(response.gameList || []);
+            setIDList(response.idList || []);
+            setStatusList(response.statusList || []);
+            setRetreieveList(false);
+          })
+        : getCurrUser().then((user) => {
+            setUser(user);
+
+            getUserGameList(user?.id).then((response) => {
+              setGameList(response.gameList || []);
+              setIDList(response.idList || []);
+              setStatusList(response.statusList || []);
+            });
+            setRetreieveList(false);
+          });
+    }
+  }, [retrieveList]);
 
   let sharedState = {
     /* whatever you want */

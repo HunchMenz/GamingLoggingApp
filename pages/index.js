@@ -1,48 +1,22 @@
-import Head from "next/head";
-import Image from "next/image";
-import NavBar from "../components/NavBar";
-import styles from "../styles/Home.module.css";
-
-// Icon Imports
-import { FcPlus } from "react-icons/fc";
-import { CgPlayListRemove } from "react-icons/cg";
-import { GrFormAdd } from "react-icons/gr";
-import { IoMdAdd } from "react-icons/io";
-import { IconContext } from "react-icons/lib";
-
 import buildRequest from "../utils/buildRequest";
-import ButtonCard from "../components/ButtonCard";
-import PosterButtonCard from "../components/PosterButtonCard";
 import Slider from "../components/Slider";
-import SliderItem from "../components/SliderItem";
 
 export default function Home({ gameMasterList }) {
+  // console.log(gameMasterList.gameList);
   return (
     <div>
       Temp Words
-      <Slider gameProp={gameMasterList.gameList0} sliderTitle="Top Games" />
+      <Slider gameProp={gameMasterList.gameList} sliderTitle="Top Games" />
+      {/* <Frame
+        gameList={gameMasterList.gameList}
+        iconList={gameMasterList.steamGridIcons}
+      /> */}
     </div>
   );
 }
 
-// {isAdded ? (
-//   <IconContext.Provider value={{ color: "black", className: "remove" }}>
-//     <div className="cursor-pointer">
-//       <CgPlayListRemove style={{ position: "absolute" }} />
-//     </div>
-//   </IconContext.Provider>
-// ) : (
-//   <div className="cursor-pointer">
-//     <FcPlus
-//       style={{ position: "absolute" }}
-//       onClick={() => {
-//         setIsAdded(addGameToList());
-//       }}
-//     />
-//   </div>
-// )}
-
 export async function getServerSideProps() {
+  // IGDB
   const fields = [
     "name",
     "rating",
@@ -58,17 +32,46 @@ export async function getServerSideProps() {
     "total_rating",
     "release_dates.date",
     "aggregated_rating_count",
+    "artworks.url",
   ];
 
-  const filter_0 =
+  const filter =
     "sort aggregated_rating_count desc; where aggregated_rating >= 90; limit 20;";
 
-  const query_0 = "fields " + fields.join(",") + ";" + filter_0;
+  const query = "fields " + fields.join(",") + ";" + filter;
 
-  const response_0 = await buildRequest("igdb", "games", query_0);
+  const response = await buildRequest("igdb", "games", query);
+
+  // SteamGridDB \\
+  // Get game id by searching using slug field
+  const steamGridGamePromises = response.map((game) => {
+    return buildRequest("steamgrid", `search/autocomplete/${game.slug}`, "", {
+      method: "GET",
+    });
+  });
+
+  let steamGridGameResponse = await Promise.all(steamGridGamePromises);
+
+  // Use game ID to grab game Icons
+  const steamGridIconPromises = steamGridGameResponse.map((game) => {
+    return buildRequest(
+      "steamgrid",
+      `icons/game/${game.data ? game.data[0].id : ""}`,
+      "",
+      {
+        method: "GET",
+      }
+    );
+  });
+
+  let steamGridIconResponse = await Promise.all(steamGridIconPromises);
+
+  // const steamGridResponse = {};
 
   const gameMasterList = {
-    gameList0: response_0,
+    gameList: response,
+    steamGridGames: steamGridGameResponse,
+    steamGridIcons: steamGridIconResponse,
   };
 
   return {

@@ -41,6 +41,7 @@ export default async function handler(req, res) {
     let resultGameList = [];
 
     if (idArray.length > 0) {
+      // TODO: Make it possible to retrieve more than the query limit (500). Possibly need multiquery or space out requests.
       // Get game info based on userList gameID's
       const fields = [
         "name",
@@ -52,7 +53,7 @@ export default async function handler(req, res) {
         "release_dates.date",
         "aggregated_rating_count",
       ];
-      const filter = `where id = (${idArray});`;
+      const filter = `where id = (${idArray}); limit 499;`; // Max limit is 499
 
       const query = "fields " + fields.join(",") + ";" + filter;
 

@@ -1,5 +1,6 @@
 import { getSession, useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Frame from "../../components/Bookshelf/Frame";
 import NavBar from "../../components/NavBar";
 import Poster from "../../components/Poster";
 
@@ -10,7 +11,29 @@ function listPage() {
   // Possible statuses to sort by
   const statusTypes = ["Backlog", "In Progress", "Finished", "Retired"];
   const { user, gameList } = useGameListContext();
+
   const [selectedStatus, setSelectedStatus] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [iconList, setIconList] = useState([]);
+
+  // console.log(iconList);
+
+  useEffect(() => {
+    setLoading(true);
+
+    fetch("/api/list/get-icons", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ gameList: gameList }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setIconList(data.iconList);
+        setLoading(false);
+      });
+  }, [gameList]);
 
   if (user) {
     return (
@@ -31,24 +54,15 @@ function listPage() {
           ))}
           <div className="flex-1 border-b border-gray-200"></div>
         </div>
-        {gameList ? (
-          <div className="posterContainer">
-            <div className="poster">
-              {gameList.map((game) => {
-                return game.status === statusTypes[selectedStatus] ? (
-                  <div className="card w-96 bg-base-100 shadow-xl m-2">
-                    <figure>
-                      <Poster key={game.id} game={game} />
-                    </figure>
-                  </div>
-                ) : (
-                  ""
-                );
-              })}
-            </div>
-          </div>
+        {loading || iconList.length === 0 ? (
+          <div>LOADING...</div>
         ) : (
-          ""
+          <Frame
+            gameList={gameList.filter(
+              (game) => game.status === statusTypes[selectedStatus]
+            )}
+            iconList={iconList}
+          />
         )}
       </>
     );
@@ -57,6 +71,7 @@ function listPage() {
 
 export async function getServerSideProps(context) {
   const { req, res } = context;
+  // const { gameList } = useGameListContext();
   const session = await getSession({ req });
 
   // Check if the session does not exist, and redirect
