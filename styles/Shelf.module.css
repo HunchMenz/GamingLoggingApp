@@ -1,32 +1,29 @@
 .gameShelf {
   width: 80%;
-  height: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
   border: 10px #a87328 solid;
-  overflow: hidden;
-  background-image: linear-gradient(
-    #241909,
-    #2c1e0b 220px,
-    #b87e2c 220px,
-    #b87e2c 222px,
-    #a87328 222px,
-    #a87328 228px,
-    #986824 228px,
-    #986824 230px
-  );
   background-size: 10px 230px;
 }
 
 .gameBox {
   float: left;
-  color: white;
   font-size: 0.9em;
   font-family: Verdana, sans-serif;
   transition: transform 0.4s ease;
+  position: relative;
+  transform-style: preserve-3d;
 }
 
-.gameBox:hover {
+.gameBox:not(.nohover):hover {
   transform: scale(1.05);
+}
+
+.gameBox-3d {
+  z-index: 5;
+  transform: rotateX(-25deg) rotateY(-40deg) rotateZ(-15deg) translateY(50px)
+    translateX(-30px);
 }
 
 .gameBox-tilted {
@@ -105,4 +102,56 @@
   background-color: #ff0000;
   border-left: 2px solid #ff1414;
   border-right: 2px solid #eb0000;
+}
+
+.top {
+  width: inherit;
+  height: 140px;
+  top: 0px;
+  background-image: linear-gradient(90deg, white 90%, gray 10%);
+  background-size: 5px 5px;
+  transform: rotateX(90deg) translateZ(70px) translateY(-70px);
+}
+
+.side {
+  position: absolute;
+  border: 2px solid black;
+  border-radius: 3px;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  transform-origin: center left;
+}
+
+.cover {
+  width: 140px;
+  height: inherit;
+  top: 0px;
+  background-image: url("https://picsum.photos/190/280");
+  background-size: contain;
+  background-repeat: round;
+  left: 35px;
+  transform: rotateY(90deg) translateZ(0);
+  transition: transform 1s;
+}
+
+.gameBox-switch > .top {
+  width: inherit;
+  height: 130px;
+  top: 0px;
+  background-image: linear-gradient(90deg, white 90%, gray 10%);
+  background-size: 5px 5px;
+  transform: rotateX(90deg) translateZ(66px) translateY(-59px);
+}
+
+.gameBox-switch > .cover {
+  width: 130px;
+  height: inherit;
+  top: 0px;
+  background-image: url("https://picsum.photos/190/280");
+  background-size: contain;
+  background-repeat: round;
+  left: 25px;
+  transform: rotateY(90deg) translateZ(0);
+  transition: transform 1s;
 }

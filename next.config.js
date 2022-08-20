@@ -9,6 +9,7 @@ const nextConfig = {
       "avatars.githubusercontent.com",
       "lh3.googleusercontent.com/",
       "cdn2.steamgriddb.com",
+      "picsum.photos",
     ],
   },
 };
