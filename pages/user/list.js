@@ -1,8 +1,6 @@
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Frame from "../../components/Bookshelf/Frame";
-import NavBar from "../../components/NavBar";
-import Poster from "../../components/Poster";
 
 // Context
 import { useGameListContext } from "../../context/gameList";
@@ -15,8 +13,9 @@ function listPage() {
   const [selectedStatus, setSelectedStatus] = useState(0);
   const [loading, setLoading] = useState(false);
   const [iconList, setIconList] = useState([]);
+  const [logoList, setLogoList] = useState([]);
 
-  // console.log(iconList);
+  // console.log(gameList);
 
   useEffect(() => {
     setLoading(true);
@@ -30,7 +29,9 @@ function listPage() {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setIconList(data.iconList);
+        setLogoList(data.logoList);
         setLoading(false);
       });
   }, [gameList]);
@@ -62,6 +63,7 @@ function listPage() {
               (game) => game.status === statusTypes[selectedStatus]
             )}
             iconList={iconList}
+            logoList={logoList}
           />
         )}
       </>

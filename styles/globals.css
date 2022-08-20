@@ -155,12 +155,6 @@ a {
   display: none !important;
 }
 
-.divider {
-  background-color: white;
-  border-radius: 25px;
-  height: 5px;
-}
-
 .swiper-slide {
   text-align: center;
   font-size: 18px;

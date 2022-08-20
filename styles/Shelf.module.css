@@ -38,6 +38,13 @@
   transform: translateY(-3px) translateX(15px) rotate(9deg);
 }
 
+.logo {
+  padding: 0.25rem;
+  transform-origin: 0% 0%;
+  transform: rotate(0.25turn) translateY(-35px);
+  width: 150px;
+}
+
 .gameBox-default {
   height: 200px;
   width: 40px;
@@ -71,6 +78,13 @@
   margin-bottom: 10px;
   margin-top: 60px;
   transition: transform 0.4s ease;
+}
+
+.gameBox-switch > .logo {
+  padding: 0.25rem;
+  transform-origin: -3% -11%;
+  transform: rotate(0.25turn) translateY(-35px);
+  width: 113px;
 }
 
 .gameBox-switch h2 {

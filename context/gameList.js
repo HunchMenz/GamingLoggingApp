@@ -2,7 +2,7 @@ import { getSession } from "next-auth/react";
 import { createContext, useContext, useEffect, useState } from "react";
 
 export const getUserGameList = async (userID) => {
-  const res = await fetch("/api/list/get", {
+  const res = await fetch("/api/list/get-games", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
