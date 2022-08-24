@@ -2,6 +2,7 @@ import Spine from "./Spine";
 import Style from "../../styles/Shelf.module.css";
 
 function Frame({ gameList, iconList, logoList }) {
+  console.log(document.getElementsByClassName(`${Style["gameBox-opened"]}`));
   return (
     <div
       className={Style.gameShelf}

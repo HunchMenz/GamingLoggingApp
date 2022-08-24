@@ -7,6 +7,30 @@
   background-size: 10px 230px;
 }
 
+.scale {
+  transition: transform 0.8s ease;
+}
+
+.in {
+  position: relative;
+  z-index: 2;
+  transform: scale(2);
+}
+
+.base {
+  position: relative;
+  z-index: 0;
+}
+
+.preview {
+  position: relative;
+  z-index: 1;
+}
+
+/* .scale:has(.gameBox-opened) {
+  transform: scale(20);
+} */
+
 .gameBox {
   float: left;
   font-size: 0.9em;
@@ -20,9 +44,15 @@
   transform: scale(1.05);
 }
 
-.gameBox-3d {
+.gameBox-preview {
   z-index: 5;
   transform: rotateX(-25deg) rotateY(-40deg) rotateZ(-15deg) translateY(50px)
+    translateX(-30px);
+}
+
+.gameBox-opened {
+  z-index: 5;
+  transform: rotateX(0deg) rotateY(-90deg) rotateZ(-15deg) translateY(50px)
     translateX(-30px);
 }
 
@@ -135,13 +165,19 @@
   transition: transform 1s;
 }
 
+.buckle {
+  top: 50%;
+  left: 89%;
+  background-color: white;
+}
+
 .gameBox-switch > .top {
   width: inherit;
   height: 130px;
   top: 0px;
   background-image: linear-gradient(90deg, white 90%, gray 10%);
   background-size: 5px 5px;
-  transform: rotateX(90deg) translateZ(66px) translateY(-59px);
+  transform: rotateX(90deg) translateZ(65px) translateY(-65px) translateX(-4px);
 }
 
 .gameBox-switch > .cover {
