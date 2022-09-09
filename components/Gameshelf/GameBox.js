@@ -1,27 +1,28 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 
+// Components
+import Menu from "./Menu";
+
 // Icons
 import { FaAngleRight } from "react-icons/fa";
 
+// Style Sheet
 import Style from "../../styles/Shelf.module.css";
 
+// Hooks
 import useClickOutside from "../../utils/hooks/usClickOutside";
 
-function Spine({ game, icon, logo }) {
+function GameBox({ game, icon, logo }) {
   const [preview, setPreview] = useState(false);
   const [opened, setOpened] = useState(false);
-  //   console.log(game);
+  const [xOffset, setxOffset] = useState("0");
 
   const clickRef = useRef();
   useClickOutside(clickRef, () => {
     setPreview(false);
     setOpened(false);
   });
-
-  const Background = game.screenshots
-    ? "https:" + game.screenshots[0].url.replace("t_thumb", "t_screenshot_big")
-    : "https://bulma.io/images/placeholders/128x128.png";
 
   const cover = game.cover
     ? "https:" + game.cover.url.replace("t_thumb", "t_720p")
@@ -35,6 +36,7 @@ function Spine({ game, icon, logo }) {
         }`}
         ref={clickRef}
       >
+        {/* GameBox */}
         <div
           className={`${Style.gameBox} ${
             game.platforms[0].abbreviation === "Switch"
@@ -46,15 +48,15 @@ function Spine({ game, icon, logo }) {
               : ""
           } ${opened ? Style["gameBox-opened"] + " " + Style.nohover : ""}`}
           onClick={() => setPreview(!preview)}
+          style={{ "--x-offset": xOffset }}
         >
           <section className="flex justify-center">
             <Image
               src={
-                icon.data[0]
+                icon.data?.[0]
                   ? icon.data[0].thumb
                   : "https://bulma.io/images/placeholders/32x32.png"
               }
-              // layout="fill"
               objectFit="cover"
               layout="intrinsic"
               width={30}
@@ -62,7 +64,7 @@ function Spine({ game, icon, logo }) {
             />
           </section>
           <div class="divider m-0"></div>
-          {logo?.data[0] ? (
+          {logo.data?.[0] ? (
             <section className={`flex justify-center ${Style.logo}`}>
               <div
                 className={`${
@@ -71,13 +73,12 @@ function Spine({ game, icon, logo }) {
               >
                 <Image
                   src={
-                    logo.data[0]
+                    logo.data?.[0]
                       ? logo.data[0].thumb
                       : "https://bulma.io/images/placeholders/32x32.png"
                   }
                   layout="fill"
                   objectFit="contain"
-                  //   layout="intrinsic"
                   width={30}
                   height={30}
                 />
@@ -86,17 +87,33 @@ function Spine({ game, icon, logo }) {
           ) : (
             <h2 className="line-clamp-2">{game.name}</h2>
           )}
+          {/* Top of Box */}
           <div className={`${Style.side} ${Style.top}`}></div>
+          {/* Box Cover Art */}
           <div
             className={`${Style.side} ${Style.cover}`}
             style={{ "background-image": `url(${cover})` }}
           >
+            {/* Buckle */}
             <div
               className={`${Style.side} ${Style.buckle}`}
-              onClick={() => setOpened(!opened)}
+              onClick={() => {
+                setOpened(!opened);
+                setxOffset(`-${clickRef.current.offsetLeft}px`);
+              }}
             >
               <FaAngleRight />
             </div>
+          </div>
+          {/* Menu  ${
+              opened ? "block" : "hidden"
+            } */}
+          <div
+            className={`${Style.side} ${Style.menu} glass ${
+              opened ? "block" : "hidden"
+            }`}
+          >
+            <Menu game={game} />
           </div>
         </div>
       </div>
@@ -104,4 +121,4 @@ function Spine({ game, icon, logo }) {
   } else return <div></div>;
 }
 
-export default Spine;
+export default GameBox;

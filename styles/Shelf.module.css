@@ -12,9 +12,7 @@
 }
 
 .in {
-  position: relative;
   z-index: 2;
-  transform: scale(2);
 }
 
 .base {
@@ -52,8 +50,11 @@
 
 .gameBox-opened {
   z-index: 5;
-  transform: rotateX(0deg) rotateY(-90deg) rotateZ(-15deg) translateY(50px)
-    translateX(-30px);
+  position: fixed;
+  /* left: 0; */
+  transform: rotateX(0deg) translateX(var(--x-offset)) rotateY(-90deg)
+    rotateZ(-15deg) translateY(var(--y-offset)) scaleY(2) scaleZ(2)
+    translateZ(0);
 }
 
 .gameBox-tilted {
@@ -157,11 +158,22 @@
   width: 140px;
   height: inherit;
   top: 0px;
-  background-image: url("https://picsum.photos/190/280");
   background-size: contain;
   background-repeat: round;
   left: 35px;
   transform: rotateY(90deg) translateZ(0);
+  transition: transform 1s;
+}
+
+.menu {
+  border: 0;
+  width: 36rem;
+  height: inherit;
+  top: 0px;
+  background-size: contain;
+  background-repeat: round;
+  /* left: var(--x-offset); */
+  transform: rotateY(90deg) translateZ(0) translateX(28%);
   transition: transform 1s;
 }
 
@@ -184,7 +196,6 @@
   width: 130px;
   height: inherit;
   top: 0px;
-  background-image: url("https://picsum.photos/190/280");
   background-size: contain;
   background-repeat: round;
   left: 25px;

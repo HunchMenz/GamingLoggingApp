@@ -2,15 +2,10 @@ import buildRequest from "../utils/buildRequest";
 import Slider from "../components/Slider";
 
 export default function Home({ gameMasterList }) {
-  // console.log(gameMasterList.gameList);
   return (
     <div>
       Temp Words
       <Slider gameProp={gameMasterList.gameList} sliderTitle="Top Games" />
-      {/* <Frame
-        gameList={gameMasterList.gameList}
-        iconList={gameMasterList.steamGridIcons}
-      /> */}
     </div>
   );
 }

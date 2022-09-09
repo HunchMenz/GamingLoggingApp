@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --x-offset: 0;
+  --y-offset: 0;
+}
 html,
 body {
   padding: 0;

@@ -76,6 +76,7 @@ export default async function handler(req, res) {
         "aggregated_rating_count",
         "external_games.category",
         "external_games.uid",
+        "external_games.platform",
       ];
       const filter = `where id = (${idArray}); limit 499;`; // Max limit is 499
 

@@ -1,8 +1,9 @@
-import Spine from "./Spine";
+import GameBox from "./GameBox";
 import Style from "../../styles/Shelf.module.css";
+import Menu from "./Menu";
+import { useRef, useState } from "react";
 
 function Frame({ gameList, iconList, logoList }) {
-  console.log(document.getElementsByClassName(`${Style["gameBox-opened"]}`));
   return (
     <div
       className={Style.gameShelf}
@@ -15,8 +16,15 @@ function Frame({ gameList, iconList, logoList }) {
         const iconData = iconList.find((icon) => icon.IGDB_ID === game.id);
         const logoData = logoList.find((logo) => logo.IGDB_ID === game.id);
         return (
-          <div key={`spine-${game.id}`}>
-            <Spine game={game} icon={iconData} logo={logoData} />
+          <div key={`GameBox-${game.id}`} className="flex">
+            <GameBox game={game} icon={iconData} logo={logoData} />
+            {/* Menu
+            <div
+              className={`${Style.menu} glass`}
+              style={{ "--x-offset": xOffset }}
+            >
+              <Menu game={game} />
+            </div> */}
           </div>
         );
       })}

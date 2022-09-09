@@ -1,6 +1,6 @@
 import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import Frame from "../../components/Bookshelf/Frame";
+import Frame from "../../components/Gameshelf/Shelf";
 
 // Context
 import { useGameListContext } from "../../context/gameList";
@@ -15,8 +15,6 @@ function listPage() {
   const [iconList, setIconList] = useState([]);
   const [logoList, setLogoList] = useState([]);
 
-  // console.log(gameList);
-
   useEffect(() => {
     setLoading(true);
 
@@ -29,7 +27,6 @@ function listPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setIconList(data.iconList);
         setLogoList(data.logoList);
         setLoading(false);
