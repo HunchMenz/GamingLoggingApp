@@ -10,6 +10,28 @@ export default async function handler(req, res) {
     // Status Translation:
     const statusTranslation = ["Backlog", "In Progress", "Finished", "Retired"];
 
+    // External Games Translation:
+    const externalTranslation = [
+      { id: 1, name: "steam" },
+      { id: 5, name: "GOG" },
+      { id: 10, name: "Youtube" },
+      { id: 11, name: "microsoft" },
+      { id: 13, name: "apple" },
+      { id: 14, name: "twitch" },
+      { id: 15, name: "android" },
+      { id: 20, name: "amazon_asin" },
+      { id: 22, name: "amazon_luna" },
+      { id: 23, name: "amazon_adg" },
+      { id: 26, name: "epic_game_store" },
+      { id: 28, name: "oculus" },
+      { id: 29, name: "utomik" },
+      { id: 30, name: "itch_io" },
+      { id: 31, name: "xbox_marketplace" },
+      { id: 32, name: "kartridge" },
+      { id: 36, name: "playstation_store_us" },
+      { id: 37, name: "focus_entertainment" },
+    ];
+
     // Retrieve user list by user id
     // ** the lean function returns the query result as a POJ object
     let userList = await Games.find(
@@ -41,6 +63,7 @@ export default async function handler(req, res) {
     let resultGameList = [];
 
     if (idArray.length > 0) {
+      // TODO: Make it possible to retrieve more than the query limit (500). Possibly need multiquery or space out requests.
       // Get game info based on userList gameID's
       const fields = [
         "name",
@@ -51,12 +74,24 @@ export default async function handler(req, res) {
         "total_rating",
         "release_dates.date",
         "aggregated_rating_count",
+        "external_games.category",
+        "external_games.uid",
+        "external_games.platform",
       ];
-      const filter = `where id = (${idArray});`;
+      const filter = `where id = (${idArray}); limit 499;`; // Max limit is 499
 
       const query = "fields " + fields.join(",") + ";" + filter;
 
       const response = await buildRequest("igdb", "games", query);
+
+      // Translate Category
+      response.forEach((game) => {
+        game.external_games.forEach((ex) => {
+          ex.category = externalTranslation.filter(
+            (catTran) => catTran.id === ex.category
+          )[0]?.name;
+        });
+      });
 
       resultGameList = response?.sort(
         (a, b) => idArray.indexOf(a.id) - idArray.indexOf(b.id)
