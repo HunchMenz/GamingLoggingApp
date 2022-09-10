@@ -14,7 +14,6 @@ async function getAccessToken() {
   await dbConnect("user_data");
   // Try db
   try {
-    // Error in forming connection to db!
     const existingToken = await Tokens.findOne({
       name: "IGDB_API",
       expires: { $lte: currentDateTime },
@@ -23,6 +22,7 @@ async function getAccessToken() {
     // Assign existing access token to our token variable (if exists)
     access_token = existingToken?.accessToken;
   } catch (err) {
+    // Error in forming connection to db!
     throw new Error({ message: "Error in reaching db", error: err });
   }
 

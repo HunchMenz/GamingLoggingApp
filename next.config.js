@@ -16,6 +16,7 @@ const nextConfig = {
     TWITCH_HOST_TOKEN: process.env.TWITCH_HOST_TOKEN,
     IGDB_CLIENT_ID: process.env.IGDB_CLIENT_ID,
     IGDB_CLIENT_SECRET: process.env.IGDB_CLIENT_SECRET,
+    STEAMGRID_HOST: process.env.STEAMGRID_HOST,
   },
 };
 
