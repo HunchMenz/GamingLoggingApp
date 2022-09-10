@@ -12,6 +12,11 @@ const nextConfig = {
       "picsum.photos",
     ],
   },
+  env: {
+    TWITCH_HOST_TOKEN: process.env.TWITCH_HOST_TOKEN,
+    IGDB_CLIENT_ID: process.env.IGDB_CLIENT_ID,
+    IGDB_CLIENT_SECRET: process.env.IGDB_CLIENT_SECRET,
+  },
 };
 
 module.exports = nextConfig;

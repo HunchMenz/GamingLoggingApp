@@ -1,5 +1,5 @@
 import dbConnect from "../../../utils/lib/dbConnect";
-import Games from "../../../database/user_data/model/Games";
+import Games from "../../../model/Games";
 import buildRequest from "../../../utils/buildRequest";
 
 export default async function handler(req, res) {

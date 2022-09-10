@@ -8,7 +8,7 @@ import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "./lib/mongodb";
 // Mongoose
 import dbConnect from "../../../utils/lib/dbConnect";
-import Users from "../../../database/user_data/model/Users";
+import Users from "../../../model/Users";
 //-- Other
 import bcrypt from "bcrypt";
 

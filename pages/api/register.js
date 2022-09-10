@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { MD5 } from "crypto-js";
-import Users from "../../database/user_data/model/Users";
+import Users from "../../model/Users";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {

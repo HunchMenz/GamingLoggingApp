@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import Games from "../../../database/user_data/model/Games";
+import Games from "../../../model/Games";
 
 export default async function handler(req, res) {
   // Update Translation:
