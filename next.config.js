@@ -10,6 +10,7 @@ const nextConfig = {
       "lh3.googleusercontent.com/",
       "cdn2.steamgriddb.com",
       "picsum.photos",
+      "www.gravatar.com",
     ],
   },
   env: {

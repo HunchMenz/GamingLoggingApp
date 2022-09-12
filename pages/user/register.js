@@ -19,7 +19,7 @@ function Register({ providers, csrfToken }) {
 
   const registerUser = async (e) => {
     e.preventDefault();
-    const res = await fetch("/api/register", {
+    const res = await fetch("/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

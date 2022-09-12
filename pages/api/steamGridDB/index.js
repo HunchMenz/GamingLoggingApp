@@ -26,8 +26,6 @@ export default async function handler(req, res) {
 
       let resolvedData = await Promise.all(dataRes);
 
-      resolvedData = resolvedData.map((res) => res.data[0]);
-
       //   console.log(resolvedData);
 
       res.status(200).json({

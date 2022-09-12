@@ -1,21 +1,35 @@
-import buildRequest from "../utils/buildRequest";
+import { getSession } from "next-auth/react";
+import Error from "next/error";
+
 import Slider from "../components/Slider";
 
 export default function Home({ gameMasterList }) {
   const handleTest = async () => {
-    const endpoint = `search/autocomplete/inside`;
-    const query = {};
+    const sess = await getSession();
+    const method = "POST";
 
-    const res = await fetch(
-      `/api/steamGridDB?endpoint=${encodeURIComponent(endpoint)}`,
-      {
-        method: "GET",
-      }
-    );
+    const res = await fetch(`/api/list/`, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body:
+        method === "POST"
+          ? JSON.stringify({ userEmail: sess.user.email, list: "COOP games" }) // POST body
+          : JSON.stringify({
+              userEmail: sess.user.email,
+              gameID: 7342,
+              list: "Backlog",
+            }), // PUT body
+    });
 
     const data = await res.json();
     console.log(data);
   };
+
+  if (!gameMasterList) {
+    return <Error statusCode={404} />;
+  }
   return (
     <div>
       Temp Words
@@ -26,7 +40,7 @@ export default function Home({ gameMasterList }) {
 }
 
 export async function getServerSideProps() {
-  // IGDB
+  // IGDB \\
   const igdbEndpoint = "games";
   const fields = [
     "name",
@@ -83,7 +97,7 @@ export async function getServerSideProps() {
   const steamGridIconEndpoint = `icons/game/`;
   const steamGridIconBody = {
     method: "GET",
-    dataList: searchRes.map((game) => game.id),
+    dataList: searchRes.map((game) => game.data[0].id),
   };
   const steamGridIconResponse = await fetch(
     `${process.env.NEXTAUTH_URL}/api/steamGridDB?endpoint=${encodeURIComponent(
