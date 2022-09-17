@@ -7,13 +7,13 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "./lib/mongodb";
 // Mongoose
-import dbConnect from "../../../utils/lib/dbConnect";
+import { connectToDatabase } from "../../../utils/lib/db";
 import Users from "../../../model/User";
 //-- Other
 import bcrypt from "bcrypt";
 
 // Connect to DB
-dbConnect("user_data");
+connectToDatabase();
 
 export default NextAuth({
   adapter: MongoDBAdapter(clientPromise),

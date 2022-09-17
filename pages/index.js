@@ -1,6 +1,8 @@
+// Next/React imports
 import { getSession } from "next-auth/react";
 import Error from "next/error";
 
+// Components
 import Slider from "../components/Slider";
 
 export default function Home({ gameMasterList }) {

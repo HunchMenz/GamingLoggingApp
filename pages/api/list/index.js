@@ -1,9 +1,9 @@
 import GameList from "../../../model/GameList";
-import dbConnect from "../../../utils/lib/dbConnect";
+import { connectToDatabase } from "../../../utils/lib/db";
 
 export default async function handler(req, res) {
   // Connect to DB
-  await dbConnect("user_data");
+  await connectToDatabase();
 
   // Create new game list document
   if (req.method === "POST") {

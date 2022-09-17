@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Mongoose
-import dbConnect from "../../../../utils/lib/dbConnect";
+import { connectToDatabase } from "../../../../utils/lib/db";
 
 // Models
 import Tokens from "../../../../model/Tokens";
@@ -12,7 +12,7 @@ async function getAccessToken() {
   let access_token;
 
   // Connect to DB
-  await dbConnect("user_data");
+  const client = await connectToDatabase();
   // Try db
   try {
     const existingToken = await Tokens.findOne({

@@ -2,10 +2,10 @@ import bcrypt from "bcrypt";
 import { MD5 } from "crypto-js";
 import User from "../../../model/User";
 import GameList from "../../../model/GameList";
-import dbConnect from "../../../utils/lib/dbConnect";
+import { connectToDatabase } from "../../../utils/lib/db";
 
 export default async function handler(req, res) {
-  await dbConnect("user_data");
+  await connectToDatabase();
   // Register
   if (req.method === "POST") {
     const body = req.body;
@@ -24,12 +24,10 @@ export default async function handler(req, res) {
     const userExist = await User.findOne(query);
 
     if (userExist) {
-      return res
-        .status(200)
-        .json({
-          message: "User already exists with submitted email.",
-          data: userExist,
-        });
+      return res.status(200).json({
+        message: "User already exists with submitted email.",
+        data: userExist,
+      });
     }
 
     // generate salt to hash password

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import { connect } from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -23,52 +23,45 @@ if (process.env.NODE_ENV === "development") {
   }
 }
 
-async function dbConnect(name) {
-  let opts;
+async function connectToDatabase() {
+  // Follow different process for dev mode
   if (process.env.NODE_ENV === "development") {
-    // If we have an open connection but a changed name...
-    if (cached.conn && cached.dbName !== name) {
-      // Close the mongo connection and reset cached
-      mongoose.connection.close();
-      cached = { conn: null, promise: null, dbName: null };
-    }
+    // if we have an existing cached connection...
     if (cached.conn) {
       return cached.conn;
     }
 
+    // If we don't have a cached connection AND promise...
     if (!cached.promise) {
       opts = {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         bufferCommands: false,
-        //   bufferMaxEntries: 0,
-        //   useFindAndModify: true,
-        //   useCreateIndex: true,
-        dbName: name,
       };
 
-      cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-        return mongoose;
+      // Create connection promise
+      cached.promise = connect(MONGODB_URI, opts).then((client) => {
+        return client;
       });
     }
+
+    // Resolve connection promise
     cached.conn = await cached.promise;
     return { connection: cached.conn, promise: cached.promise };
   }
+
+  // In Test/Prod...
   opts = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     bufferCommands: false,
-    //   bufferMaxEntries: 0,
-    //   useFindAndModify: true,
-    //   useCreateIndex: true,
-    dbName: name,
   };
 
-  promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-    return mongoose;
+  promise = connect(MONGODB_URI, opts).then((client) => {
+    return client;
   });
   conn = await promise;
   return { connection: conn, promise: promise };
 }
 
-export default dbConnect;
+export { connectToDatabase };

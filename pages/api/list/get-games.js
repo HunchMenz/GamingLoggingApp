@@ -1,4 +1,4 @@
-import dbConnect from "../../../utils/lib/dbConnect";
+import { connectToDatabase } from "../../../utils/lib/db";
 import Games from "../../../model/Games";
 import buildRequest from "../../../utils/buildRequest";
 
@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const body = req.body;
 
   if (req.method === "POST") {
-    await dbConnect("user_data");
+    await connectToDatabase();
     // Status Translation:
     const statusTranslation = ["Backlog", "In Progress", "Finished", "Retired"];
 

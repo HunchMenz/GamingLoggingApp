@@ -21,12 +21,7 @@ export default async function handler(req, res) {
         console.error(err.response.data);
         throw err;
       }
-
-      //   Promise.all(dataRes).then((val) => console.log(val));
-
       let resolvedData = await Promise.all(dataRes);
-
-      //   console.log(resolvedData);
 
       res.status(200).json({
         message: `Successfully executed query on [${reqData.endpoint}] endpoint of IGDB!`,
