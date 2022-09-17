@@ -6,25 +6,32 @@ import Slider from "../components/Slider";
 export default function Home({ gameMasterList }) {
   const handleTest = async () => {
     const sess = await getSession();
-    const method = "POST";
 
-    const res = await fetch(`/api/list/`, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body:
-        method === "POST"
-          ? JSON.stringify({ userEmail: sess.user.email, list: "COOP games" }) // POST body
-          : JSON.stringify({
-              userEmail: sess.user.email,
-              gameID: 7342,
-              list: "Backlog",
-            }), // PUT body
-    });
+    // get user ID
+    const userInfo = await fetch(
+      `/api/user?` +
+        new URLSearchParams({
+          email: sess.user.email,
+        }),
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((response) => response.json());
 
-    const data = await res.json();
-    console.log(data);
+    // get user list
+    const res = await fetch(
+      `/api/list/${userInfo.data._id}?` +
+        new URLSearchParams({
+          listName: "Backlog",
+        }),
+      {
+        method: "GET",
+      }
+    ).then((response) => response.json());
+    console.log(res);
   };
 
   if (!gameMasterList) {

@@ -26,7 +26,10 @@ export default async function handler(req, res) {
     if (userExist) {
       return res
         .status(200)
-        .json({ message: "User already exists with submitted email." });
+        .json({
+          message: "User already exists with submitted email.",
+          data: userExist,
+        });
     }
 
     // generate salt to hash password
@@ -42,23 +45,11 @@ export default async function handler(req, res) {
       provider: "credential",
     };
     const user = new User(newUser);
-    const userDoc = await user.save();
+    await user.save();
 
-    //** Create Blank Gamelist for User */=
-    const newGameList = {
-      userID: userDoc._id,
-      gameList: [
-        { name: "Backlog", theme: "default", games: [] },
-        { name: "In Progress", theme: "default", games: [] },
-        { name: "Finished", theme: "default", games: [] },
-        { name: "Retired", theme: "default", games: [] },
-      ],
-    };
-
-    const gamelist = new GameList(newGameList);
-    await gamelist.save();
-
-    return res.status(200).json({ message: "Registered Successfully" });
+    return res
+      .status(200)
+      .json({ message: "Registered Successfully", data: user });
   }
   // Get user info
   else if (req.method === "GET") {

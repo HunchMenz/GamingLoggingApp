@@ -5,78 +5,51 @@ export default async function handler(req, res) {
   // Connect to DB
   await dbConnect("user_data");
 
-  // Create new game list
+  // Create new game list document
   if (req.method === "POST") {
-    const gameData = req.body;
+    const listData = req.body;
     /** Request Body is expected to look like this:
      * {
-     *     userEmail: The email of the user we are working with
-     *     list: List we want to create
+     *     userID: The ID of the user we want to create the document for
      * }
      */
 
-    // Get User ID from User collection
-    const userInfo = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/user?` +
-        new URLSearchParams({
-          email: gameData.userEmail,
-        }),
-      { method: "GET" }
-    )
-      .then((res) => res.json())
-      .then((resJson) => resJson.data);
-
     // Find game list
     const gameListExist = await GameList.findOne({
-      userID: userInfo._id,
+      userID: listData.userID,
     });
 
-    // Did we find the game list document?
+    // Does the document exist? No?...
     if (!gameListExist) {
-      res.status(422).json({
-        message: `Cannot create list [${gameData.list}] because user does not have a list entry! Should have been created on registration.`,
-      });
-      return;
+      // Create Blank Gamelist for User
+      const newGameList = {
+        userID: listData.userID,
+        gameList: [
+          { name: "Backlog", theme: "default", games: [] },
+          { name: "In Progress", theme: "default", games: [] },
+          { name: "Finished", theme: "default", games: [] },
+          { name: "Retired", theme: "default", games: [] },
+        ],
+      };
+
+      const gamelist = new GameList(newGameList);
+      await gamelist.save();
     }
 
-    console.log(
-      gameListExist.gameList.map((elem) => elem.name).indexOf(gameData.list) !==
-        -1
-    );
-
-    // Those the game list already exist?
-    if (
-      gameListExist.gameList.map((elem) => elem.name).indexOf(gameData.list) ===
-      -1
-    ) {
-      gameListExist.gameList.push({
-        name: gameData.list,
-        theme: "default",
-        games: [],
-      });
-
-      // Save document to db
-      await gameListExist.save();
-
-      res.status(200).json({
-        message: `Successfully created new list [${gameData.list}]!`,
-        data: gameListExist,
-      });
-    } else {
-      res.status(422).json({
-        message: `Cannot create list [${gameData.list}] because it already exists!`,
-      });
-    }
+    res.status(422).json({
+      message: "Game List already created for specified user",
+    });
     return;
   }
-  // Add to list
+  // Update list settings
   else if (req.method === "PUT") {
-    const gameData = req.body;
+    const listData = req.body;
     /** Request Body is expected to look like this:
      * {
      *     userID: ID of current user
-     *     gameID: selected game ID
-     *     list: list we want to add game to
+     *     name: list we want to add game to
+     *     newName: new name for list
+     *     theme: theme we want to update to
      * }
      */
 
@@ -84,7 +57,7 @@ export default async function handler(req, res) {
     const userInfo = await fetch(
       `${process.env.NEXTAUTH_URL}/api/user?` +
         new URLSearchParams({
-          email: gameData.userEmail,
+          email: listData.userEmail,
         }),
       { method: "GET" }
     )
@@ -94,55 +67,29 @@ export default async function handler(req, res) {
     // Find game list
     const gameListExist = await GameList.findOne({
       userID: userInfo._id,
-      "gameList.name": gameData.list,
+      "gameList.name": listData.name,
+      "gameList.name": { $ne: listData.newName },
     });
 
-    //   const gameListExist = await GameList.aggregate([
-    //     { $match: { userID: gameData.userID } },
-    //     {
-    //       $match: { "gameList.name": gameData.list },
-    //     },
-    //   ]);
-
-    // If the game list doesn't exist...
+    // If the game list doesn't exist or the new name is already in use...
     if (!gameListExist) {
       res.status(422).json({
-        message: `Cannot add game to game list, because game list [${gameData.list}] does not exist.`,
+        message: `Cannot update game list settings, because either game list [${listData.name}] does not exist or [${listData.newName}] does exist.`,
       });
       return;
     }
 
-    // If the game exists in the game list
+    // Update settings
     const listIdx = gameListExist.gameList
       .map((elem) => elem.name)
-      .indexOf(gameData.list);
+      .indexOf(listData.name);
 
-    if (
-      gameListExist.gameList[listIdx].games.find(
-        (game) => game.IGDB_id === gameData.gameID
-      )
-    ) {
-      res.status(422).json({
-        message: `Cannot add game to game list, because game already exists in selected list.`,
-      });
-      return;
-    }
+    // Update theme (if sent)
+    if (listData.theme) gameListExist.gameList[listIdx].theme = listData.theme;
 
-    // Get the max position and add 1 for the new game entry
-    const newPosition =
-      gameListExist.gameList[listIdx].games.length > 0
-        ? Math.max(
-            ...gameListExist.gameList[listIdx].games.map(
-              (game) => game.position
-            )
-          ) + 1
-        : 1;
-
-    // Push new game data to list
-    gameListExist.gameList[listIdx].games.push({
-      IGDB_id: gameData.gameID,
-      position: newPosition,
-    });
+    // Update name (if sent)
+    if (listData.newName)
+      gameListExist.gameList[listIdx].name = listData.newName;
 
     // Save document to db
     await gameListExist.save();
@@ -159,3 +106,5 @@ export default async function handler(req, res) {
     return;
   }
 }
+
+// TODO: TEST THE ABOVE. Also make sure to update places where game is being used with game list

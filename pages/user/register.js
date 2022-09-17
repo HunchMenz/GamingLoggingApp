@@ -19,29 +19,44 @@ function Register({ providers, csrfToken }) {
 
   const registerUser = async (e) => {
     e.preventDefault();
-    const res = await fetch("/api/user", {
+
+    // Register User
+    const regRes = await fetch("/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, username, password }),
-    });
+    }).then((response) => response.json());
 
-    let data = await res.json();
-    if (data.message) {
-      setMessage(data.message);
-    }
-    if (data.message == "Registered Successfully") {
-      let options = {
-        redirect: false,
-        email: email,
-        password: password,
-      };
+    // If register was successful...
+    if (regRes.data) {
+      // Create default list
+      const listRes = await fetch("/api/list", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userID: regRes.data }),
+      }).then((response) => response.json());
 
-      const res = await signIn("credentials", options);
-      if (res?.error) {
-        setMessage(res.error);
-      } else return router.push("/user");
+      // If user list was created...
+      if (listRes.data) {
+        let options = {
+          redirect: false,
+          email: email,
+          password: password,
+        };
+
+        const res = await signIn("credentials", options);
+        if (res?.error) {
+          setMessage(res.error);
+        } else return router.push("/user");
+      } else {
+        setMessage(listRes.message);
+      }
+    } else {
+      setMessage(regRes.message);
     }
   };
 
