@@ -16,20 +16,9 @@ export default async function handler(req, res) {
      * }
      */
 
-    // Get User ID from User collection
-    const userInfo = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/user?` +
-        new URLSearchParams({
-          email: gameData.userEmail,
-        }),
-      { method: "GET" }
-    )
-      .then((res) => res.json())
-      .then((resJson) => resJson.data);
-
     // Find game list
     const gameListExist = await GameList.findOne({
-      userID: userInfo._id,
+      userID: gameData.userID, //userInfo._id,
       "gameList.name": gameData.list,
     });
 

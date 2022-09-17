@@ -8,7 +8,10 @@ import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "./lib/mongodb";
 // Mongoose
 import { connectToDatabase } from "../../../utils/lib/db";
+
+// Model
 import Users from "../../../model/User";
+import GameList from "../../../model/GameList";
 //-- Other
 import bcrypt from "bcrypt";
 
@@ -101,7 +104,7 @@ export default NextAuth({
   events: {
     signIn: async ({ user, account, profile, isNewUser }) => {
       // If new user, create default gamelist
-      if (isNewUser) {
+      if (isNewUser || !GameList.findOne({ userID: user.id })) {
         // Create default list
         const listRes = await fetch(`${process.env.NEXTAUTH_URL}/api/list`, {
           method: "POST",
@@ -116,7 +119,6 @@ export default NextAuth({
           throw new Error("Game List could not be created on signup");
         }
       }
-      console.log(user, account, profile, isNewUser);
     },
   },
   session: {

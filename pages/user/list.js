@@ -1,4 +1,4 @@
-import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Frame from "../../components/Gameshelf/Shelf";
 
@@ -8,7 +8,8 @@ import { useGameListContext } from "../../context/gameList";
 function listPage() {
   // Possible statuses to sort by
   const statusTypes = ["Backlog", "In Progress", "Finished", "Retired"];
-  const { user, gameList } = useGameListContext();
+  const { data: session, status } = useSession();
+  const { gameList } = useGameListContext();
 
   const [selectedStatus, setSelectedStatus] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -33,7 +34,7 @@ function listPage() {
       });
   }, [gameList]);
 
-  if (user) {
+  if (session?.user) {
     return (
       <>
         Signed in as {user.email} <br />

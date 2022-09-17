@@ -87,7 +87,7 @@ export default async function handler(req, res) {
       return;
     } else {
       res.status(200).json({
-        message: `Retrieved user game list [${dataQuery.listName}]!`,
+        message: `Retrieved ${dataQuery.listName || "ALL"} user game list!`,
         data: selectedGameList,
       });
       return;

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 // Import Swiper React components
 import { SwiperSlide } from "swiper/react";
@@ -13,15 +14,13 @@ import "swiper/css/scrollbar";
 import Poster from "../components/Poster";
 import PosterButtonCard from "./PosterButtonCard";
 
-// Context
-import { useGameListContext } from "../context/gameList";
-
 function SliderItem({ game }) {
-  const { user } = useGameListContext();
+  const { data: session, status } = useSession();
+
   return (
     <SwiperSlide>
       <div className="card image-full carousel-poster">
-        {user ? <PosterButtonCard game={game} /> : ""}
+        {status === "authenticated" ? <PosterButtonCard game={game} /> : ""}
         <Link
           href={{
             pathname: "/games/[name]",
