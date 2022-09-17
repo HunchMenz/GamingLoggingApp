@@ -24,6 +24,8 @@ if (process.env.NODE_ENV === "development") {
 }
 
 async function connectToDatabase() {
+  // Connection options for later
+  let opts;
   // Follow different process for dev mode
   if (process.env.NODE_ENV === "development") {
     // if we have an existing cached connection...
