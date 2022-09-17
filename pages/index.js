@@ -23,6 +23,11 @@ export default function Home({ gameMasterList }) {
       }
     ).then((response) => response.json());
 
+    if (!userInfo.data) {
+      console.log(userInfo.message);
+      return;
+    }
+
     // get user list
     const res = await fetch(
       `/api/list/${userInfo.data._id}?` +
@@ -96,17 +101,15 @@ export async function getServerSideProps() {
       method: "POST",
       body: JSON.stringify(steamGridSearchBody),
     }
-  );
-
-  const searchRes = await steamGridSearchResponse
-    .json()
-    .then((response) => response.data);
+  )
+    .then((res) => res.json())
+    .then((data) => ({ ...data }));
 
   // Use game ID to grab game Icons
   const steamGridIconEndpoint = `icons/game/`;
   const steamGridIconBody = {
     method: "GET",
-    dataList: searchRes.map((game) => game.data[0].id),
+    dataList: steamGridSearchResponse.data.map((game) => game.data[0].id),
   };
   const steamGridIconResponse = await fetch(
     `${process.env.NEXTAUTH_URL}/api/steamGridDB?endpoint=${encodeURIComponent(
@@ -116,16 +119,14 @@ export async function getServerSideProps() {
       method: "POST",
       body: JSON.stringify(steamGridIconBody),
     }
-  );
-
-  const iconRes = await steamGridIconResponse
-    .json()
-    .then((response) => response.data);
+  )
+    .then((res) => res.json())
+    .then((data) => ({ ...data }));
 
   const gameMasterList = {
     gameList: gamesIGDB,
-    steamGridGames: searchRes,
-    steamGridIcons: iconRes,
+    steamGridGames: steamGridSearchResponse.data,
+    steamGridIcons: steamGridIconResponse.data,
   };
 
   return {

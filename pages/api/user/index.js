@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
 import { MD5 } from "crypto-js";
 import User from "../../../model/User";
-import GameList from "../../../model/GameList";
 import { connectToDatabase } from "../../../utils/lib/db";
 
 export default async function handler(req, res) {
@@ -52,7 +51,23 @@ export default async function handler(req, res) {
   // Get user info
   else if (req.method === "GET") {
     const params = req.query;
-    const user = await User.findOne({ email: params.email });
+    try {
+      const user = await User.findOne({ email: params.email });
+      if (!user) {
+        res.status(422).json({
+          message: "Failed: Unable to find user info.",
+        });
+      } else {
+        res.status(200).json({
+          message: "Retrieved user info",
+          data: user,
+        });
+      }
+    } catch (err) {
+      throw new Error(
+        "Error communicating with database. Please try again or contact support if issue persists."
+      );
+    }
     res.status(200).json({
       message: "Retrieved user info",
       data: user,
