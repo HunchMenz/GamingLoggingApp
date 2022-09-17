@@ -60,6 +60,11 @@ function Register({ providers, csrfToken }) {
     }
   };
 
+  const providerRegister = async (e, providerID) => {
+    e.preventDefault();
+    signIn(providerID);
+  };
+
   return (
     <div>
       <h1 className="title is-1">Register Page</h1>
@@ -79,7 +84,7 @@ function Register({ providers, csrfToken }) {
                   <button
                     key={provider.name}
                     className={`button is-fullwidth ${topMargin}`}
-                    onClick={() => signIn(provider.id)}
+                    onClick={(event) => providerRegister(event, provider.id)}
                   >
                     Sign in with {provider.name}
                   </button>

@@ -1,7 +1,7 @@
 // This approach is taken from https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
 import { MongoClient } from "mongodb";
 
-const uri = process.env.MONGODB_URI_USERDATA;
+const uri = process.env.MONGODB_URI;
 const options = {
   useUnifiedTopology: true,
   useNewUrlParser: true,
@@ -10,7 +10,7 @@ const options = {
 let client;
 let clientPromise;
 
-if (!process.env.MONGODB_URI_USERDATA) {
+if (!process.env.MONGODB_URI) {
   throw new Error("Please add your Mongo URI to .env.local");
 }
 

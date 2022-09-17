@@ -11,9 +11,10 @@ export default async function handler(req, res) {
 
     for (const key in body) {
       if (body[key] === "") {
-        return res
+        res
           .status(400)
           .json({ message: "Must fill out all required fields to register." });
+        return;
       }
     }
 
@@ -23,10 +24,11 @@ export default async function handler(req, res) {
     const userExist = await User.findOne(query);
 
     if (userExist) {
-      return res.status(200).json({
+      res.status(200).json({
         message: "User already exists with submitted email.",
         data: userExist,
       });
+      return;
     }
 
     // generate salt to hash password
@@ -44,9 +46,8 @@ export default async function handler(req, res) {
     const user = new User(newUser);
     await user.save();
 
-    return res
-      .status(200)
-      .json({ message: "Registered Successfully", data: user });
+    res.status(200).json({ message: "Registered Successfully", data: user });
+    return;
   }
   // Get user info
   else if (req.method === "GET") {
@@ -68,11 +69,6 @@ export default async function handler(req, res) {
         "Error communicating with database. Please try again or contact support if issue persists."
       );
     }
-    res.status(200).json({
-      message: "Retrieved user info",
-      data: user,
-    });
-
     return;
   }
   return res.status(401).json({
