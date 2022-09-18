@@ -19,7 +19,7 @@ function listPage() {
   useEffect(() => {
     setLoading(true);
 
-    fetch("/api/list/get-icons", {
+    fetch("/api/steamGridDB", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

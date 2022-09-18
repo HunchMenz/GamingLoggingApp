@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const GameSchema = new mongoose.Schema(
   {
     IGDB_id: Number,
+    slug: String,
     position: Number,
   },
   { timestamps: true }

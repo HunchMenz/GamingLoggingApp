@@ -17,7 +17,7 @@ import { useSession } from "next-auth/react";
 
 function PosterButtonCard({ game }) {
   // Game List Context
-  const { idList, updateGameList } = useGameListContext();
+  const { IGDB_IDList, updateGameList } = useGameListContext();
 
   // Option States
   const [isAdded, setIsAdded] = useState(false);
@@ -31,21 +31,22 @@ function PosterButtonCard({ game }) {
   useClickOutside(btnRef, () => setShowListOptions(false));
 
   useEffect(() => {
-    if (idList?.indexOf(game.id) > -1) {
+    if (IGDB_IDList?.indexOf(game.id) > -1) {
       setIsAdded(true);
     }
-  }, [idList]);
+  }, [IGDB_IDList]);
 
   const addGameToList = async (list) => {
     const userID = session.user.id;
     const gameID = game.id;
+    const slug = game.slug;
 
     const res = await fetch("/api/list/game", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userID, gameID, list }),
+      body: JSON.stringify({ userID, gameID, slug, list }),
     }).then((response) => response.json());
 
     if (res.data) {
@@ -58,17 +59,15 @@ function PosterButtonCard({ game }) {
     const userID = session.user.id;
     const gameID = game.id;
 
-    const res = await fetch("/api/list/update", {
-      method: "POST",
+    const res = await fetch("/api/list/game", {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userID, gameID, updateAction: 0 }),
-    });
+      body: JSON.stringify({ userID, gameID }),
+    }).then((response) => response.json());
 
-    let { doc } = await res.json();
-
-    if (doc) {
+    if (res.data) {
       updateGameList();
       return true;
     } else return false;
