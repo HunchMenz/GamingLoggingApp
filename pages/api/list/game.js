@@ -100,12 +100,28 @@ export default async function handler(req, res) {
       return;
     }
 
-    // Perform Deletion
-    gameListExist.gameList.forEach((list) => {
-      list.games = list.games.filter(
-        (game) => game.IGDB_id !== gameData.gameID
+    // Instantiate Game Position value Variable
+    let deletedGamePosition;
+
+    for (let i = 0; i < gameListExist.gameList.length; i++) {
+      const list = gameListExist.gameList[i];
+      // Find game object index given the game ID
+      const gameIdx = list.games.findIndex(
+        (game) => game.IGDB_id === gameData.gameID
       );
-    });
+
+      // If we find an instance of the game object...
+      if (gameIdx > -1) {
+        // Subtract 1 from all game objects greater than the deleted position
+        list.games.forEach((game) => {
+          if (game.position > gameObject.position) game.position--;
+        });
+
+        // Delete element at gameIdx index (splice is faster than filter)
+        list.games.splice(gameIdx, 1);
+        break;
+      }
+    }
 
     // Save updated game list
     try {
