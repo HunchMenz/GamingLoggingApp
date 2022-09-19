@@ -100,9 +100,6 @@ export default async function handler(req, res) {
       return;
     }
 
-    // Instantiate Game Position value Variable
-    let deletedGamePosition;
-
     for (let i = 0; i < gameListExist.gameList.length; i++) {
       const list = gameListExist.gameList[i];
       // Find game object index given the game ID
