@@ -53,7 +53,7 @@ async function sendRequest(endpoint, method, data) {
       throw new Error("Invalid request method!");
   }
 
-  const res = await axios(options);
+  const res = await axios(options).catch((err) => console.log(err));
 
   return res.data;
 }

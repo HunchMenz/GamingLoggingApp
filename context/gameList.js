@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import { useSession } from "next-auth/react";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -65,7 +66,8 @@ export function GameListProvider({ children }) {
           if (flatArrayOfGameSlugs?.length > 0) {
             // Get Steam Grid Game ID's
             getSteamGridID(flatArrayOfGameSlugs).then((responseSG) => {
-              setSG_IDList(responseSG);
+              const idData = responseSG.data.map((res) => res.data?.[0].id);
+              setSG_IDList(idData);
             });
 
             // Set Retrieve List to false

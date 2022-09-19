@@ -24,7 +24,7 @@ function GameBox({ game, icon, logo }) {
     setOpened(false);
   });
 
-  const cover = game.cover
+  const cover = game?.cover
     ? "https:" + game.cover.url.replace("t_thumb", "t_720p")
     : "https://bulma.io/images/placeholders/128x128.png";
 
@@ -39,9 +39,10 @@ function GameBox({ game, icon, logo }) {
         {/* GameBox */}
         <div
           className={`${Style.gameBox} ${
-            game.platforms[0].abbreviation === "Switch"
-              ? Style["gameBox-switch"] + " " + Style["gameBox-red"]
-              : Style["gameBox-default"] + " " + Style["gameBox-umber"]
+            // game.platforms[0].abbreviation === "Switch"
+            //   ? Style["gameBox-switch"] + " " + Style["gameBox-red"]
+            //   :
+            Style["gameBox-default"] + " " + Style["gameBox-umber"]
           } ${
             preview && !opened
               ? Style["gameBox-preview"] + " " + Style.nohover
@@ -53,9 +54,7 @@ function GameBox({ game, icon, logo }) {
           <section className="flex justify-center">
             <Image
               src={
-                icon.data?.[0]
-                  ? icon.data[0].thumb
-                  : "https://bulma.io/images/placeholders/32x32.png"
+                icon?.url || "https://bulma.io/images/placeholders/32x32.png"
               }
               objectFit="cover"
               layout="intrinsic"
@@ -63,19 +62,19 @@ function GameBox({ game, icon, logo }) {
               height={30}
             />
           </section>
-          <div class="divider m-0"></div>
-          {logo.data?.[0] ? (
+          <div className="divider m-0"></div>
+          {logo?.url ? (
             <section className={`flex justify-center ${Style.logo}`}>
               <div
                 className={`${
-                  game.platforms[0].abbreviation === "Switch" ? "h-6" : "h-8"
+                  // game.platforms[0].abbreviation === "Switch" ? "h-6" :
+                  "h-8"
                 }`}
               >
                 <Image
                   src={
-                    logo.data?.[0]
-                      ? logo.data[0].thumb
-                      : "https://bulma.io/images/placeholders/32x32.png"
+                    logo?.url ||
+                    "https://bulma.io/images/placeholders/32x32.png"
                   }
                   layout="fill"
                   objectFit="contain"
@@ -92,7 +91,7 @@ function GameBox({ game, icon, logo }) {
           {/* Box Cover Art */}
           <div
             className={`${Style.side} ${Style.cover}`}
-            style={{ "background-image": `url(${cover})` }}
+            style={{ backgroundImage: `url(${cover})` }}
           >
             {/* Buckle */}
             <div
