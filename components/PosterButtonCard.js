@@ -13,61 +13,62 @@ import { BsCheckCircleFill } from "react-icons/bs";
 import { IconContext } from "react-icons/lib";
 
 import useClickOutside from "../utils/hooks/usClickOutside";
+import { useSession } from "next-auth/react";
 
 function PosterButtonCard({ game }) {
-  const { user, idList, addToGameList, removeFromGameList, gameList } =
-    useGameListContext();
+  // Game List Context
+  const { IGDB_IDList, updateGameList } = useGameListContext();
 
+  // Option States
   const [isAdded, setIsAdded] = useState(false);
   const [showListOptions, setShowListOptions] = useState(false);
+
+  // Grab user session details
+  const { data: session, status } = useSession();
 
   // Ref
   const btnRef = useRef();
   useClickOutside(btnRef, () => setShowListOptions(false));
 
   useEffect(() => {
-    if (idList.indexOf(game.id) > -1) {
+    if (IGDB_IDList?.indexOf(game.id) > -1) {
       setIsAdded(true);
     }
-  }, [idList]);
+  }, [IGDB_IDList]);
 
-  const addGameToList = async (stat = 0) => {
-    const userID = user.id;
+  const addGameToList = async (list) => {
+    const userID = session.user.id;
     const gameID = game.id;
-    const status = stat; // Default to 'backlog'
+    const slug = game.slug;
 
-    const res = await fetch("/api/list/add", {
+    const res = await fetch("/api/list/game", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userID, gameID, status }),
-    });
+      body: JSON.stringify({ userID, gameID, slug, list }),
+    }).then((response) => response.json());
 
-    let { doc } = await res.json();
-
-    if (doc) {
-      addToGameList(gameID, status);
+    if (res.data) {
+      updateGameList();
       return true;
     } else return false;
   };
 
   const removeGameFromList = async () => {
-    const userID = user.id;
+    const userID = session.user.id;
     const gameID = game.id;
 
-    const res = await fetch("/api/list/update", {
-      method: "POST",
+    const res = await fetch("/api/list/game", {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userID, gameID, updateAction: 0 }),
-    });
+      body: JSON.stringify({ userID, gameID }),
+    }).then((response) => response.json());
 
-    let { doc } = await res.json();
-
-    if (doc) {
-      removeFromGameList(gameID);
+    if (res.data) {
+      updateGameList();
       return true;
     } else return false;
   };
@@ -83,7 +84,7 @@ function PosterButtonCard({ game }) {
           <button
             className="btn"
             onClick={() => {
-              setIsAdded(addGameToList(0));
+              setIsAdded(addGameToList("Backlog"));
               setShowListOptions(false);
             }}
           >
@@ -92,7 +93,7 @@ function PosterButtonCard({ game }) {
           <button
             className="btn"
             onClick={() => {
-              setIsAdded(addGameToList(1));
+              setIsAdded(addGameToList("In Progress"));
               setShowListOptions(false);
             }}
           >
@@ -101,7 +102,7 @@ function PosterButtonCard({ game }) {
           <button
             className="btn"
             onClick={() => {
-              setIsAdded(addGameToList(2));
+              setIsAdded(addGameToList("Finished"));
               setShowListOptions(false);
             }}
           >
@@ -110,7 +111,7 @@ function PosterButtonCard({ game }) {
           <button
             className="btn"
             onClick={() => {
-              setIsAdded(addGameToList(3));
+              setIsAdded(addGameToList("Retired"));
               setShowListOptions(false);
             }}
           >

@@ -1,4 +1,4 @@
-import buildRequest from "../utils/buildRequest";
+// Components
 import Slider from "../components/Slider";
 
 export default function Home({ gameMasterList }) {
@@ -6,12 +6,14 @@ export default function Home({ gameMasterList }) {
     <div>
       Temp Words
       <Slider gameProp={gameMasterList.gameList} sliderTitle="Top Games" />
+      <button onClick={() => handleTest()}>Tester</button>
     </div>
   );
 }
 
 export async function getServerSideProps() {
-  // IGDB
+  // IGDB \\
+  const igdbEndpoint = "games";
   const fields = [
     "name",
     "rating",
@@ -35,38 +37,52 @@ export async function getServerSideProps() {
 
   const query = "fields " + fields.join(",") + ";" + filter;
 
-  const response = await buildRequest("igdb", "games", query);
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/igdb`, {
+    method: "POST",
+    body: JSON.stringify({ query: query, endpoint: igdbEndpoint }),
+  });
+
+  const gamesIGDB = await res.json().then((response) => response.data);
 
   // SteamGridDB \\
   // Get game id by searching using slug field
-  const steamGridGamePromises = response.map((game) => {
-    return buildRequest("steamgrid", `search/autocomplete/${game.slug}`, "", {
-      method: "GET",
-    });
-  });
+  // const steamGridSearchEndpoint = `search/autocomplete/`;
+  // const steamGridSearchBody = {
+  //   method: "GET",
+  //   dataList: gamesIGDB.map((game) => game.slug),
+  // };
+  // const steamGridSearchResponse = await fetch(
+  //   `${process.env.NEXTAUTH_URL}/api/steamGridDB?endpoint=${encodeURIComponent(
+  //     steamGridSearchEndpoint
+  //   )}`,
+  //   {
+  //     method: "POST",
+  //     body: JSON.stringify(steamGridSearchBody),
+  //   }
+  // )
+  //   .then((res) => res.json())
+  //   .then((data) => ({ ...data }));
 
-  let steamGridGameResponse = await Promise.all(steamGridGamePromises);
-
-  // Use game ID to grab game Icons
-  const steamGridIconPromises = steamGridGameResponse.map((game) => {
-    return buildRequest(
-      "steamgrid",
-      `icons/game/${game.data ? game.data[0].id : ""}`,
-      "",
-      {
-        method: "GET",
-      }
-    );
-  });
-
-  let steamGridIconResponse = await Promise.all(steamGridIconPromises);
-
-  // const steamGridResponse = {};
+  // // Use game ID to grab game Icons
+  // const steamGridIconEndpoint = `icons/game/`;
+  // const steamGridIconBody = {
+  //   method: "GET",
+  //   dataList: steamGridSearchResponse.data.map((game) => game.data[0].id),
+  // };
+  // const steamGridIconResponse = await fetch(
+  //   `${process.env.NEXTAUTH_URL}/api/steamGridDB?endpoint=${encodeURIComponent(
+  //     steamGridIconEndpoint
+  //   )}`,
+  //   {
+  //     method: "POST",
+  //     body: JSON.stringify(steamGridIconBody),
+  //   }
+  // )
+  //   .then((res) => res.json())
+  //   .then((data) => ({ ...data }));
 
   const gameMasterList = {
-    gameList: response,
-    steamGridGames: steamGridGameResponse,
-    steamGridIcons: steamGridIconResponse,
+    gameList: gamesIGDB,
   };
 
   return {
