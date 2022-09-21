@@ -4,8 +4,9 @@ import { GameListProvider } from "../context/gameList";
 import Layout from "../layout/layout";
 import { useEffect } from "react";
 
+// TODO: NOTE: At the moment, we don't have a route that really lends itself to security. It'd be good if we had a parent route with secure endpoints, but that's not the case atm.
+// TODO: Restructure routes to have authenticated routes (i.e. "/user", "/settings", etc.)
 const Auth = ({ children }) => {
-  // const [session, loading] = useSession();
   const { data: session, loading } = useSession();
 
   const isUser = !!session?.user;
@@ -37,7 +38,7 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      {requireAuth ? (
+      {requireAuth || Component.auth ? (
         <Auth>
           <GameListProvider>
             <Layout>
