@@ -58,7 +58,7 @@ export async function getServerSideProps(context) {
     return;
   }
 
-  const currUser = session.user;
+  const currUser = session?.user;
 
   // Verify req body
   if (!currUser) {
