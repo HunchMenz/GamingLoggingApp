@@ -78,8 +78,6 @@ export async function getServerSideProps(context) {
     .then((res) => res.json())
     .then((response) => response.data);
 
-  console.log(user);
-
   // user was successfully found
   if (user) {
     let owner = false;
