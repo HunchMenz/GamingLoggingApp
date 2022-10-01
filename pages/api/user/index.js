@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { MD5 } from "crypto-js";
-import User from "../../../model/User";
+import Users from "../../../model/Users";
 import { connectToDatabase } from "../../../utils/lib/db";
 
 export default async function handler(req, res) {
@@ -49,11 +49,15 @@ export default async function handler(req, res) {
     res.status(200).json({ message: "Registered Successfully", data: user });
     return;
   }
-  // Get user info
+  // Get user info by username
   else if (req.method === "GET") {
     const params = req.query;
     try {
-      const user = await User.findOne({ email: params.email });
+      const user = await Users.findOne({
+        username: {
+          $regex: new RegExp(params.username, "i"),
+        },
+      });
       if (!user) {
         res.status(422).json({
           message: "Failed: Unable to find user info.",
