@@ -44,13 +44,17 @@ function NavBar() {
                 </a>
               </Link>
             </li>
-            <li>
-              <Link href="/user/list">
-                <a className="bg-transparent hover:text-hovered focus:text-selected">
-                  Game List
-                </a>
-              </Link>
-            </li>
+            {session?.user ? (
+              <li>
+                <Link href="/user/list">
+                  <a className="bg-transparent hover:text-hovered focus:text-selected">
+                    Game List
+                  </a>
+                </Link>
+              </li>
+            ) : (
+              <></>
+            )}
           </ul>
         </div>
         <div className="dropdown dropdown-end mr-5 text-base-content">
@@ -68,7 +72,7 @@ function NavBar() {
                     className="rounded-full"
                   />
                 ) : (
-                  ""
+                  <></>
                 )}
               </div>
             </label>
