@@ -126,7 +126,7 @@ export default NextAuth({
     strategy: "jwt",
   },
   pages: {
-    signIn: "/user/login",
+    signIn: "/login",
   },
 });
 

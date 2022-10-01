@@ -52,7 +52,7 @@ export async function getServerSideProps(context) {
   // Check if the session does not exist, and redirect
   if (!session && res) {
     res.writeHead(302, {
-      Location: "/user/login",
+      Location: "/login",
     });
     res.end();
     return;
