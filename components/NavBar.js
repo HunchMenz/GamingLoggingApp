@@ -38,7 +38,7 @@ function NavBar() {
               </Link>
             </li>
             <li>
-              <Link href="/">
+              <Link href="/u/search">
                 <a className="bg-transparent hover:text-hovered focus:text-selected">
                   Users
                 </a>
