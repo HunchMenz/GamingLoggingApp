@@ -41,7 +41,39 @@ function SearchUsers() {
           />
         </div>
       </div>
-      <div className="bg-base-200 flex-1"></div>
+      <div className="bg-base-200 flex-1">
+        {searchResult.length > 0 &&
+          searchResult.map((user) => (
+            <div
+              className="flex items-center gap-4 p-4"
+              key={`search_${user._id}`}
+            >
+              <Link href={`/u/${user.username}/list`}>
+                <a>
+                  <div className="w-12 h-12 border border-base-300 rounded-full">
+                    <Image
+                      src={user.image}
+                      layout="responsive"
+                      objectFit="contain"
+                      width={500}
+                      height={500}
+                      className="rounded-full"
+                    />
+                  </div>
+                </a>
+              </Link>
+              <div className="flex flex-col">
+                <Link href={`/u/${user.username}/list`}>
+                  <a>
+                    <strong className="text-base-content text-sm font-medium">
+                      {user.username}
+                    </strong>
+                  </a>
+                </Link>
+              </div>
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
