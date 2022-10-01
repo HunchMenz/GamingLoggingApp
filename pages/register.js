@@ -1,5 +1,5 @@
-import NavBar from "../../components/NavBar";
-import { FaLock, FaCheck, FaEnvelope } from "react-icons/fa";
+import NavBar from "../components/NavBar";
+import { FaLock, FaCheck, FaEnvelope, FaSignature } from "react-icons/fa";
 import {
   getProviders,
   signIn,
@@ -9,37 +9,69 @@ import {
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-function Login({ providers, csrfToken }) {
+function Register({ providers, csrfToken }) {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const signinUser = async (e) => {
+  const registerUser = async (e) => {
     e.preventDefault();
 
-    let options = {
-      redirect: false,
-      email,
-      password,
-    };
-    // callbackUrl: `${window.location.origin}/`,
+    // Register User
+    const regRes = await fetch("/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, username, password }),
+    }).then((response) => response.json());
 
-    const res = await signIn("credentials", options);
-    setMessage(null);
-    if (res?.error) {
-      setMessage(res.error);
-    } else return router.push("/user");
+    // If register was successful...
+    if (regRes.data) {
+      // Create default list
+      const listRes = await fetch("/api/list", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userID: regRes.data }),
+      }).then((response) => response.json());
+
+      // If user list was created...
+      if (listRes.data) {
+        let options = {
+          redirect: false,
+          email: email,
+          password: password,
+        };
+
+        const res = await signIn("credentials", options);
+        if (res?.error) {
+          setMessage(res.error);
+        } else return router.push("/user");
+      } else {
+        setMessage(listRes.message);
+      }
+    } else {
+      setMessage(regRes.message);
+    }
+  };
+
+  const providerRegister = async (e, providerID) => {
+    e.preventDefault();
+    signIn(providerID);
   };
 
   return (
     <div>
-      <h1 className="title is-1">Login Page</h1>
+      <h1 className="title is-1">Register Page</h1>
       <div className="centered">
         <div className="card" style={{ borderColor: "rgb(215 225 223)" }}>
           <div className="notification is-primary">
-            <h1 className="title is-3">Login</h1>
+            <h1 className="title is-3">Register</h1>
           </div>
           <div className="card-content" style={{ paddingTop: "0rem" }}>
             {Object.values(providers).map((provider, index) => {
@@ -52,7 +84,7 @@ function Login({ providers, csrfToken }) {
                   <button
                     key={provider.name}
                     className={`button is-fullwidth ${topMargin}`}
-                    onClick={() => signIn(provider.id)}
+                    onClick={(event) => providerRegister(event, provider.id)}
                   >
                     Sign in with {provider.name}
                   </button>
@@ -68,6 +100,21 @@ function Login({ providers, csrfToken }) {
           <div className="card-content" style={{ paddingTop: "0rem" }}>
             <form action="">
               <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+              <div className="field">
+                <p className="control has-icons-left">
+                  <input
+                    className="input"
+                    type="text"
+                    placeholder="Username"
+                    name="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  <span className="icon is-small is-left">
+                    <FaSignature />
+                  </span>
+                </p>
+              </div>
               <div className="field">
                 <p className="control has-icons-left has-icons-right">
                   <input
@@ -107,9 +154,9 @@ function Login({ providers, csrfToken }) {
                   <button
                     type="submit"
                     className="button is-success"
-                    onClick={(e) => signinUser(e)}
+                    onClick={(e) => registerUser(e)}
                   >
-                    Login
+                    Register
                   </button>
                 </p>
               </div>
@@ -132,6 +179,7 @@ export async function getServerSideProps(context) {
       Location: "/user",
     });
     res.end();
+    return;
   }
   return {
     props: {
@@ -142,4 +190,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default Login;
+export default Register;
