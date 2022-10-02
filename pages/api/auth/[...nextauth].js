@@ -7,13 +7,16 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "./lib/mongodb";
 // Mongoose
-import dbConnect from "../../../utils/lib/dbConnect";
-import Users from "../../../database/user_data/model/Users";
+import { connectToDatabase } from "../../../utils/lib/db";
+
+// Model
+import Users from "../../../model/User";
+import GameList from "../../../model/GameList";
 //-- Other
 import bcrypt from "bcrypt";
 
 // Connect to DB
-dbConnect("user_data");
+connectToDatabase();
 
 export default NextAuth({
   adapter: MongoDBAdapter(clientPromise),
@@ -66,11 +69,7 @@ export default NextAuth({
         const query = {
           email: email,
         };
-
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~Mongoose~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // Find user in users collection
         const user = await Users.findOne(query);
-        // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
@@ -86,7 +85,7 @@ export default NextAuth({
     // ...add more providers here
   ],
   callbacks: {
-    jwt: async ({ token, account, user }) => {
+    jwt: async ({ token, account, user, isNewUser }) => {
       user && (token.user = user);
       token.provider = account ? account.provider : token.provider;
       return token;
@@ -100,6 +99,26 @@ export default NextAuth({
       };
       session.user = savedUser;
       return session;
+    },
+  },
+  events: {
+    signIn: async ({ user, account, profile, isNewUser }) => {
+      // If new user, create default gamelist
+      if (isNewUser || !GameList.findOne({ userID: user.id })) {
+        // Create default list
+        const listRes = await fetch(`${process.env.NEXTAUTH_URL}/api/list`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userID: user.id }),
+        }).then((response) => response.json());
+
+        // If error...
+        if (!listRes.data) {
+          throw new Error("Game List could not be created on signup");
+        }
+      }
     },
   },
   session: {

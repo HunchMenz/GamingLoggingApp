@@ -19,35 +19,54 @@ function Register({ providers, csrfToken }) {
 
   const registerUser = async (e) => {
     e.preventDefault();
-    const res = await fetch("/api/register", {
+
+    // Register User
+    const regRes = await fetch("/api/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, username, password }),
-    });
+    }).then((response) => response.json());
 
-    let data = await res.json();
-    if (data.message) {
-      setMessage(data.message);
+    // If register was successful...
+    if (regRes.data) {
+      // Create default list
+      const listRes = await fetch("/api/list", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userID: regRes.data }),
+      }).then((response) => response.json());
+
+      // If user list was created...
+      if (listRes.data) {
+        let options = {
+          redirect: false,
+          email: email,
+          password: password,
+        };
+
+        const res = await signIn("credentials", options);
+        if (res?.error) {
+          setMessage(res.error);
+        } else return router.push("/user");
+      } else {
+        setMessage(listRes.message);
+      }
+    } else {
+      setMessage(regRes.message);
     }
-    if (data.message == "Registered Successfully") {
-      let options = {
-        redirect: false,
-        email: email,
-        password: password,
-      };
-      
-      const res = await signIn("credentials", options);
-      if (res?.error) {
-        setMessage(res.error);
-      } else return router.push("/user");
-    }
+  };
+
+  const providerRegister = async (e, providerID) => {
+    e.preventDefault();
+    signIn(providerID);
   };
 
   return (
     <div>
-      <NavBar />
       <h1 className="title is-1">Register Page</h1>
       <div className="centered">
         <div className="card" style={{ borderColor: "rgb(215 225 223)" }}>
@@ -65,7 +84,7 @@ function Register({ providers, csrfToken }) {
                   <button
                     key={provider.name}
                     className={`button is-fullwidth ${topMargin}`}
-                    onClick={() => signIn(provider.id)}
+                    onClick={(event) => providerRegister(event, provider.id)}
                   >
                     Sign in with {provider.name}
                   </button>

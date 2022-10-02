@@ -1,15 +1,14 @@
 // import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { signIn, signOut } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 // import { themeChange } from "theme-change";
-import { useGameListContext } from "../context/gameList";
 
 import ThemeChanger from "./ThemeChanger";
 
 function NavBar() {
-  const { user } = useGameListContext();
-
+  // Grab user session details
+  const { data: session, status } = useSession();
   return (
     //Make the derk mode detect :)
     <>
@@ -57,21 +56,25 @@ function NavBar() {
         <div className="dropdown dropdown-end mr-5 text-base-content">
           <ThemeChanger />
         </div>
-        {user ? (
+        {session?.user ? (
           <div className="dropdown dropdown-end mr-5 text-base-content">
             <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <Image
-                  src={user.image || "https://via.placeholder.com/150"}
-                  layout="fill"
-                  objectFit="contain"
-                  className="rounded-full"
-                />
+                {session.user.image ? (
+                  <Image
+                    src={session.user.image}
+                    layout="fill"
+                    objectFit="contain"
+                    className="rounded-full"
+                  />
+                ) : (
+                  ""
+                )}
               </div>
             </label>
             <ul
-              tabindex="0"
-              class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+              tabIndex="0"
+              className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
                 <a>Profile</a>

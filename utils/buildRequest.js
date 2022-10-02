@@ -4,6 +4,7 @@ import paramOverride from "./paramOveride";
 const baseCollection = {
   twitchToken: process.env.TWITCH_HOST_TOKEN,
   igdb: process.env.IGDB_HOST,
+  steamgrid: process.env.STEAMGRID_HOST,
 };
 
 /**
@@ -18,24 +19,52 @@ const buildRequest = async (base, path, params, options = {}) => {
   const url = `${baseCollection[base]}${path}`;
   const headers = {};
 
-  if (base === "igdb") {
-    const authData = {
-      client_id: process.env.IGDB_CLIENT_ID,
-      client_secret: process.env.IGDB_CLIENT_SECRET,
-      grant_type: "client_credentials",
-    };
+  // if (base === "igdb") {
+  //   const authData = {
+  //     client_id: process.env.IGDB_CLIENT_ID,
+  //     client_secret: process.env.IGDB_CLIENT_SECRET,
+  //     grant_type: "client_credentials",
+  //   };
 
-    const retrieveToken = await axios
-      .post(baseCollection["twitchToken"], authData, {
-        Accept: "application/json",
-      })
-      .then((response) => response.data)
-      .catch((err) => {
-        console.error(err);
-      });
+  //   const retrieveToken = await axios
+  //     .post(baseCollection["twitchToken"], authData, {
+  //       Accept: "application/json",
+  //     })
+  //     .then((response) => response.data)
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
 
-    headers["Client-ID"] = process.env.IGDB_CLIENT_ID;
-    headers["Authorization"] = `Bearer ${retrieveToken.access_token}`;
+  //   headers["Client-ID"] = process.env.IGDB_CLIENT_ID;
+  //   headers["Authorization"] = `Bearer ${retrieveToken.access_token}`;
+  // }
+
+  switch (base.toLowerCase()) {
+    case "igdb":
+      const authData = {
+        client_id: process.env.IGDB_CLIENT_ID,
+        client_secret: process.env.IGDB_CLIENT_SECRET,
+        grant_type: "client_credentials",
+      };
+
+      const retrieveToken = await axios
+        .post(baseCollection["twitchToken"], authData, {
+          Accept: "application/json",
+        })
+        .then((response) => response.data)
+        .catch((err) => {
+          console.error(err);
+        });
+
+      headers["Client-ID"] = process.env.IGDB_CLIENT_ID;
+      headers["Authorization"] = `Bearer ${retrieveToken.access_token}`;
+
+      break;
+    case "steamgrid":
+      headers["Authorization"] = `Bearer ${process.env.STEAMGRID_AUTH_TOKEN}`;
+      break;
+    default:
+      throw new Error("Unfamiliar base");
   }
 
   const optionsOverride = paramOverride(

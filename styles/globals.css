@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --x-offset: 0;
+  --y-offset: 0;
+}
 html,
 body {
   padding: 0;
@@ -97,11 +101,6 @@ a {
 .zoom:hover {
   transform: scale(1.1);
 }
-
-/* .card {
-  width: 300px;
-  height: 400px;
-} */
 
 .cardLength {
   width: 700px;
@@ -207,6 +206,11 @@ a {
   /* ADDING Z-INDEX JUST SO THIS CSS ISNT BLANK */
 }
 
-.remove {
-  background-color: aliceblue;
+.listButton {
+  background-color: #000066;
+}
+
+.card.image-full.carousel-poster::before {
+  /* --tw-bg-opacity: 0; */
+  content: none;
 }

@@ -1,44 +1,93 @@
-import { getSession } from "next-auth/react";
+import { data } from "autoprefixer";
+import { useSession } from "next-auth/react";
 import { createContext, useContext, useEffect, useState } from "react";
-
-export const getUserGameList = async (userID) => {
-  const res = await fetch("/api/list/get", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ userID }),
-  });
-  const pulledList = await res.json();
-  return pulledList.gameList;
-};
 
 const GameListContext = createContext();
 
-export const getCurrUser = async () => {
-  const sess = await getSession();
-  return sess?.user;
-};
-
 export function GameListProvider({ children }) {
-  const [user, setUser] = useState([]);
   const [gameList, setGameList] = useState([]);
+  const [IGDB_IDList, setIGDB_IDList] = useState([]);
+  const [SG_IDList, setSG_IDList] = useState([]);
+
+  // Boolean condition for retrieving user list
+  const [retrieveList, setRetrieveList] = useState(true);
+
+  const { data: session, status } = useSession();
+
+  const getUserGameList = async () => {
+    const res = await fetch("/api/list/" + session?.user.id, {
+      method: "GET",
+    }).then((response) => response.json());
+
+    return res;
+  };
+
+  const getSteamGridID = async (gameSlugs) => {
+    const steamGridSearchEndpoint = `search/autocomplete/`;
+    const steamGridSearchBody = {
+      method: "GET",
+      dataList: gameSlugs,
+    };
+
+    const steamGridSearchResponse = await fetch(
+      `/api/steamGridDB?endpoint=${encodeURIComponent(
+        steamGridSearchEndpoint
+      )}`,
+      {
+        method: "POST",
+        body: JSON.stringify(steamGridSearchBody),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => ({ ...data }));
+
+    return steamGridSearchResponse;
+  };
 
   useEffect(() => {
-    getCurrUser().then((user) => {
-      setUser(user);
+    // Check if there is any data that needs to be retrieved
+    if (retrieveList) {
+      if (status === "authenticated") {
+        // Get User List
+        getUserGameList().then((response) => {
+          setGameList(response.data);
 
-      getUserGameList(user?.id).then((gameList) => {
-        setGameList(gameList || []);
-      });
-    });
-  }, []);
+          // Flatten IGDB ID's
+          const flatArrayOfGameIDs = response.data
+            .map((list) => list.games.map((game) => game.IGDB_id))
+            .flat();
+          setIGDB_IDList(flatArrayOfGameIDs);
+
+          // Flatten game slugs
+          const flatArrayOfGameSlugs = response.data
+            .map((list) => list.games.map((game) => game.slug))
+            .flat();
+
+          if (flatArrayOfGameSlugs?.length > 0) {
+            // Get Steam Grid Game ID's
+            getSteamGridID(flatArrayOfGameSlugs).then((responseSG) => {
+              const idData = responseSG.data.map((res) => res.data?.[0].id);
+              setSG_IDList(idData);
+            });
+
+            // Set Retrieve List to false
+            setRetrieveList(false);
+          }
+        });
+      }
+    }
+  }, [retrieveList, status]);
+
+  function updateGameList() {
+    setRetrieveList(true);
+  }
 
   let sharedState = {
     /* whatever you want */
-    user: user,
-    gameList: gameList,
-    setGameList,
+    allGameList: gameList,
+    IGDB_IDList: IGDB_IDList,
+    SG_IDList: SG_IDList,
+    updateGameList: updateGameList,
   };
 
   return (

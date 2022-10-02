@@ -1,5 +1,4 @@
 import NavBar from "../../components/NavBar";
-import { FaLock, FaCheck, FaEnvelope } from "react-icons/fa";
 import {
   getProviders,
   signIn,
@@ -35,7 +34,6 @@ function Login({ providers, csrfToken }) {
 
   return (
     <div>
-      <NavBar />
       <div className="centered flex flex-col w-full pt-3">
         <div className="card mt-[50px] shadow-xl bg-base-200  text-base-content">
           <div className="card-body">
@@ -58,7 +56,9 @@ function Login({ providers, csrfToken }) {
               </div>
             </div>
             <div className="centered">
-              <div className="btn text-[20px] mt-[13px] pl-[25px] pr-[25px]">SIGN IN!</div>
+              <div className="btn text-[20px] mt-[13px] pl-[25px] pr-[25px]">
+                SIGN IN!
+              </div>
             </div>
 
             <div className="divider">OR</div>
