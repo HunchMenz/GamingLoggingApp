@@ -1,11 +1,21 @@
-import NavBar from "../../components/NavBar";
-import { FaLock, FaCheck, FaEnvelope } from "react-icons/fa";
+import {
+  FaLock,
+  FaCheck,
+  FaEnvelope,
+  FaGithub,
+  FaGoogle,
+} from "react-icons/fa";
+import { IconContext } from "react-icons";
+
 import {
   getProviders,
   signIn,
   getSession,
   getCsrfToken,
 } from "next-auth/react";
+
+import Link from "next/link";
+
 import { useState } from "react";
 import { useRouter } from "next/router";
 
@@ -16,7 +26,7 @@ function Login({ providers, csrfToken }) {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
-  const signinUser = async (e) => {
+  const handleSignIn = async (e) => {
     e.preventDefault();
 
     let options = {
@@ -24,100 +34,75 @@ function Login({ providers, csrfToken }) {
       email,
       password,
     };
-    // callbackUrl: `${window.location.origin}/`,
 
     const res = await signIn("credentials", options);
-    setMessage(null);
+    console.log(res);
     if (res?.error) {
       setMessage(res.error);
     } else return router.push("/user");
   };
 
   return (
-    <div>
-      <h1 className="title is-1">Login Page</h1>
-      <div className="centered">
-        <div className="card" style={{ borderColor: "rgb(215 225 223)" }}>
-          <div className="notification is-primary">
-            <h1 className="title is-3">Login</h1>
-          </div>
-          <div className="card-content" style={{ paddingTop: "0rem" }}>
-            {Object.values(providers).map((provider, index) => {
-              let topMargin = "mt-1";
-              if (provider.name !== "Credential") {
-                if (index === 0) {
-                  topMargin = "";
+    <>
+      <div className="justify-center flex w-full mt-14">
+        <div className="card shadow-xl bg-base-200 text-base-content w-1/4">
+          <div className="card-body">
+            <h1 className="card-title justify-center text-3xl">LOGIN</h1>
+            <div className="divider"></div>
+
+            <input
+              type="text"
+              placeholder="Email"
+              className="input input-bordered w-full"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+
+            <input
+              type="text"
+              placeholder="Password"
+              className="input input-bordered w-full"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <p className="text-red-600 break-normal">{message}</p>
+
+            <button className="btn gap-2 mt-5" onClick={(e) => handleSignIn(e)}>
+              <FaLock />
+              Sign in
+            </button>
+
+            <div className="divider w-inherit">OR</div>
+
+            <div className="grid gap-2 grid-cols-1">
+              {Object.values(providers).map((provider) => {
+                if (provider.name !== "Credential") {
+                  return (
+                    <button
+                      key={provider.name}
+                      className="btn gap-2"
+                      onClick={() => signIn(provider.id)}
+                    >
+                      {provider.name === "GitHub" ? <FaGithub /> : ""}
+                      {provider.name === "Google" ? <FaGoogle /> : ""}
+                      Sign in with {provider.name}
+                    </button>
+                  );
                 }
-                return (
-                  <button
-                    key={provider.name}
-                    className={`button is-fullwidth ${topMargin}`}
-                    onClick={() => signIn(provider.id)}
-                  >
-                    Sign in with {provider.name}
-                  </button>
-                );
-              }
-            })}
-          </div>
-          <div className="columns is-centered is-vcentered">
-            <hr style={{ width: "30%" }} />
-            <span style={{ color: "darkgrey", padding: "0px 10px" }}>OR</span>
-            <hr style={{ width: "30%" }} />
-          </div>
-          <div className="card-content" style={{ paddingTop: "0rem" }}>
-            <form action="">
-              <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-              <div className="field">
-                <p className="control has-icons-left has-icons-right">
-                  <input
-                    className="input"
-                    type="email"
-                    placeholder="Email"
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                  <span className="icon is-small is-left">
-                    <FaEnvelope />
-                  </span>
-                  <span className="icon is-small is-right">
-                    <FaCheck />
-                  </span>
-                </p>
-              </div>
-              <div className="field">
-                <p className="control has-icons-left">
-                  <input
-                    className="input"
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <span className="icon is-small is-left">
-                    <FaLock />
-                  </span>
-                </p>
-              </div>
-              <p style={{ color: "red" }}>{message}</p>
-              <div className="field">
-                <p className="control">
-                  <button
-                    type="submit"
-                    className="button is-success"
-                    onClick={(e) => signinUser(e)}
-                  >
-                    Login
-                  </button>
-                </p>
-              </div>
-            </form>
+              })}
+            </div>
+
+            <div className="grid gap-2 grid-cols-1">
+              <Link href="/user/register">
+                <a>Don't have an account?</a>
+              </Link>
+              <Link href="">
+                <a>Forgot Password?</a>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
