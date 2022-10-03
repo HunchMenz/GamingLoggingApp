@@ -1,12 +1,14 @@
+// React Icons
 import {
   FaLock,
-  FaCheck,
+  // FaCheck,
+  FaPencilAlt,
   FaEnvelope,
   FaGithub,
   FaGoogle,
 } from "react-icons/fa";
-import { IconContext } from "react-icons";
 
+// Next-Auth
 import {
   getProviders,
   signIn,
@@ -14,8 +16,10 @@ import {
   getCsrfToken,
 } from "next-auth/react";
 
+// Nextjs
 import Link from "next/link";
 
+// React
 import { useState } from "react";
 import { useRouter } from "next/router";
 
@@ -50,25 +54,39 @@ function Login({ providers, csrfToken }) {
             <h1 className="card-title justify-center text-3xl">LOGIN</h1>
             <div className="divider"></div>
 
-            <input
-              type="text"
-              placeholder="Email"
-              className="input input-bordered w-full"
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <p className="box-border clear-both relative">
+              <input
+                type="text"
+                placeholder="Email"
+                className="input input-bordered w-full px-10"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <span className="absolute h-[3.0em] w-[2.5em] z-10 top-0 items-center inline-flex justify-center left-0">
+                <FaEnvelope />
+              </span>
+              {/* example of right icon */}
+              {/* <span className="absolute h-[3.0em] w-[2.5em] z-10 top-0 items-center inline-flex justify-center right-0">
+                <FaCheck />
+              </span> */}
+            </p>
 
-            <input
-              type="text"
-              placeholder="Password"
-              className="input input-bordered w-full"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <p className="box-border clear-both relative">
+              <input
+                type="text"
+                placeholder="Password"
+                className="input input-bordered w-full px-10"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span className="absolute h-[3.0em] w-[2.5em] z-10 top-0 items-center inline-flex justify-center left-0">
+                <FaLock />
+              </span>
+            </p>
 
             <p className="text-red-600 break-normal">{message}</p>
 
             <button className="btn gap-2 mt-5" onClick={(e) => handleSignIn(e)}>
-              <FaLock />
-              Sign in
+              <FaPencilAlt />
+              Sign up
             </button>
 
             <div className="divider w-inherit">OR</div>
