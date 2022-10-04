@@ -1,11 +1,22 @@
 // Components
+import { data } from "autoprefixer";
 import Slider from "../components/Slider";
 
-export default function Home({ gameMasterList }) {
+// IGDB requests
+import requests from "../utils/requests";
+
+export default function Home({ homeCarousels }) {
   return (
     <div>
       Temp Words
-      <Slider gameProp={gameMasterList.gameList} sliderTitle="Top Games" />
+      {homeCarousels.map((data, idx) => {
+        console.log(`home_${idx}${data.id}`);
+        return (
+          <div key={`home_${idx}${data.id}`}>
+            <Slider gameProp={data.result} sliderTitle={data.name} />
+          </div>
+        );
+      })}
       <button onClick={() => handleTest()}>Tester</button>
     </div>
   );
@@ -13,79 +24,41 @@ export default function Home({ gameMasterList }) {
 
 export async function getServerSideProps() {
   // IGDB \\
-  const igdbEndpoint = "games";
-  const fields = [
-    "name",
-    "rating",
-    "slug",
-    "cover",
-    "cover.url",
-    "summary",
-    "genres",
-    "genres.name",
-    "screenshots.url",
-    "platforms.abbreviation",
-    "platforms.platform_logo.url",
-    "total_rating",
-    "release_dates.date",
-    "aggregated_rating_count",
-    "artworks.url",
-  ];
+  const igdbEndpoint = "multiquery";
+  const homeQueries = requests.home;
 
-  const filter =
-    "sort aggregated_rating_count desc; where aggregated_rating >= 90; limit 20;";
+  // Get queries and seperate them in an array
+  let queries = [];
+  const queryIds = [];
+  let idx = 0;
+  for (const req in homeQueries) {
+    queries[Math.floor(idx / 10).toString()] =
+      (queries[Math.floor(idx / 10).toString()] ?? "") +
+      `query games "${homeQueries[req].title}" { ${homeQueries[req].query} };`;
 
-  const query = "fields " + fields.join(",") + ";" + filter;
+    queryIds.push(homeQueries[req].id);
+    idx++;
+  }
 
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/igdb`, {
-    method: "POST",
-    body: JSON.stringify({ query: query, endpoint: igdbEndpoint }),
+  // Create array of promises from query bodies
+  let pArr = [];
+  queries.forEach((query) => {
+    pArr.push(
+      fetch(`${process.env.NEXTAUTH_URL}/api/igdb`, {
+        method: "POST",
+        body: JSON.stringify({ query: query, endpoint: igdbEndpoint }),
+      }).then((resp) => resp.json().then((res) => res.data))
+    );
   });
 
-  const gamesIGDB = await res.json().then((response) => response.data);
+  // resolve promises
+  const res = await Promise.all(pArr);
 
-  // SteamGridDB \\
-  // Get game id by searching using slug field
-  // const steamGridSearchEndpoint = `search/autocomplete/`;
-  // const steamGridSearchBody = {
-  //   method: "GET",
-  //   dataList: gamesIGDB.map((game) => game.slug),
-  // };
-  // const steamGridSearchResponse = await fetch(
-  //   `${process.env.NEXTAUTH_URL}/api/steamGridDB?endpoint=${encodeURIComponent(
-  //     steamGridSearchEndpoint
-  //   )}`,
-  //   {
-  //     method: "POST",
-  //     body: JSON.stringify(steamGridSearchBody),
-  //   }
-  // )
-  //   .then((res) => res.json())
-  //   .then((data) => ({ ...data }));
-
-  // // Use game ID to grab game Icons
-  // const steamGridIconEndpoint = `icons/game/`;
-  // const steamGridIconBody = {
-  //   method: "GET",
-  //   dataList: steamGridSearchResponse.data.map((game) => game.data[0].id),
-  // };
-  // const steamGridIconResponse = await fetch(
-  //   `${process.env.NEXTAUTH_URL}/api/steamGridDB?endpoint=${encodeURIComponent(
-  //     steamGridIconEndpoint
-  //   )}`,
-  //   {
-  //     method: "POST",
-  //     body: JSON.stringify(steamGridIconBody),
-  //   }
-  // )
-  //   .then((res) => res.json())
-  //   .then((data) => ({ ...data }));
-
-  const gameMasterList = {
-    gameList: gamesIGDB,
-  };
+  const carouselData = res.flat().map((data, idx) => {
+    return { ...data, id: queryIds[idx] };
+  });
 
   return {
-    props: { gameMasterList: gameMasterList },
+    props: { homeCarousels: carouselData, queryIds: queryIds },
   };
 }
