@@ -16,26 +16,33 @@ import PosterButtonCard from "./PosterButtonCard";
 
 function SliderItem({ game }) {
   const { data: session, status } = useSession();
-
   return (
-    <SwiperSlide>
-      <div className="card image-full carousel-poster">
-        {status === "authenticated" ? <PosterButtonCard game={game} /> : ""}
-        <Link
-          href={{
-            pathname: "/games/[name]",
-            query: { name: game.slug },
-          }}
-        >
-          <a>
-            <Poster key={game.id} game={game} />
-          </a>
-        </Link>
-      </div>
-    </SwiperSlide>
+    // <SwiperSlide>
+    <div className="card image-full carousel-poster">
+      {status === "authenticated" ? <PosterButtonCard game={game} /> : ""}
+      {game?.slug ? (
+        <div className="relative h-80 w-52">
+          <Link
+            href={{
+              pathname: "/games/[name]",
+              query: { name: game.slug },
+            }}
+          >
+            <a>
+              <Poster key={game.id} game={game} />
+            </a>
+          </Link>
+        </div>
+      ) : (
+        <div className="relative h-80 w-52">
+          <Poster key={game?.id} game={game} />
+        </div>
+      )}
+    </div>
+    // </SwiperSlide>
   );
 }
 
-SliderItem.displayName = "SwiperSlide";
+// SliderItem.displayName = "SwiperSlide";
 
 export default SliderItem;
