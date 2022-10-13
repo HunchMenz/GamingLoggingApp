@@ -66,6 +66,12 @@ export default NextAuth({
         const email = credentials.email;
         const password = credentials.password;
 
+        if (!email || !password) {
+          throw new Error(
+            "Must fill out email and password field before signing in!"
+          );
+        }
+
         const query = {
           email: email,
         };
