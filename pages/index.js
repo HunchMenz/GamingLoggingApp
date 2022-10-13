@@ -1,6 +1,6 @@
 // Components
-import Slider from "../components/Slider";
-import FeaturedSlider from "../components/FeaturedSlider";
+import PosterSlider from "../components/Game/PosterSlider";
+import FeaturedSlider from "../components/Game/FeaturedSlider";
 
 // IGDB requests
 import requests from "../utils/requests";
@@ -25,7 +25,7 @@ export default function Home({ homeCarousels }) {
             sliderTitle={data.name}
           />
         ) : (
-          <Slider
+          <PosterSlider
             key={`HomeSlider_${idx}${data.id}`}
             gameProp={data.result}
             sliderTitle={data.name}

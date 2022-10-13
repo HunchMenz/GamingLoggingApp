@@ -3,7 +3,7 @@ import Link from "next/link";
 import Poster from "./Poster";
 
 // Import Hook
-import useFitText from "../utils/hooks/useFitText";
+import useFitText from "../../utils/hooks/useFitText";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -18,7 +18,7 @@ import "swiper/css/effect-fade";
 import { Pagination, EffectFade, Autoplay, Navigation } from "swiper";
 
 // import function
-import generateKey from "../utils/generateKey";
+import generateKey from "../../utils/generateKey";
 
 function FeaturedSlider({ gameProp }) {
   return (

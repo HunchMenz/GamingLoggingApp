@@ -11,13 +11,12 @@ import "swiper/css/scrollbar";
 import { Pagination, Navigation, Scrollbar } from "swiper";
 
 // import components
-import SliderItem from "./SliderItem";
+import PosterSliderItem from "./PosterSliderItem";
 
 // functions
-import generateKey from "../utils/generateKey";
-import Image from "next/image";
+import generateKey from "../../utils/generateKey";
 
-function Slider({ gameProp, sliderTitle = "" }) {
+function PosterSlider({ gameProp, sliderTitle = "" }) {
   return (
     <div>
       <h1 className="text-4xl m-6 font-bold underline decoration-blue-500 decoration-6">{`${sliderTitle}`}</h1>
@@ -74,7 +73,7 @@ function Slider({ gameProp, sliderTitle = "" }) {
                 .split(" ")
                 .join("_")}-${generateKey(game.id)}`}
             >
-              <SliderItem game={game} />
+              <PosterSliderItem game={game} />
             </SwiperSlide>
           );
         })}
@@ -83,4 +82,4 @@ function Slider({ gameProp, sliderTitle = "" }) {
   );
 }
 
-export default Slider;
+export default PosterSlider;
