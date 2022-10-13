@@ -10,7 +10,7 @@ import clientPromise from "./lib/mongodb";
 import { connectToDatabase } from "../../../utils/lib/db";
 
 // Model
-import Users from "../../../model/User";
+import Users from "../../../model/Users";
 import GameList from "../../../model/GameList";
 //-- Other
 import bcrypt from "bcrypt";
@@ -132,7 +132,7 @@ export default NextAuth({
     strategy: "jwt",
   },
   pages: {
-    signIn: "/user/login",
+    signIn: "/login",
   },
 });
 

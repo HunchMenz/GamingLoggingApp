@@ -1,5 +1,6 @@
+// TODO: Make this page a sort of public "dashboard" page. The user can decide how they are seen by the public.
+
 import { useSession, signIn, signOut } from "next-auth/react";
-import NavBar from "../../components/NavBar";
 
 function UserDashboard() {
   const { data: session } = useSession();

@@ -11,7 +11,6 @@ const Auth = ({ children }) => {
 
   const isUser = !!session?.user;
   useEffect(() => {
-    console.log(loading);
     if (loading) return; // Do nothing while loading
     if (!isUser) signIn(); // If not authenticated, force log in
   }, [isUser, loading]);
