@@ -2,17 +2,17 @@
 import { useEffect, useState, useRef } from "react";
 
 // Util
-import { generateKey } from "../utils/generateKey";
+import { generateKey } from "../../utils/generateKey";
 
 // Context
-import { useGameListContext } from "../context/gameList";
+import { useGameListContext } from "../../context/gameList";
 
 // Icon Imports
 import { IoIosRemoveCircle } from "react-icons/io";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { IconContext } from "react-icons/lib";
 
-import useClickOutside from "../utils/hooks/usClickOutside";
+import useClickOutside from "../../utils/hooks/usClickOutside";
 import { useSession } from "next-auth/react";
 
 function PosterButtonCard({ game }) {
@@ -74,11 +74,7 @@ function PosterButtonCard({ game }) {
   };
 
   return (
-    <div
-      key={`posterbtn-${generateKey(game.id)}`}
-      ref={btnRef}
-      className={`absolute z-10 top-2.5 right-0`}
-    >
+    <div ref={btnRef} className={`absolute z-10 top-2.5 right-0`}>
       {showListOptions ? (
         <div className="btn-group btn-group-vertical">
           <button
