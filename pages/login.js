@@ -40,7 +40,6 @@ function Login({ providers, csrfToken }) {
     };
 
     const res = await signIn("credentials", options);
-    console.log(res);
     if (res?.error) {
       setMessage(res.error);
     } else return router.push("/user");
@@ -86,7 +85,7 @@ function Login({ providers, csrfToken }) {
 
             <button className="btn gap-2 mt-5" onClick={(e) => handleSignIn(e)}>
               <FaPencilAlt />
-              Sign up
+              Sign in
             </button>
 
             <div className="divider w-inherit">OR</div>

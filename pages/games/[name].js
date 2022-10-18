@@ -1,7 +1,5 @@
-import { useRouter } from "next/router";
 import { useState } from "react";
-import NavBar from "../../components/NavBar";
-import Poster from "../../components/Poster";
+import Poster from "../../components/Game/Poster";
 import Image from "next/image";
 import buildRequest from "../../utils/buildRequest";
 import { AiOutlineZoomIn } from "react-icons/ai";
@@ -152,7 +150,7 @@ function GamePage({ game }) {
             <Poster key={game.game} game={game.game} imageClass={"bigImage"} />
             <div className={Style["poster-content"]} style={{ float: "left" }}>
               <h1 className={`title is-1 ${Style.gameTitle}`}>{game.name}</h1>
-              Rating: {game.game.rating.toFixed(0)}
+              Rating: {game.game.rating?.toFixed(0)}
             </div>
           </div>
         </div>

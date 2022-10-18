@@ -25,7 +25,7 @@ function SearchUsers() {
     }
   };
   return (
-    <div className="flex flex-col h-[91.9vh]">
+    <div className="flex flex-col h-[90vh] overflow-hidden">
       <div className="flex-initial">
         <h1 className="text-4xl m-6 font-bold underline decoration-blue-500 decoration-2 w-full text-center text-base-content">
           Search User by Username!
