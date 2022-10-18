@@ -35,7 +35,7 @@ function SearchUsers() {
     }
   };
   return (
-    <div className="flex flex-col h-[90vh] text-base-content overflow-x-hidden">
+    <div className="flex flex-col h-[90vh] text-base-content overflow-x-hidden px-10">
       <div className="flex-initial">
         <h1 className="text-4xl m-6 font-bold underline decoration-blue-500 decoration-2 w-full text-center text-base-content">
           Search Game by Game Title!
@@ -66,11 +66,11 @@ function SearchUsers() {
         </form>
       </div>
 
-      <div className="bg-base-200 flex flex-row justify-end">
-        <div className="flex-initial bg-base-300 w-1/6 h-96">
+      <div className="flex flex-row justify-end">
+        <div className="absolute inset-x-0 bg-base-300 w-1/6 h-96">
           FILTER OPTIONS GO HERE
         </div>
-        <div className="flex-1">
+        <div className="bg-base-200 flex-0 w-5/6">
           {searchResult.length > 0 &&
             searchResult.map((game) => {
               return (
