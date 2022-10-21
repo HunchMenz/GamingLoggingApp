@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 // Import Hook
 // import useFitText from "../../utils/hooks/useFitText";
@@ -8,9 +9,11 @@ import Link from "next/link";
 // Icons
 import { AiOutlineSearch, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
-function SearchUsers() {
-  const [searchPhrase, setSearchPhrase] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
+function SearchUsers({ searchQueryResults }) {
+  const router = useRouter();
+
+  const [searchPhrase, setSearchPhrase] = useState(router.query.keyphrase);
+  const [searchResult, setSearchResult] = useState(searchQueryResults);
 
   const igdbSearchEndpoint = "games";
 
@@ -52,7 +55,8 @@ function SearchUsers() {
                 <input
                   type="text"
                   placeholder="Search"
-                  className="input bg-base-200 px-10 w-full"
+                  className="input bg-base-200 pr-10 w-full"
+                  value={searchPhrase}
                   onChange={(e) => setSearchPhrase(e.target.value)}
                 />
                 <button type="submit">
@@ -136,6 +140,35 @@ function SearchUsers() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { keyphrase } = context.query;
+  const igdbSearchEndpoint = "games";
+
+  let searchQueryResults = [];
+
+  if (keyphrase?.length > 0) {
+    const searchQuery = `fields *, cover.url; search "${keyphrase}"; limit 10;`;
+    const foundResults = await fetch(`${process.env.NEXTAUTH_URL}/api/igdb`, {
+      method: "POST",
+      body: JSON.stringify({
+        query: searchQuery,
+        endpoint: igdbSearchEndpoint,
+      }),
+    })
+      .then((res) => res.json())
+      .then((response) => response.data);
+    if (foundResults) {
+      searchQueryResults = foundResults;
+    }
+  }
+
+  return {
+    props: {
+      searchQueryResults: searchQueryResults,
+    },
+  };
 }
 
 export default SearchUsers;

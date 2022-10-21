@@ -1,10 +1,13 @@
-// import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
-// import { themeChange } from "theme-change";
 
+// Icons
+import { AiOutlineSearch } from "react-icons/ai";
+
+// Components
 import ThemeChanger from "./ThemeChanger";
+import SearchBar from "./SearchBar";
 
 function NavBar() {
   // Grab user session details
@@ -57,6 +60,7 @@ function NavBar() {
             )}
           </ul>
         </div>
+        <SearchBar />
         <div className="dropdown dropdown-end mr-5 text-base-content">
           <ThemeChanger />
         </div>
