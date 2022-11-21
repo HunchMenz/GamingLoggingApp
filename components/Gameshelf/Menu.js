@@ -5,7 +5,7 @@ import { FaXbox, FaSteam, FaPlaystation } from "react-icons/fa";
 import { SiEpicgames, SiOculus } from "react-icons/si";
 
 function Menu({ game }) {
-  const uniqueExternal = game.external_games.filter((val, idx, self) => {
+  const uniqueExternal = game.external_games?.filter((val, idx, self) => {
     return (
       self.findIndex((element) => element.category === val.category) === idx
     );
@@ -15,7 +15,7 @@ function Menu({ game }) {
     <div className="text-left">
       <h1>{game.name}</h1>
       <div className="inline-flex pr-1">
-        {uniqueExternal.map((external) => {
+        {uniqueExternal?.map((external) => {
           switch (external.category) {
             case "microsoft":
               return <FaXbox />;

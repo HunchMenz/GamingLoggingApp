@@ -17,11 +17,15 @@ module.exports = {
         6: "6px",
       },
       height: {
-        '128': '32rem',
+        128: "32rem",
       },
     },
   },
-  plugins: [require("daisyui"), require("@tailwindcss/line-clamp")],
+  plugins: [
+    require("daisyui"),
+    require("@tailwindcss/line-clamp"),
+    require("tailwind-scrollbar-hide"),
+  ],
   daisyui: {
     themes: [
       "light",

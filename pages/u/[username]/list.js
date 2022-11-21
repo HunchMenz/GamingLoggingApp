@@ -193,7 +193,7 @@ export async function getServerSideProps(context) {
     const SGIconList = SGIconResponse.data.map((res, idx) => ({
       IGDB_ID: flatArrayOfGameIDs[idx],
       SG_ID: SGIDList[idx],
-      url: res?.data[0].thumb,
+      url: res?.data[0]?.thumb,
     }));
 
     // Get Steam Grid Logos
@@ -218,7 +218,7 @@ export async function getServerSideProps(context) {
     const SGLogoList = SGLogoResponse.data.map((res, idx) => ({
       IGDB_ID: flatArrayOfGameIDs[idx],
       SG_ID: SGIDList[idx],
-      url: res?.data[0].thumb,
+      url: res?.data[0]?.thumb,
     }));
 
     return {
