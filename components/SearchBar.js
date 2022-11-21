@@ -21,14 +21,6 @@ function SearchBar() {
     window.location = `/games/search?${new URLSearchParams({
       keyphrase: searchPhrase,
     })}`;
-
-    // Router.push(
-    //   {
-    //     pathname: "/games/search",
-    //     query: { keyphrase: searchPhrase },
-    //   },
-    //   undefined
-    // );
   };
 
   // Perform data fetch AFTER short delay. Prevents search onChange.

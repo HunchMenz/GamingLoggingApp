@@ -18,7 +18,7 @@ async function getAccessToken() {
   try {
     const existingToken = await Tokens.findOne({
       name: "IGDB_API",
-      expires: { $lte: currentDateTime },
+      expiresOn: { $gte: currentDateTime },
     }).select("accessToken -_id");
 
     // Assign existing access token to our token variable (if exists)
