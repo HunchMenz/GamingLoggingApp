@@ -55,6 +55,7 @@ export async function getStaticProps() {
   }
 
   // Create array of promises from query bodies
+  // TODO: If the token didn't already exist, then this method will create a token for every promise. This happens because the promises all check the tokens at the same time and determine that a new token is necessary at the same time.
   let pArr = [];
   queries.forEach((query) => {
     pArr.push(

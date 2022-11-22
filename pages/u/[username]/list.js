@@ -5,6 +5,9 @@ import Frame from "../../../components/Gameshelf/Shelf";
 // Context
 import { useGameListContext } from "../../../context/gameList";
 
+// Icons
+import { AiOutlineFolderAdd } from "react-icons/ai";
+
 //** SHOW ALL PUBLIC LISTS */
 
 function listPage({ gameList, iconList, logoList, notfound }) {
@@ -13,12 +16,56 @@ function listPage({ gameList, iconList, logoList, notfound }) {
   }
 
   const [selectedList, setSelectedList] = useState(gameList[0].name);
+  const [gameListTabs, setGameListTabs] = useState(gameList);
+
+  const addList = () => {
+    const defaultListRegex = new RegExp(/\bNew List[(d)]?/);
+    const defaultListFilter = gameListTabs
+      .filter((list) => defaultListRegex.test(list.name))
+      .sort();
+
+    console.log(defaultListFilter);
+
+    let defaultListName =
+      defaultListFilter.length === 0
+        ? "New List"
+        : `New List(${defaultListFilter.length + 1})`;
+
+    for (let i = 0; i < defaultListFilter.length; i++) {
+      // Catch the next default name number if it is not = length
+      if (i !== 0 && defaultListFilter[i].name !== `New List(${i + 1})`) {
+        defaultListName = `New List(${i + 1})`;
+        break;
+      }
+
+      // Make sure the first default name does not have a number
+      if (i === 0 && defaultListFilter[i].name !== "New List") {
+        defaultListName = "New List";
+        break;
+      }
+    }
+
+    // Default List Values
+    const defaultList = {
+      name: defaultListName,
+      theme: "default",
+      games: [],
+    };
+
+    setGameListTabs(() => [...gameListTabs, defaultList]);
+
+    console.log(gameListTabs);
+  };
+
   return (
     <>
       <h1>Welcome to the List Page!</h1>
       <div className="tabs mt-10 justify-center">
+        {/* Left Column */}
         <div className="flex-1 border-b border-gray-200"></div>
-        {gameList.map((list, idx) => (
+
+        {/* Middle Column */}
+        {gameListTabs.map((list, idx) => (
           <a
             key={`${idx}_${list._id}`}
             className={`tab tab-lg tab-lifted ${
@@ -29,13 +76,25 @@ function listPage({ gameList, iconList, logoList, notfound }) {
             {list.name}
           </a>
         ))}
-        <div className="flex-1 border-b border-gray-200"></div>
+
+        {/* Right Column */}
+        <div className="flex-1 border-b border-gray-200">
+          <a
+            key={`add_0`}
+            className={`tab tab-lg tab-lifted`}
+            onClick={() => addList()}
+          >
+            <AiOutlineFolderAdd />
+          </a>
+        </div>
       </div>
       {iconList?.length === 0 ? (
         <div>LOADING...</div>
       ) : (
         <Frame
-          gameList={gameList.filter((list) => list.name === selectedList)[0]}
+          gameList={
+            gameListTabs.filter((list) => list.name === selectedList)[0]
+          }
           iconList={iconList}
           logoList={logoList}
         />
